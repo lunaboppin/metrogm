@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "vgui/entities/gmod_subway_81-541_2k"
+	"$vertexcolor" 1
+	"$vertexalpha" 1
+	"$nolod" 1
+} 

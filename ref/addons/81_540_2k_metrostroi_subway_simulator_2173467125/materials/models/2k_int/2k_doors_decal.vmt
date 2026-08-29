@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/2k_int/2k_doors_decal"
+	$nocull 1
+	"$alphatest" "1"
+	$phong 1
+	$phongexponent 3000
+	$phongboost	6
+	$phongfresnelranges	"[1 1 1]"
+	"$allowalphatocoverage" "1"
+	$envmaptint "[1 1 1]"
+}

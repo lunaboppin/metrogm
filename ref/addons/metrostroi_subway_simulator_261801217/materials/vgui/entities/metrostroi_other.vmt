@@ -1,0 +1,5 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "vgui/entities/metrostroi_other"
+	"$translucent" 1
+}

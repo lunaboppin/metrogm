@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/81-5402/2k_cab_rem"
+	"$model" "1"
+	"$phong" "1"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0.2 0.2 0.2]"
+	
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .05 .05 .05 ]"
+	"$envmapsaturation" ".01"
+	"$envmapcontrast" "1"
+	"$envmapFresnel" "1"
+}

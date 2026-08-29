@@ -1,0 +1,5 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "vgui/entities/gmod_subway_em508"
+	"$translucent" 1
+}

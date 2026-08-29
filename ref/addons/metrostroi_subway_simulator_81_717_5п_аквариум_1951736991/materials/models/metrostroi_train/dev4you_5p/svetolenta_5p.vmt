@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/dev4you_5p/svetolenta_5p"
+	"$model" "1"
+	"$alphatest" "1"
+	$allowalphatocoverage"
+	
+}

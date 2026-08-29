@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models\metrostroi_train\81-717\labels\spb_reklama"
+                "$alphatest" "1"
+}

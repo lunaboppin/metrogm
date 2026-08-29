@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/asps/asps"
+	"$model" "1"
+	"$selfillum" "1"
+	"$selfillumint"		"[0.6 0.6 0.6]"
+	"$phong" "1"
+ 
+	"$bumpmap"	   "models/asps/asps_n"
+
+	"$phongboost"				1
+	"$phongfresnelranges"		"[.5 .5 .5]"
+	$envmap			env_cubemap
+	$normalmapalphaenvmapmask 1
+	$envmaptint "[0.01 0.01 0.01]"
+}

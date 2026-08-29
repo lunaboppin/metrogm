@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "bnt/led/led6"
+	"$model" "1"
+	"$selfillum" "1"
+}

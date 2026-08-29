@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/dev4you_5p/doors_decal"
+	"$alphatest" "1"
+	"$allowalphatocoverage" "1"
+}

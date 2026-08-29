@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/dev4you_5p/cab_door_5p"
+	"$model" "1"
+	"$bumpmap"				"models/metrostroi_train/81-5402/obj1vraycompletemap_n"
+	"$phong" "1"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0.2 0.2 0.2]"
+	
+}

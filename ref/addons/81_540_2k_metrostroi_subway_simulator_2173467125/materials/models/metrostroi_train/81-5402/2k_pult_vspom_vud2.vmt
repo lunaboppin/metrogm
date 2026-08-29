@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/81-5402/2k_pult_vspom_vud2"
+	"$model" "1"
+
+	$halflambert 1
+	"$bumpmap"				"models/metrostroi_train/81-5402/2k_pult_vspom_vud2_n"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0.1 0.1 0.1]"
+	$envmap			env_cubemap
+	$normalmapalphaenvmapmask 1
+	$envmaptint "[0.05 0.05 0.05]"
+	
+}

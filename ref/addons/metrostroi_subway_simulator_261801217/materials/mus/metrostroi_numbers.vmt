@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "mus/metrostroi_numbers"
+	"$bumpmap" "mus/metrostroi_numbers_norm"
+	"$alphatest" 1
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[.3 .3 .3]"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapsaturation" 1.2
+	"$envmaptint" "{ 220 170 110}"
+}

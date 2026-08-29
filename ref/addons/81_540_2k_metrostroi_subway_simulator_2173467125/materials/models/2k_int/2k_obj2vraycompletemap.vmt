@@ -1,0 +1,18 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/2k_int/2k_obj2vraycompletemap"
+	"$model" "1"
+
+	"$phong" "1"
+ 
+	"$bumpmap"				"models/2k_int/2k_obj2vraycompletemap_n"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0.2 0.2 0.2]"
+	
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .05 .05 .05 ]"
+	"$envmapsaturation" ".01"
+	"$envmapcontrast" "1"
+	"$envmapFresnel" "1"
+	$normalmapalphaenvmapmask 1
+}

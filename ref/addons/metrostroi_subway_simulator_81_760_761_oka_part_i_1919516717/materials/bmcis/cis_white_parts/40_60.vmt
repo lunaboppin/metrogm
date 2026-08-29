@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	$basetexture bmcis/cis_white_parts/40_60
+	$nolod 1
+	$ignorez 1
+	$vertexcolor 1
+	$vertexalpha 1
+}

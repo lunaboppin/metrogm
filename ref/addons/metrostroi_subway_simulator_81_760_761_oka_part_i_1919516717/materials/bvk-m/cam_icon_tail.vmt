@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	$basetexture bvk-m/cam_icon_tail
+	$nolod 1
+	$ignorez 1
+	$vertexcolor 1
+	$vertexalpha 1
+}

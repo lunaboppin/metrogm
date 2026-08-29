@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/dev4you_5p/door_cabine_5p"
+	"$model" "1"
+	"$alphatest" "1"
+	$allowAlphaToCoverage 1
+	"$bumpmap"				"models/metrostroi_train/dev4you_5p/door_cabine_5p_n"
+
+	"$phong" "1"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[1 1 1]"
+	
+}

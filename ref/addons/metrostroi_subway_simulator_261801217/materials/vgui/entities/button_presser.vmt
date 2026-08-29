@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "vgui/entities/button_presser"
+	"$nolod" 1
+	"$vertexalpha" 1
+	"$vertexcolor" 1
+}

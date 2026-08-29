@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "metrostroi_skins/81-760_schemes/crossline_redux_line_2"
+	"$model" "1"
+	"$alphatest" "1"
+	"$phong" "1"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0 0.7 1]"
+}

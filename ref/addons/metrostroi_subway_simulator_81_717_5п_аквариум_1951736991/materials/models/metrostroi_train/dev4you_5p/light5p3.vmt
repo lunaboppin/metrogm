@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/dev4you_5p/light_5p3"
+	"$model" "1"
+	$selfillum 1
+}

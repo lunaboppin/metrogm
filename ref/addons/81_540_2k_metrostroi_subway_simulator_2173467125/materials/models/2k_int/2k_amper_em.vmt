@@ -1,0 +1,5 @@
+VertexLitGeneric
+{
+	$basetexture models/2k_int/2k_amper_em
+	$selfillum 1
+}

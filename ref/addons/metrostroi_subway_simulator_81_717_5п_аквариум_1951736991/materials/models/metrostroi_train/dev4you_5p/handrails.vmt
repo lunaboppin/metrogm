@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/dev4you_5p/handrails"
+	"$model" "1"
+	"$bumpmap"				"models/metrostroi_train/81-5402/obj1vraycompletemap_n"
+
+}

@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models\metrostroi_train\81-717\labels\label_wifi"
+                "$alphatest" "1"
+}

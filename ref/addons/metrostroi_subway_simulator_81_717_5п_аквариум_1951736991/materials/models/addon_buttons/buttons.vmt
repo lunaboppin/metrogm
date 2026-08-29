@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/addon_buttons/buttons"
+	"$selfillum" "1"
+	"$selfillummask" "models/addon_buttons/buttons_si"
+	"$phong" "1"
+	"$bumpmap"	   "models/addon_buttons/buttons_n"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[.5 .5 .5]"
+
+}

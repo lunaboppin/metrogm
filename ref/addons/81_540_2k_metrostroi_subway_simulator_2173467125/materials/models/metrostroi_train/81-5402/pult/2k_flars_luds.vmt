@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/metrostroi_train/81-5402/pult/2k_flars_luds"
+	"$model" "1"
+	"$alphatest" "1"
+	"$allowAlphaToCoverage" "1"
+	"$phong" "1"
+	"$bumpmap"				"models/metrostroi_train/81-5402/pult/2k_flars_luds_n"
+	"$phongexponenttexture"	"models/metrostroi_train/81-5402/pult/2k_flars_luds_s"
+	$envmap			env_cubemap
+	$normalmapalphaenvmapmask 1
+	$envmapsaturation 0.001
+}

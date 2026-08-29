@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/2k_int/5403_back"
+	"$model" "1"
+	"$phong" "1"
+	"$bumpmap"				"models/2k_int/5403_back_n"
+	"$phongexponenttexture"	"models/2k_int/5403_back_s"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0.25 0.25 0.25]"
+	$envmap			env_cubemap
+	$normalmapalphaenvmapmask 1
+	$envmapsaturation 0.001
+}
+

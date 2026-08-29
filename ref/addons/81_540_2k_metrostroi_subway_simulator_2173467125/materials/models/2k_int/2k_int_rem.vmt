@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/2k_int/2k_int_rem"
+	"$model" "1"
+	"$phong" "1"
+	"$bumpmap"				"models/2k_int/2k_int_rem_n"
+	"$phongboost"				1
+	"$phongfresnelranges"		"[1 1 1]"
+	
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .01 .01 .01 ]"
+}
