@@ -1,6 +1,16 @@
 METRO.UI = METRO.UI or {}
 METRO.UI.accentColor = METRO.UI.accentColor or Color(80, 170, 255)
 
+function derma.SkinFunc(name, panel, a, b, c, d, e, f, g)
+	local skin = ispanel(panel) and IsValid(panel) and panel:GetSkin() or derma.GetDefaultSkin()
+
+	if not skin or not skin[name] then
+		return
+	end
+
+	return skin[name](skin, panel, a, b, c, d, e, f, g)
+end
+
 function METRO.UI.GetAccentColor()
 	return METRO.UI.accentColor
 end
