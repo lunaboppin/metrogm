@@ -203,6 +203,7 @@ layer (`gamemode/modules/cl_skin.lua`, `cl_panel_*.lua`, `cl_menu.lua`, `cl_hud.
 
 ## Licensing
 
-`gamemode/entities/`, `gamemode/weapons/`, `gamemode/metrostroi/`, `gamemode/metrostroi_data/`
-and `gamemode/metrostroi_vendor_autorun/` are vendored from the Metrostroi Subway Simulator
-scripts addon, unchanged from upstream. See `LICENSES/README.md` and `LICENSES/metrostroi.txt`.
+`entities/entities/`, `entities/weapons/`, `gamemode/metrostroi/`, `gamemode/metrostroi_data/`,
+`gamemode/metrostroi.lua`, `gamemode/prop_button.lua` and `gamemode/prop_float_ex.lua` are
+vendored from the Metrostroi Subway Simulator scripts addon, unchanged from upstream. See
+`LICENSES/README.md` and `LICENSES/metrostroi.txt`.
