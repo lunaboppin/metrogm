@@ -5,6 +5,7 @@ local AUTOSAVE_INTERVAL = 120
 local records = {}
 local sessionStart = {}
 local pendingLoad = {}
+local saveQueues = {}
 
 local function steamID64(ply)
 	return ply:SteamID64()
@@ -80,6 +81,59 @@ local function syncPlaytime(ply, record)
 	sessionStart[sid] = now
 end
 
+local function snapshotRecord(record)
+	return {
+		steamid64 = record.steamid64,
+		name = record.name,
+		money = record.money,
+		xp = record.xp,
+		level = record.level,
+		playtime_seconds = record.playtime_seconds,
+		first_seen = record.first_seen,
+		last_seen = record.last_seen,
+	}
+end
+
+local function processSaveQueue(steamid64)
+	local state = saveQueues[steamid64]
+	if not state or state.active then
+		return
+	end
+
+	local item = state.items[1]
+	if not item then
+		saveQueues[steamid64] = nil
+		return
+	end
+
+	state.active = true
+	METRO.Storage.SavePlayer(item.record, function(err)
+		state.active = false
+		table.remove(state.items, 1)
+		item.cb(err)
+
+		if #state.items > 0 then
+			processSaveQueue(steamid64)
+		else
+			saveQueues[steamid64] = nil
+		end
+	end)
+end
+
+local function queueSave(steamid64, record, cb)
+	local state = saveQueues[steamid64]
+	if not state then
+		state = { active = false, items = {} }
+		saveQueues[steamid64] = state
+	end
+
+	table.insert(state.items, {
+		record = snapshotRecord(record),
+		cb = cb,
+	})
+	processSaveQueue(steamid64)
+end
+
 function METRO.Players.Get(ply)
 	if not IsValid(ply) then
 		return nil
@@ -110,7 +164,7 @@ function METRO.Players.Save(ply, cb)
 	syncPlaytime(ply, record)
 	record.last_seen = os.time()
 
-	METRO.Storage.SavePlayer(record, cb)
+	queueSave(sid, record, cb)
 end
 
 local function finishLoad(ply, record)
@@ -213,7 +267,7 @@ hook.Add("PlayerDisconnected", "MetroPlayersFinalSave", function(ply)
 	syncPlaytime(ply, record)
 	record.last_seen = os.time()
 
-	METRO.Storage.SavePlayer(record, function(saveErr)
+	queueSave(sid, record, function(saveErr)
 		if saveErr then
 			print("[metro] failed to save player " .. sid .. " on disconnect: " .. tostring(saveErr))
 		end

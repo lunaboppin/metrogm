@@ -80,16 +80,29 @@ end
 local function cleanupSyntheticRows(steamids, cb)
 	local remaining = #steamids
 	if remaining == 0 then
-		cb()
+		cb(nil)
 		return
 	end
 
+	local failures = {}
+	local function addFailure(steamid64, tableName, err)
+		if err then
+			table.insert(failures, tableName .. " cleanup for " .. steamid64 .. " failed: " .. tostring(err))
+		end
+	end
+
 	for _, steamid64 in ipairs(steamids) do
-		rawQuery("DELETE FROM metro_players WHERE steamid64 = '" .. steamid64 .. "'", function()
-			rawQuery("DELETE FROM metro_transactions WHERE steamid64 = '" .. steamid64 .. "'", function()
+		rawQuery("DELETE FROM metro_transactions WHERE steamid64 = '" .. steamid64 .. "'", function(transactionErr)
+			addFailure(steamid64, "transaction", transactionErr)
+			rawQuery("DELETE FROM metro_players WHERE steamid64 = '" .. steamid64 .. "'", function(playerErr)
+				addFailure(steamid64, "player", playerErr)
 				remaining = remaining - 1
 				if remaining == 0 then
-					cb()
+					if #failures > 0 then
+						cb(table.concat(failures, "; "))
+						return
+					end
+					cb(nil)
 				end
 			end)
 		end)
@@ -118,14 +131,21 @@ end
 local function runStorageRoundTripTest(cb)
 	local steamid64 = newSyntheticSteamId()
 	local name = "metro-selftest"
+	local function fail(message)
+		cb(message, steamid64)
+	end
 
 	METRO.Storage.CreatePlayer(steamid64, name, function(err, record)
 		if err then
-			cb("CreatePlayer failed: " .. tostring(err))
+			fail("CreatePlayer failed: " .. tostring(err))
+			return
+		end
+		if not record then
+			fail("CreatePlayer returned no record")
 			return
 		end
 
-		if not assertEqual(tonumber(record.money), 0, "initial money", cb) then
+		if not assertEqual(tonumber(record.money), 0, "initial money", fail) then
 			return
 		end
 
@@ -136,30 +156,30 @@ local function runStorageRoundTripTest(cb)
 
 		METRO.Storage.SavePlayer(record, function(saveErr)
 			if saveErr then
-				cb("SavePlayer failed: " .. tostring(saveErr))
+				fail("SavePlayer failed: " .. tostring(saveErr))
 				return
 			end
 
 			METRO.Storage.LoadPlayer(steamid64, function(loadErr, reloaded)
 				if loadErr then
-					cb("LoadPlayer failed: " .. tostring(loadErr))
+					fail("LoadPlayer failed: " .. tostring(loadErr))
 					return
 				end
 
 				if not reloaded then
-					cb("LoadPlayer returned no record after save")
+					fail("LoadPlayer returned no record after save")
 					return
 				end
 
-				if not assertEqual(tonumber(reloaded.money), 500, "saved money", cb) then
+				if not assertEqual(tonumber(reloaded.money), 500, "saved money", fail) then
 					return
 				end
 
-				if not assertEqual(tonumber(reloaded.xp), 120, "saved xp", cb) then
+				if not assertEqual(tonumber(reloaded.xp), 120, "saved xp", fail) then
 					return
 				end
 
-				if not assertEqual(tonumber(reloaded.level), METRO.Levels.LevelForXp(120), "saved level", cb) then
+				if not assertEqual(tonumber(reloaded.level), METRO.Levels.LevelForXp(120), "saved level", fail) then
 					return
 				end
 
@@ -172,33 +192,33 @@ local function runStorageRoundTripTest(cb)
 					reason = "selftest-roundtrip",
 				}, function(txErr)
 					if txErr then
-						cb("LogTransaction failed: " .. tostring(txErr))
+						fail("LogTransaction failed: " .. tostring(txErr))
 						return
 					end
 
 					rawQuery(
 						"SELECT delta, balance_after, kind, reason FROM metro_transactions WHERE steamid64 = '"
-							.. steamid64 .. "' AND reason = 'selftest-roundtrip'",
+						.. steamid64 .. "' AND reason = 'selftest-roundtrip'",
 						function(queryErr, rows)
 							if queryErr then
-								cb("audit row verification failed: " .. tostring(queryErr))
+								fail("audit row verification failed: " .. tostring(queryErr))
 								return
 							end
 
 							if not rows or not rows[1] then
-								cb("audit row verification failed: no matching metro_transactions row found")
+								fail("audit row verification failed: no matching metro_transactions row found")
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].delta), 500, "audit row delta", cb) then
+							if not assertEqual(tonumber(rows[1].delta), 500, "audit row delta", fail) then
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].balance_after), 500, "audit row balance_after", cb) then
+							if not assertEqual(tonumber(rows[1].balance_after), 500, "audit row balance_after", fail) then
 								return
 							end
 
-							if not assertEqual(rows[1].kind, "money", "audit row kind", cb) then
+							if not assertEqual(rows[1].kind, "money", "audit row kind", fail) then
 								return
 							end
 
@@ -247,6 +267,9 @@ end
 local function runEconomyStubTest(cb)
 	local steamid64 = newSyntheticSteamId()
 	local ply, record = makeStubPlayer(steamid64)
+	local function fail(message)
+		cb(message, steamid64)
+	end
 
 	METRO.Players = METRO.Players or {}
 	METRO.Network = METRO.Network or {}
@@ -315,56 +338,56 @@ local function runEconomyStubTest(cb)
 	METRO.Economy.AddMoney(unloadedPly, 10, "should-refuse", nil, function(refuseErr)
 		if not refuseErr then
 			restore()
-			cb("AddMoney did not refuse a mutation against an unloaded record")
+			fail("AddMoney did not refuse a mutation against an unloaded record")
 			return
 		end
 
 		METRO.Economy.AddMoney(ply, 100, "selftest-stub-addmoney", nil, function(err)
 			if err then
 				restore()
-				cb("Economy.AddMoney failed against stubbed player: " .. tostring(err))
+				fail("Economy.AddMoney failed against stubbed player: " .. tostring(err))
 				return
 			end
 
-			if not assertEqual(record.money, 100, "stub money after AddMoney", function(msg) restore(); cb(msg) end) then
+			if not assertEqual(record.money, 100, "stub money after AddMoney", function(msg) restore(); fail(msg) end) then
 				return
 			end
 
 			METRO.Economy.SetMoney(ply, 40, "selftest-stub-setmoney", nil, function(setErr)
 				if setErr then
 					restore()
-					cb("Economy.SetMoney failed against stubbed player: " .. tostring(setErr))
+					fail("Economy.SetMoney failed against stubbed player: " .. tostring(setErr))
 					return
 				end
 
-				if not assertEqual(record.money, 40, "stub money after SetMoney", function(msg) restore(); cb(msg) end) then
+				if not assertEqual(record.money, 40, "stub money after SetMoney", function(msg) restore(); fail(msg) end) then
 					return
 				end
 
 				METRO.Economy.AddXp(ply, 305, "selftest-stub-addxp", nil, function(xpErr)
 					if xpErr then
 						restore()
-						cb("Economy.AddXp failed against stubbed player: " .. tostring(xpErr))
+						fail("Economy.AddXp failed against stubbed player: " .. tostring(xpErr))
 						return
 					end
 
-					if not assertEqual(record.xp, 305, "stub xp after AddXp", function(msg) restore(); cb(msg) end) then
+					if not assertEqual(record.xp, 305, "stub xp after AddXp", function(msg) restore(); fail(msg) end) then
 						return
 					end
 
-					if not assertEqual(record.level, METRO.Levels.LevelForXp(305), "stub level after AddXp", function(msg) restore(); cb(msg) end) then
+					if not assertEqual(record.level, METRO.Levels.LevelForXp(305), "stub level after AddXp", function(msg) restore(); fail(msg) end) then
 						return
 					end
 
 					if saveCalls < 3 then
 						restore()
-						cb("Economy mutations did not call METRO.Players.Save for every mutation, got " .. saveCalls)
+						fail("Economy mutations did not call METRO.Players.Save for every mutation, got " .. saveCalls)
 						return
 					end
 
 					if pushStatsCalls < 3 then
 						restore()
-						cb("Economy mutations did not call METRO.Network.PushStats for every mutation, got " .. pushStatsCalls)
+						fail("Economy mutations did not call METRO.Network.PushStats for every mutation, got " .. pushStatsCalls)
 						return
 					end
 
@@ -372,53 +395,53 @@ local function runEconomyStubTest(cb)
 
 					rawQuery(
 						"SELECT delta, balance_after, kind FROM metro_transactions WHERE steamid64 = '"
-							.. steamid64 .. "' AND reason = 'selftest-stub-setmoney'",
+						.. steamid64 .. "' AND reason = 'selftest-stub-setmoney'",
 						function(queryErr, rows)
 							if queryErr then
-								cb("stub audit row verification failed: " .. tostring(queryErr))
+								fail("stub audit row verification failed: " .. tostring(queryErr))
 								return
 							end
 
 							if not rows or not rows[1] then
-								cb("stub audit row verification failed: no matching metro_transactions row for SetMoney")
+								fail("stub audit row verification failed: no matching metro_transactions row for SetMoney")
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].delta), -60, "stub SetMoney audit delta", cb) then
+							if not assertEqual(tonumber(rows[1].delta), -60, "stub SetMoney audit delta", fail) then
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].balance_after), 40, "stub SetMoney audit balance_after", cb) then
+							if not assertEqual(tonumber(rows[1].balance_after), 40, "stub SetMoney audit balance_after", fail) then
 								return
 							end
 
-							if not assertEqual(rows[1].kind, "money", "stub SetMoney audit kind", cb) then
+							if not assertEqual(rows[1].kind, "money", "stub SetMoney audit kind", fail) then
 								return
 							end
 
 							rawQuery(
 								"SELECT delta, balance_after, kind FROM metro_transactions WHERE steamid64 = '"
-									.. steamid64 .. "' AND reason = 'selftest-stub-addxp'",
+								.. steamid64 .. "' AND reason = 'selftest-stub-addxp'",
 								function(xpQueryErr, xpRows)
 									if xpQueryErr then
-										cb("stub xp audit row verification failed: " .. tostring(xpQueryErr))
+										fail("stub xp audit row verification failed: " .. tostring(xpQueryErr))
 										return
 									end
 
 									if not xpRows or not xpRows[1] then
-										cb("stub xp audit row verification failed: no matching metro_transactions row for AddXp")
+										fail("stub xp audit row verification failed: no matching metro_transactions row for AddXp")
 										return
 									end
 
-									if not assertEqual(tonumber(xpRows[1].delta), 305, "stub AddXp audit delta", cb) then
+									if not assertEqual(tonumber(xpRows[1].delta), 305, "stub AddXp audit delta", fail) then
 										return
 									end
 
-									if not assertEqual(tonumber(xpRows[1].balance_after), 305, "stub AddXp audit balance_after", cb) then
+									if not assertEqual(tonumber(xpRows[1].balance_after), 305, "stub AddXp audit balance_after", fail) then
 										return
 									end
 
-									if not assertEqual(xpRows[1].kind, "xp", "stub AddXp audit kind", cb) then
+									if not assertEqual(xpRows[1].kind, "xp", "stub AddXp audit kind", fail) then
 										return
 									end
 
@@ -580,12 +603,13 @@ local function runSuite(cb)
 				runEconomyStubTest(function(err, steamid64)
 					record("economy contract against stubbed player", err, steamid64)
 
-					runRollbackTest(function(err)
-						record("failed audit write leaves record unchanged", err)
+						runRollbackTest(function(err)
+							record("failed audit write leaves record unchanged", err)
 
-						cleanupSyntheticRows(cleanupIds, function()
-							cb(results)
-						end)
+							cleanupSyntheticRows(cleanupIds, function(cleanupErr)
+								record("synthetic data cleanup", cleanupErr)
+								cb(results)
+							end)
 					end)
 				end)
 			end)

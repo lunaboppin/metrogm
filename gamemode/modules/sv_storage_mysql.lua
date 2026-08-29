@@ -4,13 +4,22 @@ backend.name = "mysql"
 
 local db
 local down = false
+local connected = false
 local reconnectAttempt = 0
+local reconnectScheduled = false
 local connectCallback
+local pendingQueries = {}
 
 local function scheduleReconnect()
+	if reconnectScheduled or not db then
+		return
+	end
+
 	reconnectAttempt = reconnectAttempt + 1
 	local delay = math.min(2 ^ reconnectAttempt, 60)
+	reconnectScheduled = true
 	timer.Simple(delay, function()
+		reconnectScheduled = false
 		if down and db then
 			print("[metro] attempting MySQL reconnect (try " .. reconnectAttempt .. ")")
 			db:connect()
@@ -18,10 +27,33 @@ local function scheduleReconnect()
 	end)
 end
 
+local function isConnectionError(err)
+	local message = string.lower(tostring(err))
+	return string.find(message, "gone away", 1, true)
+		or string.find(message, "lost connection", 1, true)
+		or string.find(message, "not connected", 1, true)
+		or string.find(message, "connection reset", 1, true)
+		or string.find(message, "server shutdown", 1, true)
+end
+
+local function markDown(err)
+	connected = false
+	if down then
+		return
+	end
+
+	down = true
+	ErrorNoHalt("[metro] MySQL connection lost (" .. tostring(err) .. "), queueing operations until reconnected\n")
+	scheduleReconnect()
+end
+
+local runPendingQueries
+
 local function onConnected()
 	if down then
-		print("[metro] MySQL reconnected, resuming normal operation")
+		print("[metro] MySQL reconnected, retrying queued operations")
 	end
+	connected = true
 	down = false
 	reconnectAttempt = 0
 	if connectCallback then
@@ -29,9 +61,11 @@ local function onConnected()
 		connectCallback = nil
 		cb(nil)
 	end
+	runPendingQueries()
 end
 
 local function onConnectionFailed(_, err)
+	connected = false
 	if connectCallback then
 		local cb = connectCallback
 		connectCallback = nil
@@ -39,11 +73,7 @@ local function onConnectionFailed(_, err)
 		return
 	end
 
-	if not down then
-		down = true
-		ErrorNoHalt("[metro] MySQL connection lost (" .. tostring(err) .. "), refusing mutations until reconnected\n")
-	end
-
+	markDown(err)
 	scheduleReconnect()
 end
 
@@ -61,6 +91,8 @@ function backend.Connect(cb)
 
 	local config = METRO.Config
 	connectCallback = cb
+	connected = false
+	down = false
 
 	db = mysqloo.connect(config.host, config.username, config.password, config.database, config.port)
 	db.onConnected = onConnected
@@ -68,8 +100,12 @@ function backend.Connect(cb)
 	db:connect()
 end
 
-local function exec(sqlText, cb)
-	if down or not db then
+local function enqueueQuery(sqlText, cb)
+	table.insert(pendingQueries, { sql = sqlText, cb = cb })
+end
+
+local function runQuery(sqlText, cb)
+	if not db then
 		cb("mysql backend unavailable")
 		return
 	end
@@ -81,13 +117,10 @@ local function exec(sqlText, cb)
 	end
 
 	function query:onError(err)
-		local message = tostring(err)
-		if string.find(message, "gone away") or string.find(message, "Lost connection") then
-			if not down then
-				down = true
-				ErrorNoHalt("[metro] MySQL connection lost mid-query, refusing mutations until reconnected\n")
-				scheduleReconnect()
-			end
+		if isConnectionError(err) then
+			markDown(err)
+			enqueueQuery(sqlText, cb)
+			return
 		end
 		cb(err)
 	end
@@ -95,12 +128,38 @@ local function exec(sqlText, cb)
 	query:start()
 end
 
+runPendingQueries = function()
+	if down or not connected or not db then
+		return
+	end
+
+	local queued = pendingQueries
+	pendingQueries = {}
+	for _, operation in ipairs(queued) do
+		runQuery(operation.sql, operation.cb)
+	end
+end
+
+local function exec(sqlText, cb)
+	if not db then
+		cb("mysql backend unavailable")
+		return
+	end
+
+	if down or not connected then
+		enqueueQuery(sqlText, cb)
+		return
+	end
+
+	runQuery(sqlText, cb)
+end
+
 local function esc(value)
 	return db:escape(tostring(value))
 end
 
 local function ensureAvailable(cb)
-	if down or not db then
+	if not db then
 		cb("mysql backend unavailable")
 		return false
 	end
@@ -184,9 +243,15 @@ function backend.LogTransaction(entry, cb)
 end
 
 function backend.RunUnavailableGuardTest(cb)
+	local savedDb = db
 	local savedDown = down
+	local savedConnected = connected
+	local savedPendingQueries = pendingQueries
 
+	db = nil
 	down = true
+	connected = false
+	pendingQueries = {}
 
 	local checks = {
 		{ "LoadPlayer", function(next) backend.LoadPlayer("0", next) end },
@@ -213,6 +278,9 @@ function backend.RunUnavailableGuardTest(cb)
 	end
 
 	down = savedDown
+	db = savedDb
+	connected = savedConnected
+	pendingQueries = savedPendingQueries
 
 	if #failures > 0 then
 		cb(table.concat(failures, "; "))
