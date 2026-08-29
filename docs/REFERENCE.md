@@ -341,11 +341,12 @@ already voiced.
 
 ---
 
-## 7. The open decision: schema on Helix, or standalone?
+## 7. Settled: standalone, porting the good parts
 
-This is not settled and should be settled deliberately.
+**Decided 2026-08-29. metro stays a standalone gamemode and ports the Helix subsystems that
+carry their weight.** It does not become a Helix schema.
 
-**Argument for standalone** (from the core-architecture study): a schema means
+**Why.** A schema means
 `DeriveGamemode("helix")`, inheriting character creation, IC/OOC chat, grid inventories,
 factions-as-teams, doors and vendor NPCs — much of which we would suppress rather than use. Helix
 wants to own the whole gamemode lifecycle, which may fight Metrostroi's vehicle and seat code. And
@@ -353,16 +354,39 @@ two of our systems are genuinely better than the Helix equivalents: our ledger v
 scrollback, and our ordered migrations vs `ix.db`'s additive-only, column-existence-driven schema
 evolution which cannot drop or retype columns.
 
-**Argument for schema:** we get the UI framework, language system, command system, config system,
-plugin loader and permission integration as working code rather than as patterns to reimplement.
-Sections 3 and 4 above are all things we would otherwise build ourselves.
+**What that costs us.** A schema would have handed us the UI framework, language system,
+command system, config system, plugin loader and permission integration as working code. Standalone
+means porting each one deliberately — sections 3 and 4 are the map for doing that.
 
-**A middle path exists** and is probably where this lands: stay standalone, and port the specific
-Helix subsystems that carry their weight — the realm-prefix loader, `RegisterVar`, the language
-system, the menu-tab hook, the command system. These are separable from the schema question.
+### What we port
 
-Whichever way it goes, **keep**: the storage adapter, gated player lifecycle, audited economy, and
-level curve. Nothing in Helix improves on them.
+| From Helix | Into metro | Why |
+|---|---|---|
+| `ix.util.Include` realm prefixes | A `METRO.Include`/`IncludeDir` helper | Removes the hand-maintained ordered module lists in `init.lua`/`cl_init.lua` |
+| `ix.char.RegisterVar` | `METRO.Players.RegisterVar` | One declaration replaces the add-field/add-migration/add-accessor/add-push ritual |
+| `ix.lang` | `METRO.Lang` + `languages/sh_english.lua` | Adopt **before** writing panels; retrofitting `L()` later costs more |
+| `CreateMenuButtons` tab hook | Our own menu tab hook | Tabs register themselves; content builds lazily |
+| `ix.command.Add` | Typed, CAMI-gated commands | Replaces hand-rolled `concommand` parsing and admin checks |
+| `ix.currency.Get` | A single money formatter | One place that decides how money renders |
+| Give/Take naming split | `METRO.Economy` call sites | Unsigned amount, direction from the function name, harder to misuse |
+
+### What we keep, unchanged
+
+The storage adapter, ordered migrations, gated player lifecycle, audited economy and level curve.
+Nothing in Helix improves on these, and two of its equivalents are worse: `ix.log` is a
+human-readable admin scrollback rather than a queryable ledger, and `ix.db` schema evolution is
+additive-only and column-existence-driven, unable to drop or retype a column.
+
+### What we deliberately do not take
+
+`DeriveGamemode("helix")` and the schema model; the item/inventory grid system (train ownership is
+a flat owned-set); characters as a layer above players (we have one record per SteamID and need no
+more); factions-as-teams, IC/OOC chat, doors and vendor NPCs.
+
+### Consequence for sequencing
+
+The language system and the include helper are **foundational** — they change how every subsequent
+file is written. Do those before the train catalogue, shop or earning loop, not alongside them.
 
 ---
 
@@ -374,6 +398,6 @@ level curve. Nothing in Helix improves on them.
 2. **Decide [#22](https://github.com/lunaboppin/metrogm/issues/22).** Train ownership cannot be
    built on an inert ownership mechanism. Ship a CPPI shim, add a provider to the collection, or
    track ownership ourselves and accept that Metrostroi's own limits stay broken.
-3. **Settle §7.**
-4. **Adopt the language system before writing UI**, not after. Retrofitting `L()` across finished
-   panels is strictly more work than starting with it.
+3. **Port the language system and the include helper** (§7) before any new UI or gameplay files
+   are written — both change how every later file is structured, and retrofitting `L()` across
+   finished panels costs strictly more than starting with it.
