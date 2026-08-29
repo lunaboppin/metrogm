@@ -117,7 +117,7 @@ end
 
 function PANEL:AddTabButton(key)
 	local button = self.tabs:Add("metroMenuSelectionButton")
-	button:SetText(L(key):utf8upper())
+	button:SetText(string.upper(L(key)))
 	button:Dock(TOP)
 	button:SizeToContents()
 	button:SetButtonList(self.tabs.buttons)

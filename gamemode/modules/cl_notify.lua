@@ -1,4 +1,3 @@
-local ANIMATION_TIME = 0.35
 local NOTICE_DURATION = 6
 local NOTICE_WIDTH = 280
 local NOTICE_HEIGHT = 36
@@ -21,10 +20,7 @@ function PANEL:AddNotice(text)
 	local notice = self:Add("metroNotice")
 	notice:SetText(text)
 	notice:SetSize(NOTICE_WIDTH, NOTICE_HEIGHT)
-	notice:SetAlpha(0)
-	notice:CreateAnimation(ANIMATION_TIME, {
-		target = {alpha = 255},
-	})
+	notice:SetAlpha(255)
 
 	table.insert(self.notices, 1, notice)
 	self:Organize()
@@ -41,25 +37,20 @@ function PANEL:RemoveNotice(notice)
 		return
 	end
 
-	notice:CreateAnimation(ANIMATION_TIME, {
-		target = {alpha = 0},
-		OnComplete = function()
-			local index
+	local index
 
-			for i, other in ipairs(self.notices) do
-				if other == notice then
-					index = i
-				end
-			end
+	for i, other in ipairs(self.notices) do
+		if other == notice then
+			index = i
+		end
+	end
 
-			if index then
-				table.remove(self.notices, index)
-			end
+	if index then
+		table.remove(self.notices, index)
+	end
 
-			notice:Remove()
-			self:Organize()
-		end,
-	})
+	notice:Remove()
+	self:Organize()
 end
 
 function PANEL:Organize()
