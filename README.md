@@ -61,9 +61,11 @@ transaction — and prints `SELF-TEST PASSED` or the specific failure.
 
 ```
 metro.txt                          gamemode manifest
-gamemode/shared.lua                DeriveGamemode("sandbox"), shared definitions
-gamemode/init.lua                  server entry, explicit module include list
-gamemode/cl_init.lua               client entry, explicit module include list
+gamemode/shared.lua                DeriveGamemode("sandbox"), METRO.Include/IncludeDir
+gamemode/init.lua                  server entry: ordered includes, then a module sweep
+gamemode/cl_init.lua               client entry: sh_language.lua first, then a module sweep
+gamemode/languages/sh_english.lua  LANGUAGE table consumed by METRO.Lang
+gamemode/modules/sh_language.lua   METRO.Lang, L()/L2(), NotifyLocalized
 gamemode/modules/sv_config.lua     loads and validates config/database.lua
 gamemode/modules/sv_migrations.lua shared, ordered, idempotent schema migrations
 gamemode/modules/sv_storage.lua    storage facade: backend selection, frozen at boot
@@ -75,6 +77,62 @@ config/database.lua.example        committed credential template
 scripts/setup-mysqloo.sh           fetches the mysqloo binary module
 ```
 
-Module includes go through the explicit ordered lists in `gamemode/init.lua` and
-`gamemode/cl_init.lua`, never a directory sweep, so load order stays readable and
-deterministic.
+## Module loading
+
+`METRO.Include(path, realm)` and `METRO.IncludeDir(dir, recursive, skip)`, defined in
+`gamemode/shared.lua`, are a port of Helix's `ix.util.Include`/`IncludeDir`
+(`ref/lua/helix/gamemode/core/sh_util.lua`). Realm is inferred from the filename prefix
+(`sv_` server, `sh_`/`shared.lua` shared with automatic `AddCSLuaFile`, `cl_` client) and
+can be overridden with the second argument.
+
+`gamemode/init.lua` and `gamemode/cl_init.lua` no longer hand-maintain an ordered file
+list for most modules — they call `METRO.IncludeDir("modules", false, skip)` to sweep
+`gamemode/modules/*.lua` in sorted order. Three files are still included explicitly, in
+this fixed order, before the sweep runs (and excluded from it via `skip`):
+
+1. `modules/sh_language.lua` — defines `L`/`L2` before anything else in `modules/` could
+   call them, and is loaded before `METRO.Lang.LoadFromDir("languages")` runs.
+2. `modules/sv_storage_sqlite.lua`, then `modules/sv_storage_mysql.lua`, then
+   `modules/sv_storage.lua` — the two backends must register into `METRO.Backends` before
+   the storage facade runs. Alphabetical sort would put `sv_storage.lua` ahead of
+   `sv_storage_mysql.lua`/`sv_storage_sqlite.lua` (`.` sorts before `_`), which is the
+   wrong order, so it is pinned explicitly rather than left to the sweep.
+3. `modules/sv_boot.lua` — included last, explicitly, after the sweep, since it fires
+   `GM:Initialize` and must run after every other module has registered.
+
+Everything else in `gamemode/modules/` (currently `sh_levels.lua`, `sv_admin.lua`,
+`sv_config.lua`, `sv_economy.lua`, `sv_migrations.lua`, `sv_network.lua`,
+`sv_players.lua`, `sv_selftest.lua`, and the client-only `cl_*.lua` files) has no
+load-order dependency on any other module at include time — they only reference each
+other from inside functions that run later, once boot has finished — so a sorted sweep
+is safe for them.
+
+## Language system
+
+`METRO.Lang` (`gamemode/modules/sh_language.lua`) is a port of Helix's `ix.lang`
+(`ref/lua/helix/gamemode/core/libs/sh_language.lua`). Language files live at
+`gamemode/languages/sh_<language>.lua`, each setting a `LANGUAGE` table of
+`key = "string"` pairs and an optional `NAME`. `METRO.Lang.LoadFromDir(dir)` loads every
+`sh_*.lua` file in a directory this way; `METRO.Lang.AddTable(language, tbl)` adds
+phrases from code instead.
+
+`L(key, ...)` on the client and `L(key, client, ...)` on the server resolve the given (or
+recipient's) language, falling back English → raw key, and pass the result through
+`string.format`. `L2(key, ...)` / `L2(key, client, ...)` do the same lookup but return
+`nil` instead of falling back. The recipient's language is `client:GetInfo("metro_language")`,
+a replicated client `ConVar` defaulting to `"english"`.
+
+`ply:Notify(text)` and `ply:NotifyLocalized(key, ...)` (server only) send a targeted `net`
+message (`MetroNotify`) to that player; the client prints it via
+`METRO.Lang.ReceiveNotify(text)`, a single one-line function meant to be replaced once a
+real notification UI exists.
+
+No literal English strings remain in `sv_admin.lua`, `cl_hud.lua`, or `cl_menu.lua` — see
+`gamemode/languages/sh_english.lua` for the keys.
+
+## Third-party code
+
+Portions of `gamemode/shared.lua` (`METRO.Include`/`IncludeDir`) and
+`gamemode/modules/sh_language.lua` (`METRO.Lang`, `L`, `L2`, `NotifyLocalized`) are
+ported from [Helix](https://github.com/NebulousCloud/helix), MIT licensed. See
+`LICENSES/helix-MIT.txt`.
