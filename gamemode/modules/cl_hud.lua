@@ -51,7 +51,7 @@ hook.Add("HUDPaint", "MetroHud", function()
 
 	if not stats then
 		draw.SimpleText(
-			METRO.LoadState == "error" and "Profile error" or "Loading profile...",
+			METRO.LoadState == "error" and L("hudProfileError") or L("hudLoadingProfile"),
 			"MetroHudLevel",
 			PANEL_X + 10,
 			PANEL_Y + 25,
@@ -78,7 +78,7 @@ hook.Add("HUDPaint", "MetroHud", function()
 	local level, _, _, fraction = METRO.Levels.Progress(tonumber(stats.xp) or 0)
 
 	draw.SimpleText(
-		"$" .. formatMoney(stats.money),
+		L("hudMoneyFormat", formatMoney(stats.money)),
 		"MetroHudMoney",
 		PANEL_X + 10,
 		PANEL_Y + 8,
@@ -88,7 +88,7 @@ hook.Add("HUDPaint", "MetroHud", function()
 	)
 
 	draw.SimpleText(
-		"Lv " .. tostring(level),
+		L("hudLevelFormat", tostring(level)),
 		"MetroHudLevel",
 		PANEL_X + PANEL_WIDTH - 10,
 		PANEL_Y + 12,

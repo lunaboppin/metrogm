@@ -53,7 +53,7 @@ local function FormatFirstSeen(value)
 		return value:match("^(%d%d%d%d%-%d%d%-%d%d)") or value
 	end
 
-	return "Unknown"
+	return L("menuFirstSeenUnknownValue")
 end
 
 METRO.Menu.FormatMoney = FormatMoney
@@ -74,49 +74,49 @@ local function BuildProfilePanel(parent)
 	panel:Dock(FILL)
 	panel.Paint = function() end
 
-	local nameLabel = CreateField(panel, 12, "Name: -")
-	local moneyLabel = CreateField(panel, 40, "Money: -")
-	local levelLabel = CreateField(panel, 68, "Level: -")
+	local nameLabel = CreateField(panel, 12, L("menuNameUnknown"))
+	local moneyLabel = CreateField(panel, 40, L("menuMoneyUnknown"))
+	local levelLabel = CreateField(panel, 68, L("menuLevelUnknown"))
 
 	local xpBar = vgui.Create("DProgress", panel)
 	xpBar:SetPos(12, 96)
 	xpBar:SetSize(380, 18)
 	xpBar:SetFraction(0)
 
-	local xpLabel = CreateField(panel, 118, "XP: -")
-	local playtimeLabel = CreateField(panel, 146, "Playtime: -")
-	local firstSeenLabel = CreateField(panel, 174, "First seen: -")
+	local xpLabel = CreateField(panel, 118, L("menuXpUnknown"))
+	local playtimeLabel = CreateField(panel, 146, L("menuPlaytimeUnknown"))
+	local firstSeenLabel = CreateField(panel, 174, L("menuFirstSeenUnknown"))
 
 	panel.Refresh = function()
 		local stats = METRO.Stats
 
 		if not stats then
-			nameLabel:SetText("Name: -")
-			moneyLabel:SetText("Money: -")
-			levelLabel:SetText("Level: -")
+			nameLabel:SetText(L("menuNameUnknown"))
+			moneyLabel:SetText(L("menuMoneyUnknown"))
+			levelLabel:SetText(L("menuLevelUnknown"))
 			xpBar:SetFraction(0)
-			xpLabel:SetText("XP: -")
-			playtimeLabel:SetText("Playtime: -")
-			firstSeenLabel:SetText("First seen: -")
+			xpLabel:SetText(L("menuXpUnknown"))
+			playtimeLabel:SetText(L("menuPlaytimeUnknown"))
+			firstSeenLabel:SetText(L("menuFirstSeenUnknown"))
 			return
 		end
 
-		nameLabel:SetText("Name: " .. tostring(stats.name or "-"))
-		moneyLabel:SetText("Money: $" .. FormatMoney(stats.money))
-		levelLabel:SetText("Level: " .. tostring(stats.level or "-"))
+		nameLabel:SetText(L("menuNameFormat", tostring(stats.name or "-")))
+		moneyLabel:SetText(L("menuMoneyFormat", FormatMoney(stats.money)))
+		levelLabel:SetText(L("menuLevelFormat", tostring(stats.level or "-")))
 
 		local maxLevel = METRO.Levels.GetMaxLevel()
 		local level, into, span, fraction = METRO.Levels.Progress(stats.xp or 0)
 		xpBar:SetFraction(fraction)
 
 		if level >= maxLevel then
-			xpLabel:SetText("XP: Max level reached")
+			xpLabel:SetText(L("menuXpMaxLevel"))
 		else
-			xpLabel:SetText("XP: " .. into .. " / " .. span)
+			xpLabel:SetText(L("menuXpFormat", into, span))
 		end
 
-		playtimeLabel:SetText("Playtime: " .. FormatPlaytime(stats.playtime_seconds))
-		firstSeenLabel:SetText("First seen: " .. FormatFirstSeen(stats.first_seen))
+		playtimeLabel:SetText(L("menuPlaytimeFormat", FormatPlaytime(stats.playtime_seconds)))
+		firstSeenLabel:SetText(L("menuFirstSeenFormat", FormatFirstSeen(stats.first_seen)))
 	end
 
 	panel.Refresh()
@@ -125,7 +125,7 @@ local function BuildProfilePanel(parent)
 end
 
 RegisterPanel({
-	Label = "Profile",
+	LabelKey = "menuProfileTab",
 	Icon = "icon16/user.png",
 	Build = BuildProfilePanel,
 })
@@ -143,7 +143,7 @@ local function CreateMenuFrame()
 	local newFrame = vgui.Create("DFrame")
 	newFrame:SetSize(FRAME_WIDTH, FRAME_HEIGHT)
 	newFrame:Center()
-	newFrame:SetTitle("Metro")
+	newFrame:SetTitle(L("menuFrameTitle"))
 	newFrame:SetDeleteOnClose(true)
 	newFrame:MakePopup()
 
@@ -153,7 +153,7 @@ local function CreateMenuFrame()
 	local panels = {}
 	for _, definition in ipairs(PANELS) do
 		local builtPanel = definition.Build(sheet)
-		sheet:AddSheet(definition.Label, builtPanel, definition.Icon)
+		sheet:AddSheet(L(definition.LabelKey), builtPanel, definition.Icon)
 		table.insert(panels, builtPanel)
 	end
 
