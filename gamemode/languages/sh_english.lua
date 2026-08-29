@@ -37,4 +37,9 @@ LANGUAGE = {
 	menuFirstSeenUnknown = "First seen: -",
 	menuFirstSeenFormat = "First seen: %s",
 	menuFirstSeenUnknownValue = "Unknown",
+
+	signalDisplayName = "Signal %s",
+	signalDisplayCvarHelp = "Display signal names in the world",
+	signalDisplayEnabled = "Signal names enabled",
+	signalDisplayDisabled = "Signal names disabled",
 }
