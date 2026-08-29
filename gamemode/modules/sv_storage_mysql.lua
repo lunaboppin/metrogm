@@ -77,7 +77,7 @@ local function exec(sqlText, cb)
 	local query = db:query(sqlText)
 
 	function query:onSuccess(data)
-		cb(nil, data or {})
+		cb(nil, data or {}, query:lastInsert())
 	end
 
 	function query:onError(err)
@@ -149,12 +149,12 @@ function backend.LogTransaction(entry, cb)
 		esc(entry.steamid64), actor, entry.delta, entry.balance_after, esc(entry.reason),
 		os.date("%Y-%m-%d %H:%M:%S")
 	)
-	exec(query, function(err)
+	exec(query, function(err, _, insertId)
 		if err then
 			cb(err)
 			return
 		end
-		cb(nil, db:lastInsert())
+		cb(nil, insertId)
 	end)
 end
 
