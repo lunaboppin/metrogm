@@ -20,8 +20,9 @@ LANGUAGE = {
 	hudMoneyFormat = "$%s",
 	hudLevelFormat = "Lv %s",
 
-	menuFrameTitle = "Metro",
 	menuProfileTab = "Profile",
+	menuDetailsCategory = "Details",
+	menuProgressCategory = "Progress",
 	menuNameUnknown = "Name: -",
 	menuNameFormat = "Name: %s",
 	menuMoneyUnknown = "Money: -",
