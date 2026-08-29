@@ -167,10 +167,11 @@ function backend.LogTransaction(entry, cb)
 	end
 
 	local actor = entry.actor_steamid64 and ("'" .. esc(entry.actor_steamid64) .. "'") or "NULL"
+	local kind = entry.kind or "money"
 	local query = string.format(
-		"INSERT INTO metro_transactions (steamid64, actor_steamid64, delta, balance_after, reason, created_at) " ..
-		"VALUES ('%s', %s, %d, %d, '%s', '%s')",
-		esc(entry.steamid64), actor, entry.delta, entry.balance_after, esc(entry.reason),
+		"INSERT INTO metro_transactions (steamid64, actor_steamid64, delta, balance_after, reason, kind, created_at) " ..
+		"VALUES ('%s', %s, %d, %d, '%s', '%s', '%s')",
+		esc(entry.steamid64), actor, entry.delta, entry.balance_after, esc(entry.reason), esc(kind),
 		os.date("%Y-%m-%d %H:%M:%S")
 	)
 	exec(query, function(err, _, insertId)

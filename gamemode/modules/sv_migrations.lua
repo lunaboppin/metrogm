@@ -74,6 +74,18 @@ METRO.Migrations = {
 			[[INSERT OR IGNORE INTO metro_schema_version (id, version) VALUES (1, 0)]],
 		},
 	},
+	{
+		version = 4,
+		name = "add_metro_transactions_kind",
+		mysql = {
+			[[ALTER TABLE metro_transactions ADD COLUMN kind VARCHAR(16) NOT NULL DEFAULT 'money']],
+			[[ALTER TABLE metro_transactions ADD INDEX metro_transactions_steamid64_kind (steamid64, kind)]],
+		},
+		sqlite = {
+			[[ALTER TABLE metro_transactions ADD COLUMN kind VARCHAR(16) NOT NULL DEFAULT 'money']],
+			[[CREATE INDEX IF NOT EXISTS metro_transactions_steamid64_kind ON metro_transactions (steamid64, kind)]],
+		},
+	},
 }
 
 function METRO.RunMigrationsAgainst(dialect, execFn, cb)
