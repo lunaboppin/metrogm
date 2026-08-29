@@ -4,6 +4,7 @@ local AUTOSAVE_INTERVAL = 120
 
 local records = {}
 local sessionStart = {}
+local pendingLoad = {}
 
 local function steamID64(ply)
 	return ply:SteamID64()
@@ -92,6 +93,7 @@ local function finishLoad(ply, record)
 
 	records[sid] = record
 	sessionStart[sid] = os.time()
+	pendingLoad[sid] = nil
 
 	releasePlayer(ply)
 	METRO.Network.PushLoadState(ply, "ready")
@@ -99,10 +101,11 @@ local function finishLoad(ply, record)
 end
 
 hook.Add("PlayerInitialSpawn", "MetroPlayersGatedSpawn", function(ply)
+	local sid = steamID64(ply)
+	pendingLoad[sid] = true
+
 	freezeForLoading(ply)
 	METRO.Network.PushLoadState(ply, "loading")
-
-	local sid = steamID64(ply)
 
 	METRO.Storage.LoadPlayer(sid, function(loadErr, record)
 		if not IsValid(ply) then
@@ -134,8 +137,17 @@ hook.Add("PlayerInitialSpawn", "MetroPlayersGatedSpawn", function(ply)
 	end)
 end)
 
+hook.Add("PlayerSpawn", "MetroPlayersHoldUntilLoaded", function(ply)
+	local sid = steamID64(ply)
+	if pendingLoad[sid] then
+		freezeForLoading(ply)
+	end
+end)
+
 hook.Add("PlayerDisconnected", "MetroPlayersFinalSave", function(ply)
 	local sid = steamID64(ply)
+	pendingLoad[sid] = nil
+
 	local record = records[sid]
 	if not record then
 		return
