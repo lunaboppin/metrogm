@@ -401,3 +401,19 @@ file is written. Do those before the train catalogue, shop or earning loop, not 
 3. **Port the language system and the include helper** (§7) before any new UI or gameplay files
    are written — both change how every later file is structured, and retrofitting `L()` across
    finished panels costs strictly more than starting with it.
+
+## 9. Signal display
+
+The client-only signal-name display in `gamemode/modules/cl_signal_display.lua` reads the
+`Name` already delivered by Metrostroi for each `gmod_track_signal`; it adds no server hooks or
+network messages. A timer refreshes the nearby candidate cache, applying distance, camera-facing,
+signal-facing, and world-occlusion checks before `PostDrawTranslucentRenderables` draws a fading
+3D2D label. Players can toggle it with `metro_toggle_signal_names`; the `metro_signal_names`
+client convar is saved in their local configuration.
+
+The reference route overlay in
+`ref/addons/metrostroi_draw_signals_routes_commands_2219218214` sends route data from the server
+and was not copied because signal identity is already available client-side. Route and command
+visualisation, station readouts, and train occupancy tracking remain separate follow-up work.
+The display requires visual verification with a real game client; headless checks can only cover
+syntax and static invariants.

@@ -133,6 +133,13 @@ No literal English strings remain in `sv_admin.lua`, `cl_hud.lua`, or `cl_menu.l
 `METRO.Lang.ReceiveNotify` no longer just prints — `gamemode/modules/cl_notify.lua` shows a
 stacked, auto-fading `metroNotice` toast for every `ply:Notify`/`NotifyLocalized` call.
 
+Signal names are shown as client-only 3D2D labels above or beside visible `gmod_track_signal` entities.
+The display checks distance, view direction, signal-facing direction, and world occlusion,
+then fades labels near its maximum range. Use `metro_toggle_signal_names` or set the
+remembered client convar `metro_signal_names` to `0` to disable it. This visual feature needs
+human verification with a connected game client; headless server checks cannot inspect its
+rendering.
+
 ## UI: skin, panels, menu, HUD
 
 `gamemode/modules/cl_skin.lua` defines the `"metro"` Derma skin and `GM:LoadFonts`, both
