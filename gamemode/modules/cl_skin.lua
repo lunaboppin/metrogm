@@ -109,7 +109,7 @@ end
 
 derma.RefreshSkins()
 
-function GM:LoadFonts()
+local function LoadFonts()
 	surface.CreateFont("MetroCategoryFont", {
 		font = "Tahoma",
 		size = ScreenScale(9),
@@ -160,10 +160,11 @@ function GM:LoadFonts()
 	})
 end
 
-hook.Run("LoadFonts")
+METRO.UI.LoadFonts = LoadFonts
+LoadFonts()
 
 hook.Add("ScreenResolutionChanged", "METRO_ReloadFonts", function()
-	hook.Run("LoadFonts")
+	LoadFonts()
 end)
 
 concommand.Add("metro_accentcolor", function(_, _, args)
