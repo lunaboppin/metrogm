@@ -86,7 +86,99 @@ METRO.Migrations = {
 			[[CREATE INDEX IF NOT EXISTS metro_transactions_steamid64_kind ON metro_transactions (steamid64, kind)]],
 		},
 	},
+	{
+		version = 5,
+		name = "register_player_variables",
+		playerVariables = true,
+	},
 }
+
+local function quoteDefault(dialect, value)
+	if isnumber(value) then
+		return tostring(value)
+	end
+
+	if isbool(value) then
+		return value and "1" or "0"
+	end
+
+	local escaped = tostring(value or ""):gsub("'", "''")
+	return "'" .. escaped .. "'"
+end
+
+local function playerVariableDefault(variable)
+	if variable.schemaDefault ~= nil then
+		return variable.schemaDefault
+	end
+
+	if isfunction(variable.default) then
+		return ""
+	end
+
+	return variable.default
+end
+
+local function playerVariableSqlType(variable, dialect)
+	if istable(variable.sqlType) then
+		return variable.sqlType[dialect] or variable.sqlType.mysql or variable.sqlType.sqlite
+	end
+
+	return variable.sqlType or "TEXT"
+end
+
+local function ensurePlayerVariableColumns(dialect, execFn, cb)
+	local introspection
+	if dialect == "mysql" then
+		introspection = "SHOW COLUMNS FROM metro_players"
+	else
+		introspection = "PRAGMA table_info(metro_players)"
+	end
+
+	execFn(introspection, function(err, rows)
+		if err then
+			cb(err)
+			return
+		end
+
+		local existing = {}
+		for _, row in ipairs(rows or {}) do
+			local field = dialect == "mysql" and row.Field or row.name
+			if field then
+				existing[string.lower(field)] = true
+			end
+		end
+
+		local missing = {}
+		for _, variable in ipairs(METRO.Players.GetStorageVars()) do
+			if not existing[string.lower(variable.field)] then
+				table.insert(missing, variable)
+			end
+		end
+
+		local index = 1
+		local function runNext()
+			local variable = missing[index]
+			if not variable then
+				cb(nil)
+				return
+			end
+
+			local statement = "ALTER TABLE metro_players ADD COLUMN " .. variable.field .. " " ..
+				playerVariableSqlType(variable, dialect) .. " NOT NULL DEFAULT " ..
+				quoteDefault(dialect, playerVariableDefault(variable))
+			execFn(statement, function(addErr)
+				if addErr then
+					cb(addErr)
+					return
+				end
+				index = index + 1
+				runNext()
+			end)
+		end
+
+		runNext()
+	end)
+end
 
 function METRO.RunMigrationsAgainst(dialect, execFn, cb)
 	local function getCurrentVersion(next)
@@ -107,8 +199,16 @@ function METRO.RunMigrationsAgainst(dialect, execFn, cb)
 			end
 		end
 
-		if #pending == 0 then
+		local function finishNoOp(ensureErr)
+			if ensureErr then
+				cb(ensureErr)
+				return
+			end
 			cb(nil, { applied = {}, version = currentVersion })
+		end
+
+		if #pending == 0 then
+			ensurePlayerVariableColumns(dialect, execFn, finishNoOp)
 			return
 		end
 
@@ -126,6 +226,19 @@ function METRO.RunMigrationsAgainst(dialect, execFn, cb)
 						return
 					end
 					cb(nil, { applied = appliedNames, version = finalVersion })
+				end)
+				return
+			end
+
+			if migration.playerVariables then
+				ensurePlayerVariableColumns(dialect, execFn, function(err)
+					if err then
+						cb(err)
+						return
+					end
+					table.insert(appliedNames, migration.name)
+					migrationIndex = migrationIndex + 1
+					runNextMigration()
 				end)
 				return
 			end

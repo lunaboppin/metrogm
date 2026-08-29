@@ -38,13 +38,15 @@ METRO.Levels.TotalXpForLevel(level) / LevelForXp(xp) / GetMaxLevel() / Progress(
 METRO.Storage.Connect / RunMigrations / LoadPlayer / CreatePlayer / SavePlayer
              / LogTransaction / GetBackendName
 METRO.Players.Get(ply) / IsLoaded(ply) / Save(ply, cb)
-METRO.Network.PushStats(ply) / PushLoadState(ply, state, message)
-METRO.Economy.AddMoney / SetMoney / AddXp   (ply, value, reason, actor, cb)
+METRO.Players.RegisterVar(name, data) / GetVar(target, name, default) / SetVar(target, name, value, ...)
+METRO.Network.SyncVars(ply) / PushStats(ply) / PushLoadState(ply, state, message)
+METRO.Economy.AddMoney / SetMoney / AddXp / SetXp   (ply, value, reason, actor, cb)
 METRO.Boot.IsReady() / GetError() / WaitForReady(cb)
 ```
 
 Schema: `metro_players`, `metro_transactions` (with a `kind` discriminator separating money from
-XP history), `metro_schema_version`. Four migrations, currently at version 4.
+XP history), `metro_schema_version`. Five migrations, currently at version 5. Registered player
+variables provide the player-table column metadata and are reconciled by the migration runner.
 
 **Open issues that matter:** [#17](https://github.com/lunaboppin/metrogm/issues/17) (concurrent
 saves can race and overwrite newer values — **fix before any earning loop**),

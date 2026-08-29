@@ -158,6 +158,39 @@ local function esc(value)
 	return db:escape(tostring(value))
 end
 
+local function valueFor(variable, record)
+	local value = record[variable.field]
+	if value == nil then
+		value = METRO.Players.GetVarDefault(variable.name)
+	end
+
+	if variable.storageType == "integer" then
+		return tostring(math.floor(tonumber(value) or 0))
+	elseif variable.storageType == "number" then
+		return tostring(tonumber(value) or 0)
+	elseif variable.storageType == "boolean" then
+		return value and "1" or "0"
+	elseif variable.storageType == "datetime" then
+		if isnumber(value) then
+			return "'" .. esc(os.date("%Y-%m-%d %H:%M:%S", value)) .. "'"
+		end
+		return "'" .. esc(value) .. "'"
+	elseif istable(value) then
+		return "'" .. esc(util.TableToJSON(value) or "{}") .. "'"
+	end
+
+	return "'" .. esc(value or "") .. "'"
+end
+
+local function createRecord(steamid64, name)
+	local record = METRO.Players.DefaultRecord()
+	record.steamid64 = steamid64
+	record.name = name
+	record.first_seen = os.time()
+	record.last_seen = record.first_seen
+	return record
+end
+
 local function ensureAvailable(cb)
 	if not db then
 		cb("mysql backend unavailable")
@@ -189,12 +222,14 @@ function backend.CreatePlayer(steamid64, name, cb)
 		return
 	end
 
-	local now = os.date("%Y-%m-%d %H:%M:%S")
-	local query = string.format(
-		"INSERT INTO metro_players (steamid64, name, money, xp, level, playtime_seconds, first_seen, last_seen) " ..
-		"VALUES ('%s', '%s', 0, 0, 1, 0, '%s', '%s')",
-		esc(steamid64), esc(name), now, now
-	)
+	local record = createRecord(steamid64, name)
+	local columns = { "steamid64" }
+	local values = { "'" .. esc(steamid64) .. "'" }
+	for _, variable in ipairs(METRO.Players.GetStorageVars()) do
+		table.insert(columns, variable.field)
+		table.insert(values, valueFor(variable, record))
+	end
+	local query = "INSERT INTO metro_players (" .. table.concat(columns, ", ") .. ") VALUES (" .. table.concat(values, ", ") .. ")"
 	exec(query, function(err)
 		if err then
 			cb(err)
@@ -209,12 +244,14 @@ function backend.SavePlayer(record, cb)
 		return
 	end
 
-	local query = string.format(
-		"UPDATE metro_players SET name = '%s', money = %d, xp = %d, level = %d, playtime_seconds = %d, last_seen = '%s' " ..
-		"WHERE steamid64 = '%s'",
-		esc(record.name), record.money, record.xp, record.level, record.playtime_seconds,
-		os.date("%Y-%m-%d %H:%M:%S"), esc(record.steamid64)
-	)
+	local assignments = {}
+	for _, variable in ipairs(METRO.Players.GetStorageVars()) do
+		if variable.field ~= "first_seen" then
+			table.insert(assignments, variable.field .. " = " .. valueFor(variable, record))
+		end
+	end
+	local query = "UPDATE metro_players SET " .. table.concat(assignments, ", ") ..
+		" WHERE steamid64 = '" .. esc(record.steamid64) .. "'"
 	exec(query, function(err)
 		cb(err)
 	end)
