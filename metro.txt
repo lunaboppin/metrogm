@@ -1,0 +1,10 @@
+"base" "sandbox"
+
+"gamemode"
+{
+	"name"			"Metro"
+	"author"		"lunaboppin"
+	"email"			""
+	"website"		""
+	"menusystem"	"0"
+}
