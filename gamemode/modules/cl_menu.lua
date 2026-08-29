@@ -177,16 +177,13 @@ end
 
 METRO.Menu.Toggle = ToggleMenu
 
-local menuKeyDown = false
-
-hook.Add("Think", "METRO_MenuKeybind", function()
-	local down = input.IsKeyDown(KEY_F4)
-
-	if down and not menuKeyDown then
-		ToggleMenu()
+hook.Add("PlayerBindPress", "METRO_MenuKeybind", function(ply, bind, pressed)
+	if not pressed or bind ~= "gm_showspare2" or ply:IsTyping() then
+		return
 	end
 
-	menuKeyDown = down
+	ToggleMenu()
+	return true
 end)
 
 hook.Add("MetroStatsUpdated", "METRO_MenuRefresh", function()
