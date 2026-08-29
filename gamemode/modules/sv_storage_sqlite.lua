@@ -59,10 +59,11 @@ end
 
 function backend.LogTransaction(entry, cb)
 	local actor = entry.actor_steamid64 and sql.SQLStr(entry.actor_steamid64) or "NULL"
+	local kind = entry.kind or "money"
 	local query = string.format(
-		"INSERT INTO metro_transactions (steamid64, actor_steamid64, delta, balance_after, reason, created_at) " ..
-		"VALUES (%s, %s, %d, %d, %s, %s)",
-		sql.SQLStr(entry.steamid64), actor, entry.delta, entry.balance_after, sql.SQLStr(entry.reason),
+		"INSERT INTO metro_transactions (steamid64, actor_steamid64, delta, balance_after, reason, kind, created_at) " ..
+		"VALUES (%s, %s, %d, %d, %s, %s, %s)",
+		sql.SQLStr(entry.steamid64), actor, entry.delta, entry.balance_after, sql.SQLStr(entry.reason), sql.SQLStr(kind),
 		sql.SQLStr(os.date("%Y-%m-%d %H:%M:%S"))
 	)
 	exec(query, function(err)
