@@ -12,6 +12,7 @@ end
 
 local function freezeForLoading(ply)
 	ply:Lock()
+	ply:SetMoveType(MOVETYPE_NONE)
 	ply:SetNoDraw(true)
 	ply:SetNotSolid(true)
 	ply:GodEnable()
@@ -19,6 +20,7 @@ end
 
 local function releasePlayer(ply)
 	ply:UnLock()
+	ply:SetMoveType(MOVETYPE_WALK)
 	ply:SetNoDraw(false)
 	ply:SetNotSolid(false)
 	ply:GodDisable()
