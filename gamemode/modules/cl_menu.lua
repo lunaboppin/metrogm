@@ -98,8 +98,19 @@ function PANEL:Init()
 	self:Center()
 	self:MakePopup()
 	self:SetKeyboardInputEnabled(true)
+	self:RequestFocus()
 
 	self.builtPanels = {}
+
+	self.closeButton = self:Add("DButton")
+	self.closeButton:SetText("Close")
+	self.closeButton:SetFont("MetroMenuButtonFont")
+	self.closeButton:SetTall(28)
+	self.closeButton:Dock(TOP)
+	self.closeButton:DockMargin(1, 1, 1, 1)
+	self.closeButton.DoClick = function()
+		self:Remove()
+	end
 
 	self.tabs = self:Add("Panel")
 	self.tabs:SetWide(TAB_WIDTH)
