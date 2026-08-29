@@ -1,6 +1,9 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
+METRO.Include("metrostroi_entry_sv.lua", "server")
+METRO.Include("metrostroi_entry_cl.lua", "client")
+
 local FIRST_MODULE = "modules/sh_language.lua"
 
 local ORDERED_MODULES = {
