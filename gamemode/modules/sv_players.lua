@@ -28,10 +28,7 @@ local function releasePlayer(ply)
 end
 
 local function normalizeRecord(record)
-	record.money = tonumber(record.money) or 0
-	record.xp = tonumber(record.xp) or 0
-	record.level = METRO.Levels.LevelForXp(record.xp)
-	record.playtime_seconds = tonumber(record.playtime_seconds) or 0
+	METRO.Players.NormalizeRecord(record)
 
 	local function normalizeTimestamp(value)
 		local numeric = tonumber(value)
@@ -62,6 +59,7 @@ local function normalizeRecord(record)
 
 	record.first_seen = normalizeTimestamp(record.first_seen)
 	record.last_seen = normalizeTimestamp(record.last_seen)
+	record.level = METRO.Levels.LevelForXp(record.xp)
 	return record
 end
 
@@ -82,16 +80,11 @@ local function syncPlaytime(ply, record)
 end
 
 local function snapshotRecord(record)
-	return {
-		steamid64 = record.steamid64,
-		name = record.name,
-		money = record.money,
-		xp = record.xp,
-		level = record.level,
-		playtime_seconds = record.playtime_seconds,
-		first_seen = record.first_seen,
-		last_seen = record.last_seen,
-	}
+	local snapshot = { steamid64 = record.steamid64 }
+	for _, variable in ipairs(METRO.Players.GetStorageVars()) do
+		snapshot[variable.field] = record[variable.field]
+	end
+	return snapshot
 end
 
 local function processSaveQueue(steamid64)
@@ -144,6 +137,66 @@ end
 
 function METRO.Players.IsLoaded(ply)
 	return METRO.Players.Get(ply) ~= nil
+end
+
+function METRO.Players.SetVar(ply, name, value, reason, actor, cb)
+	if isfunction(reason) then
+		cb = reason
+		reason = nil
+		actor = nil
+	elseif isfunction(actor) then
+		cb = actor
+		actor = nil
+	end
+
+	cb = cb or function() end
+
+	local variable = METRO.Players.GetVarDefinition(name)
+	if not variable then
+		cb("unknown player variable")
+		return
+	end
+
+	if variable.bDerived then
+		cb("player variable is derived")
+		return
+	end
+
+	if variable.auditKind == "money" then
+		if not METRO.Economy or not METRO.Economy.SetMoney then
+			cb("economy module is not ready")
+			return
+		end
+		return METRO.Economy.SetMoney(ply, value, reason or "set " .. name, actor, cb)
+	elseif variable.auditKind == "xp" then
+		if not METRO.Economy or not METRO.Economy.SetXp then
+			cb("economy module is not ready")
+			return
+		end
+		return METRO.Economy.SetXp(ply, value, reason or "set " .. name, actor, cb)
+	end
+
+	local record = METRO.Players.Get(ply)
+	if not record then
+		cb("player record is not loaded")
+		return
+	end
+
+	local oldValue = record[variable.field]
+	record[variable.field] = METRO.Players.NormalizeVar(name, value)
+	if variable.OnSet then
+		variable.OnSet(ply, oldValue, record[variable.field])
+	end
+
+	METRO.Players.Save(ply, function(saveErr)
+		if saveErr then
+			record[variable.field] = oldValue
+			cb(saveErr)
+			return
+		end
+		METRO.Network.PushVar(ply, name)
+		cb(nil)
+	end)
 end
 
 function METRO.Players.Save(ply, cb)

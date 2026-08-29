@@ -66,6 +66,7 @@ gamemode/init.lua                  server entry: ordered includes, then a module
 gamemode/cl_init.lua               client entry: sh_language.lua first, then a module sweep
 gamemode/languages/sh_english.lua  LANGUAGE table consumed by METRO.Lang
 gamemode/modules/sh_language.lua   METRO.Lang, L()/L2(), NotifyLocalized
+gamemode/modules/sh_player_vars.lua   RegisterVar declarations and generated player accessors
 gamemode/modules/sv_config.lua     loads and validates config/database.lua
 gamemode/modules/sv_migrations.lua shared, ordered, idempotent schema migrations
 gamemode/modules/sv_storage.lua    storage facade: backend selection, frozen at boot
@@ -100,12 +101,27 @@ this fixed order, before the sweep runs (and excluded from it via `skip`):
 3. `modules/sv_boot.lua` — included last, explicitly, after the sweep, since it fires
    `GM:Initialize` and must run after every other module has registered.
 
-Everything else in `gamemode/modules/` (currently `sh_levels.lua`, `sv_admin.lua`,
-`sv_config.lua`, `sv_economy.lua`, `sv_migrations.lua`, `sv_network.lua`,
+Everything else in `gamemode/modules/` (currently `sh_levels.lua`, `sh_player_vars.lua`,
+`sv_admin.lua`, `sv_config.lua`, `sv_economy.lua`, `sv_migrations.lua`, `sv_network.lua`,
 `sv_players.lua`, `sv_selftest.lua`, and the client-only `cl_*.lua` files) has no
 load-order dependency on any other module at include time — they only reference each
 other from inside functions that run later, once boot has finished — so a sorted sweep
 is safe for them.
+
+## Player variables and networking
+
+`METRO.Players.RegisterVar(name, data)` is the single declaration point for a persisted player
+field. The declaration supplies its SQL type, default, normalization and networking scope, and
+creates `METRO.Players.Get<Name>` / `Set<Name>` accessors alongside generic `GetVar` / `SetVar`
+helpers. Registered fields are reconciled by the ordered migration runner and included in player
+save snapshots automatically. Money and XP accessors use the audited economy path; level remains
+derived from XP.
+
+`METRO.Network.SyncVars(ply)` sends the complete set of networked fields to that player and is
+used after the gated player record load and after mutations. Every player field is owner-only,
+including fields without `isLocal`; `bNoNetworking` excludes a field entirely. The client keeps
+the received values in `METRO.PlayerVars` and exposes the existing HUD/menu-compatible
+`METRO.Stats` view.
 
 ## Language system
 

@@ -1,23 +1,24 @@
+METRO.PlayerVars = METRO.PlayerVars or {}
 METRO.Stats = METRO.Stats or nil
 METRO.LoadState = METRO.LoadState or "loading"
 METRO.LoadError = METRO.LoadError or nil
 
-net.Receive("MetroStats", function()
-	local name = net.ReadString()
-	local money = net.ReadDouble()
-	local xp = net.ReadUInt(32)
-	local level = net.ReadUInt(8)
-	local playtimeSeconds = net.ReadUInt(32)
-	local firstSeen = net.ReadUInt(32)
+net.Receive("MetroPlayerVars", function()
+	local count = net.ReadUInt(16)
+	METRO.PlayerVars = {}
 
-	METRO.Stats = {
-		name = name,
-		money = money,
-		xp = xp,
-		level = level,
-		playtime_seconds = playtimeSeconds,
-		first_seen = firstSeen,
-	}
+	for _ = 1, count do
+		METRO.PlayerVars[net.ReadString()] = net.ReadType()
+	end
+
+	METRO.Stats = {}
+	for _, variable in ipairs(METRO.Players.GetNetworkVars()) do
+		local value = METRO.PlayerVars[variable.name]
+		if value == nil then
+			value = METRO.Players.GetVarDefault(variable.name)
+		end
+		METRO.Stats[variable.field] = METRO.Players.NormalizeVar(variable.name, value)
+	end
 
 	hook.Run("MetroStatsUpdated")
 end)
@@ -30,6 +31,7 @@ net.Receive("MetroLoadState", function()
 	METRO.LoadError = state == "error" and message or nil
 
 	if state ~= "ready" then
+		METRO.PlayerVars = {}
 		METRO.Stats = nil
 		hook.Run("MetroStatsUpdated")
 	end

@@ -127,3 +127,31 @@ function METRO.Economy.AddXp(ply, delta, reason, actor, cb)
 
 	commitMutation(ply, "xp", appliedDelta, record.xp, reason, actor, revert, cb)
 end
+
+function METRO.Economy.SetXp(ply, amount, reason, actor, cb)
+	cb = cb or function() end
+
+	if not isWholeNumber(amount) then
+		cb("amount must be a whole number")
+		return
+	end
+
+	local record = getLoadedRecord(ply)
+	if not record then
+		cb("player record has not loaded")
+		return
+	end
+
+	local previousXp = record.xp
+	local previousLevel = record.level
+	local newXp = math.max(amount, 0)
+	record.xp = newXp
+	record.level = METRO.Levels.LevelForXp(newXp)
+
+	local function revert()
+		record.xp = previousXp
+		record.level = previousLevel
+	end
+
+	commitMutation(ply, "xp", newXp - previousXp, newXp, reason, actor, revert, cb)
+end

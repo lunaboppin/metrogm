@@ -128,6 +128,54 @@ local function runLevelCurveTest(cb)
 	cb(nil)
 end
 
+local function runPlayerVarRegistryTest(cb)
+	local expected = {
+		name = { storage = true, networking = true },
+		money = { storage = true, networking = true },
+		xp = { storage = true, networking = true },
+		level = { storage = true, networking = true },
+		playtime_seconds = { storage = true, networking = true },
+		first_seen = { storage = true, networking = true },
+		last_seen = { storage = true, networking = false },
+	}
+
+	for name, expectation in pairs(expected) do
+		local variable = METRO.Players.GetVarDefinition(name)
+		if not variable then
+			cb("missing registered player variable: " .. name)
+			return
+		end
+
+		if not assertEqual(variable.storage, expectation.storage, name .. " storage registration", cb) then
+			return
+		end
+
+		if not assertEqual(not variable.bNoNetworking, expectation.networking, name .. " networking registration", cb) then
+			return
+		end
+	end
+
+	local record = METRO.Players.DefaultRecord()
+	record.steamid64 = "registry-test"
+	record.money = 73
+	record.xp = 305
+	record.level = METRO.Levels.LevelForXp(record.xp)
+
+	if not assertEqual(METRO.Players.GetMoney(record), 73, "generated money getter", cb) then
+		return
+	end
+
+	if not assertEqual(METRO.Players.GetXp(record), 305, "generated xp getter", cb) then
+		return
+	end
+
+	if not assertEqual(METRO.Players.GetLevel(record), METRO.Levels.LevelForXp(record.xp), "generated level getter", cb) then
+		return
+	end
+
+	cb(nil)
+end
+
 local function runStorageRoundTripTest(cb)
 	local steamid64 = newSyntheticSteamId()
 	local name = "metro-selftest"
@@ -171,15 +219,15 @@ local function runStorageRoundTripTest(cb)
 					return
 				end
 
-				if not assertEqual(tonumber(reloaded.money), 500, "saved money", fail) then
+				if not assertEqual(tonumber(METRO.Players.GetMoney(reloaded)), 500, "saved money", fail) then
 					return
 				end
 
-				if not assertEqual(tonumber(reloaded.xp), 120, "saved xp", fail) then
+				if not assertEqual(tonumber(METRO.Players.GetXp(reloaded)), 120, "saved xp", fail) then
 					return
 				end
 
-				if not assertEqual(tonumber(reloaded.level), METRO.Levels.LevelForXp(120), "saved level", fail) then
+				if not assertEqual(tonumber(METRO.Players.GetLevel(reloaded)), METRO.Levels.LevelForXp(120), "saved level", fail) then
 					return
 				end
 
@@ -594,14 +642,17 @@ local function runSuite(cb)
 	runLevelCurveTest(function(err)
 		record("level curve boundaries", err)
 
-		runStorageRoundTripTest(function(err, steamid64)
-			record("storage round-trip and audit row", err, steamid64)
+		runPlayerVarRegistryTest(function(err)
+			record("player variable registry and generated accessors", err)
 
-			runMigrationsIdempotencyTest(function(err)
-				record("migrations idempotent on populated database", err)
+			runStorageRoundTripTest(function(err, steamid64)
+				record("storage round-trip and audit row", err, steamid64)
 
-				runEconomyStubTest(function(err, steamid64)
-					record("economy contract against stubbed player", err, steamid64)
+				runMigrationsIdempotencyTest(function(err)
+					record("migrations idempotent on populated database", err)
+
+					runEconomyStubTest(function(err, steamid64)
+						record("economy contract against stubbed player", err, steamid64)
 
 						runRollbackTest(function(err)
 							record("failed audit write leaves record unchanged", err)
@@ -610,6 +661,7 @@ local function runSuite(cb)
 								record("synthetic data cleanup", cleanupErr)
 								cb(results)
 							end)
+						end)
 					end)
 				end)
 			end)
