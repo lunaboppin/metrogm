@@ -634,7 +634,7 @@ if SERVER then
     --Cvars
     local CV_Enabled = CreateConVar("metrostroi_monitoring_allow",1, FCVAR_ARCHIVE,"Enables metrostroi servers monitoring for this server. Send only basic info(map,ip,port,hostname) for metrostroi servers list")
     local CV_Key     = CreateConVar("metrostroi_monitoring_key","", FCVAR_ARCHIVE,"Unique key for metrostroi servers monitoring. Used for server identification for servers with dynamic IP")
-    local CV_Pass    = GetConVar("sv_password")
+    local CV_Pass    = GetConVar("sv_password") or CreateConVar("sv_password","",FCVAR_ARCHIVE)
     local State,LastSend,LastRec,LastSucc = 0
     local LastErr
 
