@@ -1,7 +1,7 @@
 METRO.Economy = METRO.Economy or {}
 
-local function isWholeNumber(value)
-	return isnumber(value) and value == math.floor(value)
+local function normalizeInteger(value)
+	return METRO.Integer.Normalize(value)
 end
 
 local function resolveActorSteamId(actor)
@@ -49,7 +49,8 @@ end
 function METRO.Economy.AddMoney(ply, delta, reason, actor, cb)
 	cb = cb or function() end
 
-	if not isWholeNumber(delta) then
+	delta = normalizeInteger(delta)
+	if not delta then
 		cb("delta must be a whole number")
 		return
 	end
@@ -60,8 +61,13 @@ function METRO.Economy.AddMoney(ply, delta, reason, actor, cb)
 		return
 	end
 
-	local previousMoney = record.money
-	record.money = previousMoney + delta
+	local previousMoney = METRO.Integer.Normalize(record.money) or "0"
+	local newMoney = METRO.Integer.Add(previousMoney, delta)
+	if not newMoney then
+		cb("money exceeds BIGINT range")
+		return
+	end
+	record.money = newMoney
 
 	local function revert()
 		record.money = previousMoney
@@ -73,7 +79,8 @@ end
 function METRO.Economy.SetMoney(ply, amount, reason, actor, cb)
 	cb = cb or function() end
 
-	if not isWholeNumber(amount) then
+	amount = normalizeInteger(amount)
+	if not amount then
 		cb("amount must be a whole number")
 		return
 	end
@@ -84,8 +91,12 @@ function METRO.Economy.SetMoney(ply, amount, reason, actor, cb)
 		return
 	end
 
-	local previousMoney = record.money
-	local delta = amount - previousMoney
+	local previousMoney = METRO.Integer.Normalize(record.money) or "0"
+	local delta = METRO.Integer.Subtract(amount, previousMoney)
+	if not delta then
+		cb("money exceeds BIGINT range")
+		return
+	end
 	record.money = amount
 
 	local function revert()
@@ -98,7 +109,8 @@ end
 function METRO.Economy.AddXp(ply, delta, reason, actor, cb)
 	cb = cb or function() end
 
-	if not isWholeNumber(delta) then
+	delta = normalizeInteger(delta)
+	if not delta then
 		cb("delta must be a whole number")
 		return
 	end
@@ -109,16 +121,21 @@ function METRO.Economy.AddXp(ply, delta, reason, actor, cb)
 		return
 	end
 
-	local previousXp = record.xp
+	local previousXp = METRO.Integer.Normalize(record.xp) or "0"
 	local previousLevel = record.level
 
-	record.xp = previousXp + delta
-	if record.xp < 0 then
-		record.xp = 0
+	local newXp = METRO.Integer.Add(previousXp, delta)
+	if not newXp then
+		cb("xp exceeds BIGINT range")
+		return
 	end
+	if METRO.Integer.Compare(newXp, "0") < 0 then
+		newXp = "0"
+	end
+	record.xp = newXp
 	record.level = METRO.Levels.LevelForXp(record.xp)
 
-	local appliedDelta = record.xp - previousXp
+	local appliedDelta = METRO.Integer.Subtract(record.xp, previousXp)
 
 	local function revert()
 		record.xp = previousXp
@@ -131,7 +148,8 @@ end
 function METRO.Economy.SetXp(ply, amount, reason, actor, cb)
 	cb = cb or function() end
 
-	if not isWholeNumber(amount) then
+	amount = normalizeInteger(amount)
+	if not amount then
 		cb("amount must be a whole number")
 		return
 	end
@@ -142,9 +160,9 @@ function METRO.Economy.SetXp(ply, amount, reason, actor, cb)
 		return
 	end
 
-	local previousXp = record.xp
+	local previousXp = METRO.Integer.Normalize(record.xp) or "0"
 	local previousLevel = record.level
-	local newXp = math.max(amount, 0)
+	local newXp = METRO.Integer.Compare(amount, "0") < 0 and "0" or amount
 	record.xp = newXp
 	record.level = METRO.Levels.LevelForXp(newXp)
 
@@ -153,5 +171,5 @@ function METRO.Economy.SetXp(ply, amount, reason, actor, cb)
 		record.level = previousLevel
 	end
 
-	commitMutation(ply, "xp", newXp - previousXp, newXp, reason, actor, revert, cb)
+	commitMutation(ply, "xp", METRO.Integer.Subtract(newXp, previousXp), newXp, reason, actor, revert, cb)
 end

@@ -11,6 +11,7 @@ LANGUAGE = {
 	adminAmountRequired = "amount is required",
 	adminAmountNotNumeric = "'%s' is not a numeric amount",
 	adminAmountNotWhole = "'%s' must be a whole number, fractional amounts are not allowed",
+	adminAmountOutOfRange = "'%s' is outside the signed BIGINT range",
 	adminSetMoneySuccess = "set %s's money to %s",
 	adminAddMoneySuccess = "added %s money to %s",
 	adminSetXpSuccess = "set %s's xp to %s (level %s)",

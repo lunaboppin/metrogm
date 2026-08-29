@@ -44,15 +44,17 @@ METRO.Economy.AddMoney / SetMoney / AddXp / SetXp   (ply, value, reason, actor, 
 METRO.Boot.IsReady() / GetError() / WaitForReady(cb)
 ```
 
+Money, XP, playtime, and audit integer values are canonical signed decimal strings in memory,
+storage serialization, and targeted network messages. `METRO.Integer` provides normalization,
+comparison, addition, subtraction, and formatting without converting BIGINT values to Lua numbers.
+The level cache remains a bounded Lua number derived from XP; progress arithmetic only converts
+values below the level cap, where they are safe.
+
 Schema: `metro_players`, `metro_transactions` (with a `kind` discriminator separating money from
 XP history), `metro_schema_version`. Five migrations, currently at version 5. Registered player
 variables provide the player-table column metadata and are reconciled by the migration runner.
 
-**Open issues that matter:** [#17](https://github.com/lunaboppin/metrogm/issues/17) (concurrent
-saves can race and overwrite newer values — **fix before any earning loop**),
-[#22](https://github.com/lunaboppin/metrogm/issues/22) (no CPPI provider; see §5),
-[#18](https://github.com/lunaboppin/metrogm/issues/18) (BIGINT precision above 2^53, low),
-[#9](https://github.com/lunaboppin/metrogm/issues/9) (roadmap).
+**Open issues that matter:** [#9](https://github.com/lunaboppin/metrogm/issues/9) (roadmap).
 
 ---
 

@@ -26,7 +26,12 @@ function METRO.Network.SyncVars(ply)
 	net.WriteUInt(#variables, 16)
 	for _, variable in ipairs(variables) do
 		net.WriteString(variable.name)
-		net.WriteType(networkValue(record, variable))
+		local value = networkValue(record, variable)
+		if variable.storageType == "bigint" then
+			net.WriteString(METRO.Integer.Normalize(value) or "0")
+		else
+			net.WriteType(value)
+		end
 	end
 	net.Send(ply)
 end

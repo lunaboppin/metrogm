@@ -39,7 +39,9 @@ local function normalizeValue(variable, value)
 		return variable.normalize(value)
 	end
 
-	if variable.storageType == "integer" then
+	if variable.storageType == "bigint" then
+		return METRO.Integer.Normalize(value) or "0"
+	elseif variable.storageType == "integer" then
 		return math.floor(tonumber(value) or 0)
 	elseif variable.storageType == "number" then
 		return tonumber(value) or 0
@@ -197,18 +199,18 @@ METRO.Players.RegisterVar("name", {
 
 METRO.Players.RegisterVar("money", {
 	field = "money",
-	storageType = "integer",
+	storageType = "bigint",
 	sqlType = { mysql = "BIGINT", sqlite = "INTEGER" },
-	default = 0,
+	default = "0",
 	isLocal = true,
 	auditKind = "money",
 })
 
 METRO.Players.RegisterVar("xp", {
 	field = "xp",
-	storageType = "integer",
+	storageType = "bigint",
 	sqlType = { mysql = "BIGINT", sqlite = "INTEGER" },
-	default = 0,
+	default = "0",
 	isLocal = true,
 	auditKind = "xp",
 })
@@ -224,9 +226,9 @@ METRO.Players.RegisterVar("level", {
 
 METRO.Players.RegisterVar("playtime_seconds", {
 	field = "playtime_seconds",
-	storageType = "integer",
+	storageType = "bigint",
 	sqlType = { mysql = "BIGINT", sqlite = "INTEGER" },
-	default = 0,
+	default = "0",
 	isLocal = true,
 })
 

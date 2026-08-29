@@ -68,7 +68,7 @@ METRO.Hud.Add("metroProfile", function()
 		return
 	end
 
-	local level, _, _, fraction = METRO.Levels.Progress(tonumber(stats.xp) or 0)
+	local level, _, _, fraction = METRO.Levels.Progress(stats.xp or 0)
 
 	draw.SimpleText(
 		L("hudMoneyFormat", METRO.Format.Money(stats.money)),

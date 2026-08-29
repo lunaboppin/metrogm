@@ -16,12 +16,13 @@ function METRO.Levels.TotalXpForLevel(level)
 end
 
 function METRO.Levels.LevelForXp(xp)
-	if not isnumber(xp) or xp < 0 then
+	xp = METRO.Integer.Normalize(xp)
+	if not xp or METRO.Integer.Compare(xp, "0") < 0 then
 		return 1
 	end
 
 	local level = 1
-	while level < MAX_LEVEL and xp >= METRO.Levels.TotalXpForLevel(level + 1) do
+	while level < MAX_LEVEL and METRO.Integer.Compare(xp, METRO.Levels.TotalXpForLevel(level + 1)) >= 0 do
 		level = level + 1
 	end
 
@@ -33,6 +34,11 @@ function METRO.Levels.GetMaxLevel()
 end
 
 function METRO.Levels.Progress(xp)
+	xp = METRO.Integer.Normalize(xp) or "0"
+	if METRO.Integer.Compare(xp, "0") < 0 then
+		xp = "0"
+	end
+
 	local level = METRO.Levels.LevelForXp(xp)
 
 	if level >= MAX_LEVEL then
@@ -42,7 +48,7 @@ function METRO.Levels.Progress(xp)
 	local floor = METRO.Levels.TotalXpForLevel(level)
 	local ceiling = METRO.Levels.TotalXpForLevel(level + 1)
 	local span = ceiling - floor
-	local into = xp - floor
+	local into = tonumber(xp) - floor
 
 	return level, into, span, into / span
 end
