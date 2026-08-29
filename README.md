@@ -43,8 +43,8 @@ Fields:
   when the resolved backend is SQLite.
 
 The backend is chosen once at boot and never changes for the rest of the session. If
-MySQL is lost mid-session, the gamemode reconnects with backoff and refuses money/XP
-mutations while down — it never diverts writes to SQLite.
+MySQL is lost mid-session, the gamemode reconnects with backoff and retries queued
+operations after recovery — it never diverts writes to SQLite.
 
 ## Running the self-tests
 
