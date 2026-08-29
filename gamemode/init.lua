@@ -1,6 +1,7 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
+METRO.Include("modules/sh_cppi.lua")
 METRO.Include("metrostroi_entry_sv.lua", "server")
 METRO.Include("metrostroi_entry_cl.lua", "client")
 
@@ -14,7 +15,7 @@ local ORDERED_MODULES = {
 
 local FINAL_MODULE = "modules/sv_boot.lua"
 
-local skip = {[FIRST_MODULE] = true, [FINAL_MODULE] = true}
+local skip = {[FIRST_MODULE] = true, [FINAL_MODULE] = true, ["modules/sh_cppi.lua"] = true}
 for _, path in ipairs(ORDERED_MODULES) do
 	skip[path] = true
 end
