@@ -39,9 +39,7 @@ function PANEL:OnCursorEntered()
 		return
 	end
 
-	self:CreateAnimation(0.15, {
-		target = {currentBackgroundAlpha = self.backgroundAlpha}
-	})
+	self.currentBackgroundAlpha = self.backgroundAlpha
 end
 
 function PANEL:OnCursorExited()
@@ -49,9 +47,7 @@ function PANEL:OnCursorExited()
 		return
 	end
 
-	self:CreateAnimation(0.15, {
-		target = {currentBackgroundAlpha = 0}
-	})
+	self.currentBackgroundAlpha = 0
 end
 
 vgui.Register("metroMenuButton", PANEL, "DButton")

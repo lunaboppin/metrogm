@@ -4,12 +4,20 @@ if Metrostroi then
 end
 
 local rawFileFind = file.Find
+local rawInclude = include
 local gamemodeLuaPrefix = engine.ActiveGamemode() .. "/gamemode/"
 function file.Find(path, domain, sorting)
     if domain == "LUA" and path:sub(1, 10) == "metrostroi" then
         return rawFileFind(gamemodeLuaPrefix .. path, domain, sorting)
     end
     return rawFileFind(path, domain, sorting)
+end
+
+function include(path)
+    if path:sub(1, 10) == "metrostroi" then
+        return rawInclude(gamemodeLuaPrefix .. path)
+    end
+    return rawInclude(path)
 end
 
 include("metrostroi.lua")
