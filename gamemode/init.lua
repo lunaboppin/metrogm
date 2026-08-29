@@ -1,39 +1,28 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
-local SHARED_MODULES = {
-	"modules/sh_levels.lua",
-}
+local FIRST_MODULE = "modules/sh_language.lua"
 
-local SERVER_MODULES = {
-	"modules/sv_config.lua",
-	"modules/sv_migrations.lua",
+local ORDERED_MODULES = {
 	"modules/sv_storage_sqlite.lua",
 	"modules/sv_storage_mysql.lua",
 	"modules/sv_storage.lua",
-	"modules/sv_network.lua",
-	"modules/sv_players.lua",
-	"modules/sv_economy.lua",
-	"modules/sv_admin.lua",
-	"modules/sv_selftest.lua",
-	"modules/sv_boot.lua",
 }
 
-local CLIENT_MODULES = {
-	"modules/cl_stats.lua",
-	"modules/cl_hud.lua",
-	"modules/cl_menu.lua",
-}
+local FINAL_MODULE = "modules/sv_boot.lua"
 
-for _, path in ipairs(CLIENT_MODULES) do
-	AddCSLuaFile(path)
+local skip = {[FIRST_MODULE] = true, [FINAL_MODULE] = true}
+for _, path in ipairs(ORDERED_MODULES) do
+	skip[path] = true
 end
 
-for _, path in ipairs(SHARED_MODULES) do
-	AddCSLuaFile(path)
-	include(path)
+METRO.Include(FIRST_MODULE)
+METRO.Lang.LoadFromDir("languages")
+
+for _, path in ipairs(ORDERED_MODULES) do
+	METRO.Include(path)
 end
 
-for _, path in ipairs(SERVER_MODULES) do
-	include(path)
-end
+METRO.IncludeDir("modules", false, skip)
+
+METRO.Include(FINAL_MODULE)
