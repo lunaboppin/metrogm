@@ -200,3 +200,9 @@ layer (`gamemode/modules/cl_skin.lua`, `cl_panel_*.lua`, `cl_menu.lua`, `cl_hud.
 `cl_hud_bar.lua`, `cl_notify.lua`) are ported from
 [Helix](https://github.com/NebulousCloud/helix), MIT licensed. See
 `LICENSES/helix-MIT.txt`.
+
+## Licensing
+
+`gamemode/entities/`, `gamemode/weapons/`, `gamemode/metrostroi/`, `gamemode/metrostroi_data/`
+and `gamemode/metrostroi_vendor_autorun/` are vendored from the Metrostroi Subway Simulator
+scripts addon, unchanged from upstream. See `LICENSES/README.md` and `LICENSES/metrostroi.txt`.
