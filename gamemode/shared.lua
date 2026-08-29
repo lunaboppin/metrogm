@@ -71,3 +71,5 @@ function METRO.IncludeDir(dir, recursive, skip)
 		end
 	end
 end
+
+METRO.TrainConfig = METRO.TrainConfig or METRO.Include("config/trains.lua", "shared")

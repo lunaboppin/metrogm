@@ -42,4 +42,10 @@ LANGUAGE = {
 	signalDisplayCvarHelp = "Display signal names in the world",
 	signalDisplayEnabled = "Signal names enabled",
 	signalDisplayDisabled = "Signal names disabled",
+
+	train81_717Mvm = "81-717 MVM",
+	trainProfileLoading = "Your profile is still loading.",
+	trainUnavailable = "This train is unavailable.",
+	trainLevelLocked = "You need a higher level to use this train.",
+	trainNotOwned = "You do not own this train.",
 }
