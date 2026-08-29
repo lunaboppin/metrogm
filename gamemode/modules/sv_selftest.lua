@@ -168,6 +168,7 @@ local function runStorageRoundTripTest(cb)
 					actor_steamid64 = nil,
 					delta = 500,
 					balance_after = 500,
+					kind = "money",
 					reason = "selftest-roundtrip",
 				}, function(txErr)
 					if txErr then
@@ -176,7 +177,7 @@ local function runStorageRoundTripTest(cb)
 					end
 
 					rawQuery(
-						"SELECT delta, balance_after, reason FROM metro_transactions WHERE steamid64 = '"
+						"SELECT delta, balance_after, kind, reason FROM metro_transactions WHERE steamid64 = '"
 							.. steamid64 .. "' AND reason = 'selftest-roundtrip'",
 						function(queryErr, rows)
 							if queryErr then
@@ -194,6 +195,10 @@ local function runStorageRoundTripTest(cb)
 							end
 
 							if not assertEqual(tonumber(rows[1].balance_after), 500, "audit row balance_after", cb) then
+								return
+							end
+
+							if not assertEqual(rows[1].kind, "money", "audit row kind", cb) then
 								return
 							end
 
@@ -366,7 +371,7 @@ local function runEconomyStubTest(cb)
 					restore()
 
 					rawQuery(
-						"SELECT delta, balance_after FROM metro_transactions WHERE steamid64 = '"
+						"SELECT delta, balance_after, kind FROM metro_transactions WHERE steamid64 = '"
 							.. steamid64 .. "' AND reason = 'selftest-stub-setmoney'",
 						function(queryErr, rows)
 							if queryErr then
@@ -387,10 +392,166 @@ local function runEconomyStubTest(cb)
 								return
 							end
 
-							cb(nil, steamid64)
+							if not assertEqual(rows[1].kind, "money", "stub SetMoney audit kind", cb) then
+								return
+							end
+
+							rawQuery(
+								"SELECT delta, balance_after, kind FROM metro_transactions WHERE steamid64 = '"
+									.. steamid64 .. "' AND reason = 'selftest-stub-addxp'",
+								function(xpQueryErr, xpRows)
+									if xpQueryErr then
+										cb("stub xp audit row verification failed: " .. tostring(xpQueryErr))
+										return
+									end
+
+									if not xpRows or not xpRows[1] then
+										cb("stub xp audit row verification failed: no matching metro_transactions row for AddXp")
+										return
+									end
+
+									if not assertEqual(tonumber(xpRows[1].delta), 305, "stub AddXp audit delta", cb) then
+										return
+									end
+
+									if not assertEqual(tonumber(xpRows[1].balance_after), 305, "stub AddXp audit balance_after", cb) then
+										return
+									end
+
+									if not assertEqual(xpRows[1].kind, "xp", "stub AddXp audit kind", cb) then
+										return
+									end
+
+									cb(nil, steamid64)
+								end
+							)
 						end
 					)
 				end)
+			end)
+		end)
+	end)
+end
+
+local function runRollbackTest(cb)
+	local steamid64 = newSyntheticSteamId()
+	local ply, record = makeStubPlayer(steamid64)
+
+	METRO.Players = METRO.Players or {}
+	METRO.Network = METRO.Network or {}
+	METRO.Storage = METRO.Storage or {}
+
+	local savedGet = METRO.Players.Get
+	local savedIsLoaded = METRO.Players.IsLoaded
+	local savedSave = METRO.Players.Save
+	local savedPushStats = METRO.Network.PushStats
+	local savedLogTransaction = METRO.Storage.LogTransaction
+
+	local saveCalls = 0
+
+	METRO.Players.Get = function(target)
+		if target == ply then
+			return record
+		end
+		if savedGet then
+			return savedGet(target)
+		end
+		return nil
+	end
+
+	METRO.Players.IsLoaded = function(target)
+		if target == ply then
+			return true
+		end
+		if savedIsLoaded then
+			return savedIsLoaded(target)
+		end
+		return false
+	end
+
+	METRO.Players.Save = function(target, saveCb)
+		if target == ply then
+			saveCalls = saveCalls + 1
+			saveCb(nil)
+			return
+		end
+		if savedSave then
+			savedSave(target, saveCb)
+			return
+		end
+		saveCb("no player module loaded")
+	end
+
+	METRO.Network.PushStats = function(target)
+		if target == ply then
+			return
+		end
+		if savedPushStats then
+			savedPushStats(target)
+		end
+	end
+
+	METRO.Storage.LogTransaction = function(_, txCb)
+		txCb("forced failure for rollback test")
+	end
+
+	local function restore()
+		METRO.Players.Get = savedGet
+		METRO.Players.IsLoaded = savedIsLoaded
+		METRO.Players.Save = savedSave
+		METRO.Network.PushStats = savedPushStats
+		METRO.Storage.LogTransaction = savedLogTransaction
+	end
+
+	record.money = 250
+	record.xp = 120
+	record.level = METRO.Levels.LevelForXp(120)
+
+	METRO.Economy.AddMoney(ply, 75, "rollback-test-addmoney", nil, function(addErr)
+		if not addErr then
+			restore()
+			cb("AddMoney did not report the forced audit-write failure")
+			return
+		end
+
+		if not assertEqual(record.money, 250, "money unchanged after failed AddMoney", function(msg) restore(); cb(msg) end) then
+			return
+		end
+
+		METRO.Economy.SetMoney(ply, 999, "rollback-test-setmoney", nil, function(setErr)
+			if not setErr then
+				restore()
+				cb("SetMoney did not report the forced audit-write failure")
+				return
+			end
+
+			if not assertEqual(record.money, 250, "money unchanged after failed SetMoney", function(msg) restore(); cb(msg) end) then
+				return
+			end
+
+			METRO.Economy.AddXp(ply, 50, "rollback-test-addxp", nil, function(xpErr)
+				if not xpErr then
+					restore()
+					cb("AddXp did not report the forced audit-write failure")
+					return
+				end
+
+				if not assertEqual(record.xp, 120, "xp unchanged after failed AddXp", function(msg) restore(); cb(msg) end) then
+					return
+				end
+
+				if not assertEqual(record.level, METRO.Levels.LevelForXp(120), "level unchanged after failed AddXp", function(msg) restore(); cb(msg) end) then
+					return
+				end
+
+				restore()
+
+				if saveCalls > 0 then
+					cb("Players.Save was called despite every mutation's audit write failing, got " .. saveCalls .. " calls")
+					return
+				end
+
+				cb(nil)
 			end)
 		end)
 	end)
@@ -419,8 +580,12 @@ local function runSuite(cb)
 				runEconomyStubTest(function(err, steamid64)
 					record("economy contract against stubbed player", err, steamid64)
 
-					cleanupSyntheticRows(cleanupIds, function()
-						cb(results)
+					runRollbackTest(function(err)
+						record("failed audit write leaves record unchanged", err)
+
+						cleanupSyntheticRows(cleanupIds, function()
+							cb(results)
+						end)
 					end)
 				end)
 			end)
