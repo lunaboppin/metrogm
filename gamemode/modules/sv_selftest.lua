@@ -69,6 +69,26 @@ local function runSelfTest(cb)
 	end)
 end
 
+local function runGuardSelfTests(cb)
+	METRO.Storage.RunUnavailableGuardTest(function(facadeErr)
+		if facadeErr then
+			print("[metro] FACADE UNAVAILABLE-GUARD TEST FAILED: " .. facadeErr)
+		else
+			print("[metro] FACADE UNAVAILABLE-GUARD TEST PASSED")
+		end
+
+		METRO.Backends.mysql.RunUnavailableGuardTest(function(mysqlErr)
+			if mysqlErr then
+				print("[metro] MYSQL UNAVAILABLE-GUARD TEST FAILED: " .. mysqlErr)
+			else
+				print("[metro] MYSQL UNAVAILABLE-GUARD TEST PASSED")
+			end
+
+			cb(facadeErr or mysqlErr)
+		end)
+	end)
+end
+
 concommand.Add("metro_selftest", function(ply)
 	if IsValid(ply) and not ply:IsSuperAdmin() then
 		return
@@ -82,5 +102,7 @@ concommand.Add("metro_selftest", function(ply)
 		else
 			print("[metro] SELF-TEST PASSED")
 		end
+
+		runGuardSelfTests(function() end)
 	end)
 end)

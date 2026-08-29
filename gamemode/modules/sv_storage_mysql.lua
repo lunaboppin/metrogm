@@ -99,11 +99,23 @@ local function esc(value)
 	return db:escape(tostring(value))
 end
 
+local function ensureAvailable(cb)
+	if down or not db then
+		cb("mysql backend unavailable")
+		return false
+	end
+	return true
+end
+
 function backend.RunMigrations(cb)
 	METRO.RunMigrationsAgainst("mysql", exec, cb)
 end
 
 function backend.LoadPlayer(steamid64, cb)
+	if not ensureAvailable(cb) then
+		return
+	end
+
 	exec("SELECT * FROM metro_players WHERE steamid64 = '" .. esc(steamid64) .. "'", function(err, rows)
 		if err then
 			cb(err)
@@ -114,6 +126,10 @@ function backend.LoadPlayer(steamid64, cb)
 end
 
 function backend.CreatePlayer(steamid64, name, cb)
+	if not ensureAvailable(cb) then
+		return
+	end
+
 	local now = os.date("%Y-%m-%d %H:%M:%S")
 	local query = string.format(
 		"INSERT INTO metro_players (steamid64, name, money, xp, level, playtime_seconds, first_seen, last_seen) " ..
@@ -130,6 +146,10 @@ function backend.CreatePlayer(steamid64, name, cb)
 end
 
 function backend.SavePlayer(record, cb)
+	if not ensureAvailable(cb) then
+		return
+	end
+
 	local query = string.format(
 		"UPDATE metro_players SET name = '%s', money = %d, xp = %d, level = %d, playtime_seconds = %d, last_seen = '%s' " ..
 		"WHERE steamid64 = '%s'",
@@ -142,6 +162,10 @@ function backend.SavePlayer(record, cb)
 end
 
 function backend.LogTransaction(entry, cb)
+	if not ensureAvailable(cb) then
+		return
+	end
+
 	local actor = entry.actor_steamid64 and ("'" .. esc(entry.actor_steamid64) .. "'") or "NULL"
 	local query = string.format(
 		"INSERT INTO metro_transactions (steamid64, actor_steamid64, delta, balance_after, reason, created_at) " ..
@@ -156,6 +180,45 @@ function backend.LogTransaction(entry, cb)
 		end
 		cb(nil, insertId)
 	end)
+end
+
+function backend.RunUnavailableGuardTest(cb)
+	local savedDown = down
+
+	down = true
+
+	local checks = {
+		{ "LoadPlayer", function(next) backend.LoadPlayer("0", next) end },
+		{ "CreatePlayer", function(next) backend.CreatePlayer("0", "guard-test", next) end },
+		{ "SavePlayer", function(next)
+			backend.SavePlayer({ steamid64 = "0", name = "guard-test", money = 0, xp = 0, level = 1, playtime_seconds = 0 }, next)
+		end },
+		{ "LogTransaction", function(next)
+			backend.LogTransaction({ steamid64 = "0", delta = 0, balance_after = 0, reason = "guard-test" }, next)
+		end },
+	}
+
+	local failures = {}
+
+	for _, check in ipairs(checks) do
+		local name, run = check[1], check[2]
+		local gotErr = nil
+		local ok, luaErr = pcall(run, function(err) gotErr = err end)
+		if not ok then
+			table.insert(failures, name .. " raised a lua error: " .. tostring(luaErr))
+		elseif gotErr == nil then
+			table.insert(failures, name .. " did not report an error through its callback")
+		end
+	end
+
+	down = savedDown
+
+	if #failures > 0 then
+		cb(table.concat(failures, "; "))
+		return
+	end
+
+	cb(nil)
 end
 
 METRO.Backends.mysql = backend
