@@ -4,9 +4,11 @@ A Garry's Mod gamemode built on the Metrostroi addon, modelled on Stepford Count
 players start with a starter train and progress by earning money and XP to unlock better
 trains, with balances and progression shown on the HUD and in menus.
 
-The current milestone (**v1 skeleton**) deliberately contains **none** of that. It builds
-only the foundation: a gamemode that loads, persists player records to MySQL, and displays
-money, XP, level and playtime. No trains, no economy. See issue #9 for the direction.
+**v1 skeleton is complete.** It deliberately contains **none** of the train progression yet
+— only the foundation: the gamemode loads, persists player records to MySQL, and shows money,
+XP, level and playtime on a HUD and in an F4 profile panel, with superadmin money commands and
+an audit ledger. No trains, no earning loop. See issue #9 for the direction, and #17 for the
+write-ordering fix that should land before any earning loop is built.
 
 ## Absolute rules
 
@@ -56,3 +58,26 @@ load and on every mutation. Balances are never broadcast.
 1. `scripts/setup-mysqloo.sh`
 2. `cp config/database.lua.example config/database.lua` and fill it in
 3. Set `GAMEMODE="metro"` in the server's `server.env`
+
+## Testing against a real server
+
+There is no game client here, so anything client-rendered (the HUD, the F4 menu) can only be
+verified by a human. Everything server-side is testable headlessly:
+
+```bash
+cd ~/gmod-server && nohup ./srcds_run -game garrysmod -console -norestart -port 27015 \
+  -maxplayers 4 +sv_lan 1 +rcon_password <pw> +gamemode metro +map gm_metrostroi_b50 \
+  < /dev/null > /tmp/boot.log 2>&1 &
+```
+
+Gotchas that cost real time, in the order they bite:
+
+- **srcds block-buffers stdout** when redirected. A log that stops after the Steam API lines
+  does not mean it hung — verify through RCON and the database instead.
+- **RCON binds to `127.0.1.1`**, not `127.0.0.1`.
+- **RCON only relays output from a command's synchronous portion.** Async callback prints never
+  arrive, so read results from the database rather than trusting console silence.
+- **`pgrep -f srcds_linux` matches the invoking shell's own command line.** Use `pgrep -x`, and
+  when several servers run at once kill by PID from `ps -eo pid,cmd`, never by name.
+- **`GM:ShutDown` only fires on a clean `quit`.** A raw process kill bypasses shutdown saves, so
+  it is not a valid way to test persistence.
