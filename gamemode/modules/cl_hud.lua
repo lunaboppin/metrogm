@@ -1,53 +1,46 @@
+METRO.Hud = METRO.Hud or {}
+METRO.Hud.elements = METRO.Hud.elements or {}
+METRO.Hud.hidden = METRO.Hud.hidden or {}
+
+function METRO.Hud.Add(id, drawFunction)
+	METRO.Hud.elements[id] = drawFunction
+end
+
+function METRO.Hud.Remove(id)
+	METRO.Hud.elements[id] = nil
+end
+
+function METRO.Hud.SetHidden(name, hidden)
+	METRO.Hud.hidden[name] = hidden and true or nil
+end
+
+function METRO.Hud.ShouldDraw(name)
+	return METRO.Hud.hidden[name] ~= true
+end
+
+function METRO.Hud.DrawAll()
+	for _, drawFunction in pairs(METRO.Hud.elements) do
+		drawFunction()
+	end
+end
+
+hook.Add("HUDPaint", "METRO_HudDrawAll", METRO.Hud.DrawAll)
+
+function GM:HUDShouldDraw(name)
+	return METRO.Hud.ShouldDraw(name)
+end
+
 local PANEL_X = 20
 local PANEL_Y = 20
 local PANEL_WIDTH = 260
+local PANEL_HEIGHT = 70
 local BAR_HEIGHT = 14
 
-surface.CreateFont("MetroHudMoney", {
-	font = "Tahoma",
-	size = 22,
-	weight = 700,
-	antialias = true,
-})
-
-surface.CreateFont("MetroHudLevel", {
-	font = "Tahoma",
-	size = 16,
-	weight = 500,
-	antialias = true,
-})
-
-local function formatMoney(amount)
-	amount = math.floor(tonumber(amount) or 0)
-
-	local sign = ""
-	if amount < 0 then
-		sign = "-"
-		amount = -amount
-	end
-
-	local digits = tostring(amount)
-	local grouped = digits:reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
-
-	return sign .. grouped
-end
-
-local function drawXpBar(x, y, width, height, fraction)
-	surface.SetDrawColor(0, 0, 0, 160)
-	surface.DrawRect(x, y, width, height)
-
-	surface.SetDrawColor(80, 170, 255, 220)
-	surface.DrawRect(x, y, math.Clamp(width * fraction, 0, width), height)
-
-	surface.SetDrawColor(255, 255, 255, 60)
-	surface.DrawOutlinedRect(x, y, width, height)
-end
-
-hook.Add("HUDPaint", "MetroHud", function()
+METRO.Hud.Add("metroProfile", function()
 	local stats = METRO.Stats
 
 	surface.SetDrawColor(20, 20, 20, 180)
-	surface.DrawRect(PANEL_X, PANEL_Y, PANEL_WIDTH, 70)
+	surface.DrawRect(PANEL_X, PANEL_Y, PANEL_WIDTH, PANEL_HEIGHT)
 
 	if not stats then
 		draw.SimpleText(
@@ -78,7 +71,7 @@ hook.Add("HUDPaint", "MetroHud", function()
 	local level, _, _, fraction = METRO.Levels.Progress(tonumber(stats.xp) or 0)
 
 	draw.SimpleText(
-		L("hudMoneyFormat", formatMoney(stats.money)),
+		L("hudMoneyFormat", METRO.Format.Money(stats.money)),
 		"MetroHudMoney",
 		PANEL_X + 10,
 		PANEL_Y + 8,
@@ -97,5 +90,15 @@ hook.Add("HUDPaint", "MetroHud", function()
 		TEXT_ALIGN_TOP
 	)
 
-	drawXpBar(PANEL_X + 10, PANEL_Y + 44, PANEL_WIDTH - 20, BAR_HEIGHT, fraction)
+	local barX, barY = PANEL_X + 10, PANEL_Y + 44
+	local barWidth = PANEL_WIDTH - 20
+
+	surface.SetDrawColor(0, 0, 0, 160)
+	surface.DrawRect(barX, barY, barWidth, BAR_HEIGHT)
+
+	surface.SetDrawColor(METRO.UI.GetAccentColor())
+	surface.DrawRect(barX, barY, barWidth * METRO.Format.Clamp01(fraction), BAR_HEIGHT)
+
+	surface.SetDrawColor(255, 255, 255, 60)
+	surface.DrawOutlinedRect(barX, barY, barWidth, BAR_HEIGHT)
 end)

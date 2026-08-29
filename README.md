@@ -130,9 +130,73 @@ real notification UI exists.
 No literal English strings remain in `sv_admin.lua`, `cl_hud.lua`, or `cl_menu.lua` — see
 `gamemode/languages/sh_english.lua` for the keys.
 
+`METRO.Lang.ReceiveNotify` no longer just prints — `gamemode/modules/cl_notify.lua` shows a
+stacked, auto-fading `metroNotice` toast for every `ply:Notify`/`NotifyLocalized` call.
+
+## UI: skin, panels, menu, HUD
+
+`gamemode/modules/cl_skin.lua` defines the `"metro"` Derma skin and `GM:LoadFonts`, both
+ported from Helix's `core/cl_skin.lua` and `core/hooks/cl_hooks.lua`. The accent colour
+(`METRO.UI.GetAccentColor()`) is read **at paint time** inside every skin paint function,
+never baked in, so `METRO.UI.SetAccentColor(color)` (or the `metro_accentcolor r g b`
+client console command) rethemes every panel that uses the skin immediately. Fonts are
+created in one place, sized with `ScreenScale`, and re-created on `ScreenResolutionChanged`.
+
+The skin is applied only to panels we build ourselves (`self:SetSkin("metro")` in each
+panel's `Init`) rather than via `GM:ForceDermaSkin`, so stock spawnmenu/scoreboard/engine
+Derma panels are unaffected — a deliberate scope limit, since the "metro" skin only
+implements the paint routines our own panels call.
+
+`gamemode/modules/cl_panel_*.lua` port the subset of Helix's `core/derma/cl_generic.lua`
+and `cl_menubutton.lua` that the HUD and menu actually use, renamed with a `metro` prefix:
+`metroLabel`, `metroCategory`, `metroSegmentedProgress`, and `metroMenuButton`/
+`metroMenuSelectionButton`. The collapsible sub-section list
+(`ixMenuSelectionList`/`ixMenuButton:AddSection`) was not ported — nothing in this
+gamemode nests tabs yet.
+
+`gamemode/modules/cl_menu.lua` rebuilds the F4 menu as a `metroMenu` panel. Tabs are
+collected by running the `CreateMenuButtons` hook (Helix's `cl_menu.lua` pattern) into a
+`key -> {Create = function(container) ... end}` table; the tab's key is itself a language
+key, so a button's label is `L(key)`, and its content is only built the first time it is
+selected. Adding a new tab elsewhere is:
+
+```lua
+hook.Add("CreateMenuButtons", "metroTrains", function(tabs)
+	tabs.menuTrainsTab = {Create = function(container) return vgui.Create("metroTrains", container) end}
+end)
+```
+
+The existing Profile panel is registered this way as the `menuProfileTab` tab, rebuilt on
+`metroCategory`/`metroSegmentedProgress`/`metroLabel` instead of raw `DLabel`/`DProgress`.
+The menu opens/closes via `PlayerBindPress` on `gm_showspare2` (F4's default bind) instead
+of polling `input.IsKeyDown` in `Think` — see "Fixed: F4 keybind" below.
+
+`gamemode/modules/cl_hud.lua` adds the hook Helix deliberately lacks:
+`METRO.Hud.Add(id, drawFunction)` / `METRO.Hud.Remove(id)` register a HUD element to be
+called every `HUDPaint`, so later features add a HUD element without editing this file.
+`METRO.Hud.SetHidden(name, bool)` backs `GM:HUDShouldDraw`, for suppressing engine HUD
+elements by name; nothing is hidden by default. `gamemode/modules/cl_hud_bar.lua` ports
+Helix's `ix.bar.Add`-style stacked, auto-fading bars (`core/derma/cl_bar.lua`) as
+`METRO.Bar.Add(getValueFn, color, priority, id)` / `metroInfoBarManager` — the intended
+home for a speed readout once driving telemetry lands; nothing calls it yet.
+
+Pure helpers with no VGUI dependency (money/playtime/first-seen formatting, fraction
+clamping, an `Approach` easing step, colour darkening, sorted-keys) live in
+`gamemode/modules/cl_format.lua` so they can be unit-tested outside GMod.
+
+### Fixed: F4 keybind (closes #13)
+
+The old `cl_menu.lua` polled `input.IsKeyDown(KEY_F4)` in `hook.Add("Think", ...)`, so it
+fired while the player was typing and ignored key rebinding. The rebuilt menu binds via
+`hook.Add("PlayerBindPress", ...)` matching `gm_showspare2` (F4's default bind), guarded by
+`ply:IsTyping()`. Note: a prior commit (`b0b632d`) already made this same fix before this
+PR existed; this PR's rewrite keeps it.
+
 ## Third-party code
 
-Portions of `gamemode/shared.lua` (`METRO.Include`/`IncludeDir`) and
-`gamemode/modules/sh_language.lua` (`METRO.Lang`, `L`, `L2`, `NotifyLocalized`) are
-ported from [Helix](https://github.com/NebulousCloud/helix), MIT licensed. See
+Portions of `gamemode/shared.lua` (`METRO.Include`/`IncludeDir`),
+`gamemode/modules/sh_language.lua` (`METRO.Lang`, `L`, `L2`, `NotifyLocalized`), and the UI
+layer (`gamemode/modules/cl_skin.lua`, `cl_panel_*.lua`, `cl_menu.lua`, `cl_hud.lua`,
+`cl_hud_bar.lua`, `cl_notify.lua`) are ported from
+[Helix](https://github.com/NebulousCloud/helix), MIT licensed. See
 `LICENSES/helix-MIT.txt`.

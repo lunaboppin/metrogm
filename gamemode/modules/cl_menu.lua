@@ -1,91 +1,51 @@
 METRO.Menu = METRO.Menu or {}
 
-local PANELS = {}
+local FRAME_WIDTH = 720
+local FRAME_HEIGHT = 420
+local TAB_WIDTH = 160
 
-local function RegisterPanel(definition)
-	table.insert(PANELS, definition)
+local menu
+
+local function CreateField(parent, labelKey)
+	local row = vgui.Create("metroLabel", parent)
+	row:SetFont("MetroLabelFont")
+	row:SetText(L(labelKey))
+	row:Dock(TOP)
+	row:DockMargin(0, 0, 0, 4)
+	row:SizeToContents()
+
+	return row
 end
 
-local function FormatMoney(amount)
-	amount = math.floor(tonumber(amount) or 0)
-	local formatted = tostring(amount)
-	while true do
-		local replaced, count = formatted:gsub("^(-?%d+)(%d%d%d)", "%1,%2")
-		formatted = replaced
-		if count == 0 then
-			break
-		end
-	end
-	return formatted
-end
-
-local function FormatPlaytime(totalSeconds)
-	totalSeconds = math.floor(tonumber(totalSeconds) or 0)
-
-	if totalSeconds < 60 then
-		return totalSeconds .. "s"
-	end
-
-	local days = math.floor(totalSeconds / 86400)
-	local hours = math.floor((totalSeconds % 86400) / 3600)
-	local minutes = math.floor((totalSeconds % 3600) / 60)
-
-	local parts = {}
-	if days > 0 then
-		table.insert(parts, days .. "d")
-	end
-	if hours > 0 then
-		table.insert(parts, hours .. "h")
-	end
-	if minutes > 0 and days == 0 then
-		table.insert(parts, minutes .. "m")
-	end
-
-	return table.concat(parts, " ")
-end
-
-local function FormatFirstSeen(value)
-	if isnumber(value) then
-		return os.date("%Y-%m-%d", value)
-	end
-
-	if isstring(value) and value ~= "" then
-		return value:match("^(%d%d%d%d%-%d%d%-%d%d)") or value
-	end
-
-	return L("menuFirstSeenUnknownValue")
-end
-
-METRO.Menu.FormatMoney = FormatMoney
-METRO.Menu.FormatPlaytime = FormatPlaytime
-METRO.Menu.FormatFirstSeen = FormatFirstSeen
-
-local function CreateField(parent, y, labelText)
-	local label = vgui.Create("DLabel", parent)
-	label:SetPos(12, y)
-	label:SetSize(380, 20)
-	label:SetFont("DermaDefault")
-	label:SetText(labelText)
-	return label
-end
-
-local function BuildProfilePanel(parent)
-	local panel = vgui.Create("DPanel", parent)
+local function BuildProfilePanel(container)
+	local panel = vgui.Create("EditablePanel", container)
 	panel:Dock(FILL)
-	panel.Paint = function() end
+	panel:DockPadding(12, 12, 12, 12)
 
-	local nameLabel = CreateField(panel, 12, L("menuNameUnknown"))
-	local moneyLabel = CreateField(panel, 40, L("menuMoneyUnknown"))
-	local levelLabel = CreateField(panel, 68, L("menuLevelUnknown"))
+	local details = vgui.Create("metroCategory", panel)
+	details:SetText(L("menuDetailsCategory"))
+	details:Dock(TOP)
+	details:DockMargin(0, 0, 0, 12)
 
-	local xpBar = vgui.Create("DProgress", panel)
-	xpBar:SetPos(12, 96)
-	xpBar:SetSize(380, 18)
-	xpBar:SetFraction(0)
+	local nameLabel = CreateField(details, "menuNameUnknown")
+	local moneyLabel = CreateField(details, "menuMoneyUnknown")
+	local levelLabel = CreateField(details, "menuLevelUnknown")
+	local playtimeLabel = CreateField(details, "menuPlaytimeUnknown")
+	local firstSeenLabel = CreateField(details, "menuFirstSeenUnknown")
 
-	local xpLabel = CreateField(panel, 118, L("menuXpUnknown"))
-	local playtimeLabel = CreateField(panel, 146, L("menuPlaytimeUnknown"))
-	local firstSeenLabel = CreateField(panel, 174, L("menuFirstSeenUnknown"))
+	details:SizeToContents()
+
+	local progress = vgui.Create("metroCategory", panel)
+	progress:SetText(L("menuProgressCategory"))
+	progress:Dock(TOP)
+
+	local xpBar = vgui.Create("metroSegmentedProgress", progress)
+	xpBar:Dock(TOP)
+	xpBar:SetTall(24)
+
+	local xpLabel = CreateField(progress, "menuXpUnknown")
+
+	progress:SizeToContents()
 
 	panel.Refresh = function()
 		local stats = METRO.Stats
@@ -102,7 +62,7 @@ local function BuildProfilePanel(parent)
 		end
 
 		nameLabel:SetText(L("menuNameFormat", tostring(stats.name or "-")))
-		moneyLabel:SetText(L("menuMoneyFormat", FormatMoney(stats.money)))
+		moneyLabel:SetText(L("menuMoneyFormat", METRO.Format.Money(stats.money)))
 		levelLabel:SetText(L("menuLevelFormat", tostring(stats.level or "-")))
 
 		local maxLevel = METRO.Levels.GetMaxLevel()
@@ -115,8 +75,8 @@ local function BuildProfilePanel(parent)
 			xpLabel:SetText(L("menuXpFormat", into, span))
 		end
 
-		playtimeLabel:SetText(L("menuPlaytimeFormat", FormatPlaytime(stats.playtime_seconds)))
-		firstSeenLabel:SetText(L("menuFirstSeenFormat", FormatFirstSeen(stats.first_seen)))
+		playtimeLabel:SetText(L("menuPlaytimeFormat", METRO.Format.Playtime(stats.playtime_seconds)))
+		firstSeenLabel:SetText(L("menuFirstSeenFormat", METRO.Format.FirstSeen(stats.first_seen, L("menuFirstSeenUnknownValue"))))
 	end
 
 	panel.Refresh()
@@ -124,55 +84,117 @@ local function BuildProfilePanel(parent)
 	return panel
 end
 
-RegisterPanel({
-	LabelKey = "menuProfileTab",
-	Icon = "icon16/user.png",
-	Build = BuildProfilePanel,
-})
+hook.Add("CreateMenuButtons", "METRO_ProfileTab", function(tabs)
+	tabs.menuProfileTab = {
+		Create = BuildProfilePanel,
+	}
+end)
 
-local FRAME_WIDTH = 420
-local FRAME_HEIGHT = 280
+local PANEL = {}
 
-local frame
+function PANEL:Init()
+	self:SetSkin("metro")
+	self:SetSize(FRAME_WIDTH, FRAME_HEIGHT)
+	self:Center()
+	self:MakePopup()
+	self:SetKeyboardInputEnabled(true)
 
-local function CreateMenuFrame()
-	if IsValid(frame) then
-		return frame
-	end
+	self.builtPanels = {}
 
-	local newFrame = vgui.Create("DFrame")
-	newFrame:SetSize(FRAME_WIDTH, FRAME_HEIGHT)
-	newFrame:Center()
-	newFrame:SetTitle(L("menuFrameTitle"))
-	newFrame:SetDeleteOnClose(true)
-	newFrame:MakePopup()
+	self.tabs = self:Add("Panel")
+	self.tabs:SetWide(TAB_WIDTH)
+	self.tabs:Dock(LEFT)
+	self.tabs:DockMargin(1, 1, 1, 1)
+	self.tabs.buttons = {}
 
-	local sheet = vgui.Create("DPropertySheet", newFrame)
-	sheet:Dock(FILL)
+	self.content = self:Add("Panel")
+	self.content:Dock(FILL)
+	self.content:DockMargin(1, 1, 1, 1)
+	self.content.Paint = function() end
 
-	local panels = {}
-	for _, definition in ipairs(PANELS) do
-		local builtPanel = definition.Build(sheet)
-		sheet:AddSheet(L(definition.LabelKey), builtPanel, definition.Icon)
-		table.insert(panels, builtPanel)
-	end
-
-	newFrame.Panels = panels
-	newFrame.OnClose = function()
-		frame = nil
-	end
-
-	frame = newFrame
-	return newFrame
+	self:PopulateTabs()
 end
 
-local function ToggleMenu()
-	if IsValid(frame) then
-		frame:Close()
+function PANEL:AddTabButton(key)
+	local button = self.tabs:Add("metroMenuSelectionButton")
+	button:SetText(L(key):utf8upper())
+	button:Dock(TOP)
+	button:SizeToContents()
+	button:SetButtonList(self.tabs.buttons)
+	button.key = key
+	button.OnSelected = function()
+		self:SelectTab(key)
+	end
+
+	return button
+end
+
+function PANEL:SelectTab(key)
+	local info = self.tabInfo[key]
+
+	if not info then
 		return
 	end
 
-	CreateMenuFrame()
+	if not self.builtPanels[key] then
+		local built = info.Create(self.content)
+		built:SetParent(self.content)
+		built:Dock(FILL)
+
+		self.builtPanels[key] = built
+	end
+
+	for otherKey, panel in pairs(self.builtPanels) do
+		if IsValid(panel) then
+			panel:SetVisible(otherKey == key)
+		end
+	end
+end
+
+function PANEL:PopulateTabs()
+	self.tabInfo = {}
+
+	hook.Run("CreateMenuButtons", self.tabInfo)
+
+	local keys = METRO.Format.SortedKeys(self.tabInfo)
+
+	local firstButton
+
+	for _, key in ipairs(keys) do
+		local button = self:AddTabButton(key)
+		firstButton = firstButton or button
+	end
+
+	if IsValid(firstButton) then
+		firstButton:SetSelected(true)
+	end
+end
+
+function PANEL:Paint(width, height)
+	derma.SkinFunc("PaintMenuBackground", self, width, height)
+end
+
+function PANEL:OnKeyCodePressed(key)
+	if key == KEY_ESCAPE then
+		self:Remove()
+	end
+end
+
+function PANEL:OnRemove()
+	if menu == self then
+		menu = nil
+	end
+end
+
+vgui.Register("metroMenu", PANEL, "EditablePanel")
+
+local function ToggleMenu()
+	if IsValid(menu) then
+		menu:Remove()
+		return
+	end
+
+	menu = vgui.Create("metroMenu")
 end
 
 METRO.Menu.Toggle = ToggleMenu
@@ -187,15 +209,13 @@ hook.Add("PlayerBindPress", "METRO_MenuKeybind", function(ply, bind, pressed)
 end)
 
 hook.Add("MetroStatsUpdated", "METRO_MenuRefresh", function()
-	if not IsValid(frame) or not frame.Panels then
+	if not IsValid(menu) then
 		return
 	end
 
-	for _, panel in ipairs(frame.Panels) do
+	for _, panel in pairs(menu.builtPanels) do
 		if IsValid(panel) and panel.Refresh then
 			panel.Refresh()
 		end
 	end
 end)
-
-return
