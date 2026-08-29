@@ -10,6 +10,21 @@ XP, level and playtime on a HUD and in an F4 profile panel, with superadmin mone
 an audit ledger. No trains, no earning loop. See issue #9 for the direction, and #17 for the
 write-ordering fix that should land before any earning loop is built.
 
+## Start here: the reference document
+
+**`docs/REFERENCE.md` is required reading before working on this gamemode.** It records what we
+learned from studying `ref/` — the Helix framework, the Metrostroi addon ecosystem, and the NDR
+Victoria Avenue Line map — and what each of those means for how we build.
+
+It covers: our current API surface and schema; Helix's loader, library, UI, menu, language and
+command conventions and which of them we are adopting; how Metrostroi spawns trains and the
+`MetrostroiSpawnerRestrict` hook that unlock gating must use; the telemetry available for an
+earning loop; the map's station list; and the open architectural decisions.
+
+Read it before proposing changes, and update it when you learn something that would have saved you
+time. `ref/` itself is **reference only** — never mounted by the server, never depended on at
+runtime; the real addons arrive via workshop collection `3420307702`.
+
 ## Absolute rules
 
 - **No code comments. Ever.** If a line needs explaining, rename something or extract a function.
