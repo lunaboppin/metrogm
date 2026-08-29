@@ -73,7 +73,7 @@ local function syncPlaytime(ply, record)
 	local now = os.time()
 	local elapsed = now - start
 	if elapsed > 0 then
-		record.playtime_seconds = (tonumber(record.playtime_seconds) or 0) + elapsed
+		record.playtime_seconds = METRO.Integer.Add(record.playtime_seconds, elapsed) or record.playtime_seconds
 	end
 
 	sessionStart[sid] = now

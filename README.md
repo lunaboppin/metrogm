@@ -114,8 +114,10 @@ is safe for them.
 field. The declaration supplies its SQL type, default, normalization and networking scope, and
 creates `METRO.Players.Get<Name>` / `Set<Name>` accessors alongside generic `GetVar` / `SetVar`
 helpers. Registered fields are reconciled by the ordered migration runner and included in player
-save snapshots automatically. Money and XP accessors use the audited economy path; level remains
-derived from XP.
+save snapshots automatically. Money, XP, and playtime use canonical signed decimal strings in
+memory and over the owner-only network message, so BIGINT values remain exact above Lua's 2^53
+integer precision limit. Money and XP accessors use the audited economy path; level remains derived
+from XP.
 
 `METRO.Network.SyncVars(ply)` sends the complete set of networked fields to that player and is
 used after the gated player record load and after mutations. Every player field is owner-only,

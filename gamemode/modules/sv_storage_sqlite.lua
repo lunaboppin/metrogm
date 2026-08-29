@@ -35,7 +35,9 @@ local function valueFor(variable, record)
 		value = METRO.Players.GetVarDefault(variable.name)
 	end
 
-	if variable.storageType == "integer" then
+	if variable.storageType == "bigint" then
+		return METRO.Integer.Normalize(value) or "0"
+	elseif variable.storageType == "integer" then
 		return tostring(math.floor(tonumber(value) or 0))
 	elseif variable.storageType == "number" then
 		return tostring(tonumber(value) or 0)
@@ -95,12 +97,19 @@ function backend.SavePlayer(record, cb)
 end
 
 function backend.LogTransaction(entry, cb)
+	local delta = METRO.Integer.Normalize(entry.delta)
+	local balanceAfter = METRO.Integer.Normalize(entry.balance_after)
+	if not delta or not balanceAfter then
+		cb("transaction values must be signed BIGINT integers")
+		return
+	end
+
 	local actor = entry.actor_steamid64 and sql.SQLStr(entry.actor_steamid64) or "NULL"
 	local kind = entry.kind or "money"
 	local query = string.format(
 		"INSERT INTO metro_transactions (steamid64, actor_steamid64, delta, balance_after, reason, kind, created_at) " ..
-		"VALUES (%s, %s, %d, %d, %s, %s, %s)",
-		sql.SQLStr(entry.steamid64), actor, entry.delta, entry.balance_after, sql.SQLStr(entry.reason), sql.SQLStr(kind),
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		sql.SQLStr(entry.steamid64), actor, delta, balanceAfter, sql.SQLStr(entry.reason), sql.SQLStr(kind),
 		sql.SQLStr(os.date("%Y-%m-%d %H:%M:%S"))
 	)
 	exec(query, function(err)

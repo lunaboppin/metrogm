@@ -1,43 +1,37 @@
 METRO.Format = METRO.Format or {}
 
 function METRO.Format.Money(amount)
-	amount = math.floor(tonumber(amount) or 0)
-
-	local sign = ""
-	if amount < 0 then
-		sign = "-"
-		amount = -amount
-	end
-
-	local digits = tostring(amount)
-	local grouped = digits:reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
-
-	return sign .. grouped
+	return METRO.Integer.FormatGrouped(amount)
 end
 
 function METRO.Format.Playtime(totalSeconds)
-	totalSeconds = math.floor(tonumber(totalSeconds) or 0)
-
-	if totalSeconds < 60 then
-		return totalSeconds .. "s"
+	totalSeconds = METRO.Integer.Normalize(totalSeconds) or "0"
+	local sign = ""
+	if totalSeconds:sub(1, 1) == "-" then
+		sign = "-"
+		totalSeconds = METRO.Integer.Negate(totalSeconds)
 	end
 
-	local days = math.floor(totalSeconds / 86400)
-	local hours = math.floor((totalSeconds % 86400) / 3600)
-	local minutes = math.floor((totalSeconds % 3600) / 60)
+	if METRO.Integer.Compare(totalSeconds, 60) < 0 then
+		return sign .. totalSeconds .. "s"
+	end
+
+	local days, remainder = METRO.Integer.DivmodSmall(totalSeconds, 86400)
+	local hours, remainderHours = METRO.Integer.DivmodSmall(remainder, 3600)
+	local minutes = math.floor(remainderHours / 60)
 
 	local parts = {}
-	if days > 0 then
+	if days ~= "0" then
 		table.insert(parts, days .. "d")
 	end
-	if hours > 0 then
+	if hours ~= "0" then
 		table.insert(parts, hours .. "h")
 	end
-	if minutes > 0 and days == 0 then
+	if minutes > 0 and days == "0" then
 		table.insert(parts, minutes .. "m")
 	end
 
-	return table.concat(parts, " ")
+	return sign .. table.concat(parts, " ")
 end
 
 function METRO.Format.FirstSeen(value, unknownText)

@@ -56,13 +56,16 @@ local function parseWholeNumber(raw)
 		return nil, "adminAmountRequired"
 	end
 
-	local value = tonumber(raw)
-	if not value then
+	if not string.match(raw, "^[+-]?%d+$") then
+		if tonumber(raw) then
+			return nil, "adminAmountNotWhole", raw
+		end
 		return nil, "adminAmountNotNumeric", raw
 	end
 
-	if value ~= math.floor(value) then
-		return nil, "adminAmountNotWhole", raw
+	local value = METRO.Integer.Normalize(raw)
+	if not value then
+		return nil, "adminAmountOutOfRange", raw
 	end
 
 	return value
@@ -157,14 +160,12 @@ concommand.Add("metro_setxp", function(ply, _, args)
 	end
 
 	local reason = args[3] or "admin setxp"
-	local record = METRO.Players.Get(target)
-	local delta = amount - record.xp
 
-	METRO.Economy.AddXp(target, delta, reason, ply, function(err)
+	METRO.Economy.SetXp(target, amount, reason, ply, function(err)
 		if err then
 			feedback(ply, L("adminCommandFailed", ply, "metro_setxp", err))
 			return
 		end
-		feedback(ply, L("adminSetXpSuccess", ply, target:Name(), amount, record.level))
+		feedback(ply, L("adminSetXpSuccess", ply, target:Name(), amount, METRO.Players.GetLevel(target)))
 	end)
 end)

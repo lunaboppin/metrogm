@@ -128,6 +128,36 @@ local function runLevelCurveTest(cb)
 	cb(nil)
 end
 
+local function runIntegerPrecisionTest(cb)
+	local high = "9007199254740993"
+	local highPlusOne = "9007199254740994"
+	local highMinusOne = "9007199254740992"
+
+	if not assertEqual(METRO.Integer.Normalize(high), high, "BIGINT normalization above 2^53", cb) then
+		return
+	end
+	if not assertEqual(METRO.Integer.Add(high, "1"), highPlusOne, "BIGINT addition above 2^53", cb) then
+		return
+	end
+	if not assertEqual(METRO.Integer.Subtract(high, "1"), highMinusOne, "BIGINT subtraction above 2^53", cb) then
+		return
+	end
+	if not assertEqual(METRO.Integer.Compare(highPlusOne, high) > 0, true, "BIGINT comparison above 2^53", cb) then
+		return
+	end
+	if not assertEqual(METRO.Integer.Normalize("9223372036854775808"), nil, "BIGINT positive overflow rejection", cb) then
+		return
+	end
+	if not assertEqual(METRO.Integer.Normalize("-9223372036854775809"), nil, "BIGINT negative overflow rejection", cb) then
+		return
+	end
+	if not assertEqual(METRO.Levels.LevelForXp(high), METRO.Levels.GetMaxLevel(), "level for BIGINT XP", cb) then
+		return
+	end
+
+	cb(nil)
+end
+
 local function runPlayerVarRegistryTest(cb)
 	local expected = {
 		name = { storage = true, networking = true },
@@ -157,15 +187,15 @@ local function runPlayerVarRegistryTest(cb)
 
 	local record = METRO.Players.DefaultRecord()
 	record.steamid64 = "registry-test"
-	record.money = 73
-	record.xp = 305
+	record.money = "73"
+	record.xp = "305"
 	record.level = METRO.Levels.LevelForXp(record.xp)
 
-	if not assertEqual(METRO.Players.GetMoney(record), 73, "generated money getter", cb) then
+	if not assertEqual(METRO.Players.GetMoney(record), "73", "generated money getter", cb) then
 		return
 	end
 
-	if not assertEqual(METRO.Players.GetXp(record), 305, "generated xp getter", cb) then
+	if not assertEqual(METRO.Players.GetXp(record), "305", "generated xp getter", cb) then
 		return
 	end
 
@@ -193,14 +223,14 @@ local function runStorageRoundTripTest(cb)
 			return
 		end
 
-		if not assertEqual(tonumber(record.money), 0, "initial money", fail) then
+		if not assertEqual(METRO.Integer.Normalize(record.money), "0", "initial money", fail) then
 			return
 		end
 
-		record.money = 500
-		record.xp = 120
-		record.level = METRO.Levels.LevelForXp(120)
-		record.playtime_seconds = 42
+		record.money = "9007199254740993"
+		record.xp = "9007199254740993"
+		record.level = METRO.Levels.LevelForXp(record.xp)
+		record.playtime_seconds = "9007199254740993"
 
 		METRO.Storage.SavePlayer(record, function(saveErr)
 			if saveErr then
@@ -219,23 +249,27 @@ local function runStorageRoundTripTest(cb)
 					return
 				end
 
-				if not assertEqual(tonumber(METRO.Players.GetMoney(reloaded)), 500, "saved money", fail) then
+				if not assertEqual(METRO.Integer.Normalize(METRO.Players.GetMoney(reloaded)), "9007199254740993", "saved money", fail) then
 					return
 				end
 
-				if not assertEqual(tonumber(METRO.Players.GetXp(reloaded)), 120, "saved xp", fail) then
+				if not assertEqual(METRO.Integer.Normalize(METRO.Players.GetXp(reloaded)), "9007199254740993", "saved xp", fail) then
 					return
 				end
 
-				if not assertEqual(tonumber(METRO.Players.GetLevel(reloaded)), METRO.Levels.LevelForXp(120), "saved level", fail) then
+				if not assertEqual(METRO.Players.GetLevel(reloaded), METRO.Levels.GetMaxLevel(), "saved level", fail) then
+					return
+				end
+
+				if not assertEqual(METRO.Integer.Normalize(METRO.Players.GetVar(reloaded, "playtime_seconds")), "9007199254740993", "saved playtime", fail) then
 					return
 				end
 
 				METRO.Storage.LogTransaction({
 					steamid64 = steamid64,
 					actor_steamid64 = nil,
-					delta = 500,
-					balance_after = 500,
+					delta = "9007199254740993",
+					balance_after = "9007199254740993",
 					kind = "money",
 					reason = "selftest-roundtrip",
 				}, function(txErr)
@@ -258,11 +292,11 @@ local function runStorageRoundTripTest(cb)
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].delta), 500, "audit row delta", fail) then
+							if not assertEqual(METRO.Integer.Normalize(rows[1].delta), "9007199254740993", "audit row delta", fail) then
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].balance_after), 500, "audit row balance_after", fail) then
+							if not assertEqual(METRO.Integer.Normalize(rows[1].balance_after), "9007199254740993", "audit row balance_after", fail) then
 								return
 							end
 
@@ -302,7 +336,7 @@ local function runMigrationsIdempotencyTest(cb)
 end
 
 local function makeStubPlayer(steamid64)
-	local record = { steamid64 = steamid64, name = "metro-economy-stub", money = 0, xp = 0, level = 1, playtime_seconds = 0 }
+	local record = { steamid64 = steamid64, name = "metro-economy-stub", money = "0", xp = "0", level = 1, playtime_seconds = "0" }
 	local ply = { stubRecord = record }
 
 	function ply:SteamID64()
@@ -397,33 +431,33 @@ local function runEconomyStubTest(cb)
 				return
 			end
 
-			if not assertEqual(record.money, 100, "stub money after AddMoney", function(msg) restore(); fail(msg) end) then
+			if not assertEqual(record.money, "100", "stub money after AddMoney", function(msg) restore(); fail(msg) end) then
 				return
 			end
 
-			METRO.Economy.SetMoney(ply, 40, "selftest-stub-setmoney", nil, function(setErr)
+			METRO.Economy.SetMoney(ply, "9007199254740993", "selftest-stub-setmoney", nil, function(setErr)
 				if setErr then
 					restore()
 					fail("Economy.SetMoney failed against stubbed player: " .. tostring(setErr))
 					return
 				end
 
-				if not assertEqual(record.money, 40, "stub money after SetMoney", function(msg) restore(); fail(msg) end) then
+				if not assertEqual(record.money, "9007199254740993", "stub money after SetMoney", function(msg) restore(); fail(msg) end) then
 					return
 				end
 
-				METRO.Economy.AddXp(ply, 305, "selftest-stub-addxp", nil, function(xpErr)
+				METRO.Economy.AddXp(ply, "9007199254740993", "selftest-stub-addxp", nil, function(xpErr)
 					if xpErr then
 						restore()
 						fail("Economy.AddXp failed against stubbed player: " .. tostring(xpErr))
 						return
 					end
 
-					if not assertEqual(record.xp, 305, "stub xp after AddXp", function(msg) restore(); fail(msg) end) then
+					if not assertEqual(record.xp, "9007199254740993", "stub xp after AddXp", function(msg) restore(); fail(msg) end) then
 						return
 					end
 
-					if not assertEqual(record.level, METRO.Levels.LevelForXp(305), "stub level after AddXp", function(msg) restore(); fail(msg) end) then
+					if not assertEqual(record.level, METRO.Levels.GetMaxLevel(), "stub level after AddXp", function(msg) restore(); fail(msg) end) then
 						return
 					end
 
@@ -455,11 +489,11 @@ local function runEconomyStubTest(cb)
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].delta), -60, "stub SetMoney audit delta", fail) then
+							if not assertEqual(METRO.Integer.Normalize(rows[1].delta), "9007199254740893", "stub SetMoney audit delta", fail) then
 								return
 							end
 
-							if not assertEqual(tonumber(rows[1].balance_after), 40, "stub SetMoney audit balance_after", fail) then
+							if not assertEqual(METRO.Integer.Normalize(rows[1].balance_after), "9007199254740993", "stub SetMoney audit balance_after", fail) then
 								return
 							end
 
@@ -481,11 +515,11 @@ local function runEconomyStubTest(cb)
 										return
 									end
 
-									if not assertEqual(tonumber(xpRows[1].delta), 305, "stub AddXp audit delta", fail) then
+									if not assertEqual(METRO.Integer.Normalize(xpRows[1].delta), "9007199254740993", "stub AddXp audit delta", fail) then
 										return
 									end
 
-									if not assertEqual(tonumber(xpRows[1].balance_after), 305, "stub AddXp audit balance_after", fail) then
+									if not assertEqual(METRO.Integer.Normalize(xpRows[1].balance_after), "9007199254740993", "stub AddXp audit balance_after", fail) then
 										return
 									end
 
@@ -574,8 +608,8 @@ local function runRollbackTest(cb)
 		METRO.Storage.LogTransaction = savedLogTransaction
 	end
 
-	record.money = 250
-	record.xp = 120
+	record.money = "250"
+	record.xp = "120"
 	record.level = METRO.Levels.LevelForXp(120)
 
 	METRO.Economy.AddMoney(ply, 75, "rollback-test-addmoney", nil, function(addErr)
@@ -585,7 +619,7 @@ local function runRollbackTest(cb)
 			return
 		end
 
-		if not assertEqual(record.money, 250, "money unchanged after failed AddMoney", function(msg) restore(); cb(msg) end) then
+		if not assertEqual(record.money, "250", "money unchanged after failed AddMoney", function(msg) restore(); cb(msg) end) then
 			return
 		end
 
@@ -596,7 +630,7 @@ local function runRollbackTest(cb)
 				return
 			end
 
-			if not assertEqual(record.money, 250, "money unchanged after failed SetMoney", function(msg) restore(); cb(msg) end) then
+			if not assertEqual(record.money, "250", "money unchanged after failed SetMoney", function(msg) restore(); cb(msg) end) then
 				return
 			end
 
@@ -607,7 +641,7 @@ local function runRollbackTest(cb)
 					return
 				end
 
-				if not assertEqual(record.xp, 120, "xp unchanged after failed AddXp", function(msg) restore(); cb(msg) end) then
+				if not assertEqual(record.xp, "120", "xp unchanged after failed AddXp", function(msg) restore(); cb(msg) end) then
 					return
 				end
 
@@ -642,24 +676,28 @@ local function runSuite(cb)
 	runLevelCurveTest(function(err)
 		record("level curve boundaries", err)
 
-		runPlayerVarRegistryTest(function(err)
-			record("player variable registry and generated accessors", err)
+		runIntegerPrecisionTest(function(err)
+			record("BIGINT precision and arithmetic", err)
 
-			runStorageRoundTripTest(function(err, steamid64)
-				record("storage round-trip and audit row", err, steamid64)
+			runPlayerVarRegistryTest(function(err)
+				record("player variable registry and generated accessors", err)
 
-				runMigrationsIdempotencyTest(function(err)
+				runStorageRoundTripTest(function(err, steamid64)
+					record("storage round-trip and audit row", err, steamid64)
+
+					runMigrationsIdempotencyTest(function(err)
 					record("migrations idempotent on populated database", err)
 
-					runEconomyStubTest(function(err, steamid64)
+						runEconomyStubTest(function(err, steamid64)
 						record("economy contract against stubbed player", err, steamid64)
 
-						runRollbackTest(function(err)
+							runRollbackTest(function(err)
 							record("failed audit write leaves record unchanged", err)
 
-							cleanupSyntheticRows(cleanupIds, function(cleanupErr)
-								record("synthetic data cleanup", cleanupErr)
-								cb(results)
+								cleanupSyntheticRows(cleanupIds, function(cleanupErr)
+									record("synthetic data cleanup", cleanupErr)
+									cb(results)
+								end)
 							end)
 						end)
 					end)

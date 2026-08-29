@@ -8,7 +8,13 @@ net.Receive("MetroPlayerVars", function()
 	METRO.PlayerVars = {}
 
 	for _ = 1, count do
-		METRO.PlayerVars[net.ReadString()] = net.ReadType()
+		local name = net.ReadString()
+		local variable = METRO.Players.GetVarDefinition(name)
+		if variable and variable.storageType == "bigint" then
+			METRO.PlayerVars[name] = net.ReadString()
+		else
+			METRO.PlayerVars[name] = net.ReadType()
+		end
 	end
 
 	METRO.Stats = {}
