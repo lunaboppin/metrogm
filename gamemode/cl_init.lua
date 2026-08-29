@@ -7,5 +7,10 @@ local FIRST_MODULE = "modules/sh_language.lua"
 
 METRO.Include(FIRST_MODULE)
 METRO.Lang.LoadFromDir("languages")
+METRO.Include("modules/cl_skin.lua")
 
-METRO.IncludeDir("modules", false, {[FIRST_MODULE] = true, ["modules/sh_cppi.lua"] = true})
+METRO.IncludeDir("modules", false, {
+	[FIRST_MODULE] = true,
+	["modules/sh_cppi.lua"] = true,
+	["modules/cl_skin.lua"] = true,
+})
