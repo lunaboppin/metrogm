@@ -140,9 +140,16 @@ hook.Add("PlayerInitialSpawn", "MetroPlayersGatedSpawn", function(ply)
 end)
 
 hook.Add("PlayerSpawn", "MetroPlayersHoldUntilLoaded", function(ply)
-	local sid = steamID64(ply)
-	if pendingLoad[sid] then
+	if pendingLoad[steamID64(ply)] then
 		freezeForLoading(ply)
+	end
+end)
+
+hook.Add("Think", "MetroPlayersEnforceHold", function()
+	for _, ply in ipairs(player.GetAll()) do
+		if IsValid(ply) and pendingLoad[steamID64(ply)] then
+			freezeForLoading(ply)
+		end
 	end
 end)
 
