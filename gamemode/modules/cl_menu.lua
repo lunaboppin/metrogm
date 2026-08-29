@@ -178,7 +178,7 @@ end
 METRO.Menu.Toggle = ToggleMenu
 
 hook.Add("PlayerBindPress", "METRO_MenuKeybind", function(ply, bind, pressed)
-	if not pressed or bind ~= "gm_showspare1" or ply:IsTyping() then
+	if not pressed or bind ~= "gm_showspare2" or ply:IsTyping() then
 		return
 	end
 

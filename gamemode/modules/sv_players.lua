@@ -29,10 +29,38 @@ end
 local function normalizeRecord(record)
 	record.money = tonumber(record.money) or 0
 	record.xp = tonumber(record.xp) or 0
-	record.level = tonumber(record.level) or 1
+	record.level = METRO.Levels.LevelForXp(record.xp)
 	record.playtime_seconds = tonumber(record.playtime_seconds) or 0
-	record.first_seen = tonumber(record.first_seen) or os.time()
-	record.last_seen = tonumber(record.last_seen) or os.time()
+
+	local function normalizeTimestamp(value)
+		local numeric = tonumber(value)
+		if numeric then
+			return numeric
+		end
+
+		if isstring(value) then
+			local year, month, day, hour, minute, second = string.match(
+				value,
+				"^(%d%d%d%d)%-(%d%d?)%-(%d%d?)%s+(%d%d?):(%d%d?):(%d%d?)$"
+			)
+
+			if year then
+				return os.time({
+					year = tonumber(year),
+					month = tonumber(month),
+					day = tonumber(day),
+					hour = tonumber(hour),
+					min = tonumber(minute),
+					sec = tonumber(second),
+				})
+			end
+		end
+
+		return os.time()
+	end
+
+	record.first_seen = normalizeTimestamp(record.first_seen)
+	record.last_seen = normalizeTimestamp(record.last_seen)
 	return record
 end
 
@@ -102,20 +130,19 @@ local function finishLoad(ply, record)
 	METRO.Network.PushStats(ply)
 end
 
-hook.Add("PlayerInitialSpawn", "MetroPlayersGatedSpawn", function(ply)
+local function loadPlayer(ply)
+	if not IsValid(ply) then
+		return
+	end
+
 	local sid = steamID64(ply)
-	pendingLoad[sid] = true
-
-	freezeForLoading(ply)
-	METRO.Network.PushLoadState(ply, "loading")
-
 	METRO.Storage.LoadPlayer(sid, function(loadErr, record)
-		if not IsValid(ply) then
+		if not IsValid(ply) or not pendingLoad[sid] then
 			return
 		end
 
 		if loadErr then
-			METRO.Network.PushLoadState(ply, "error", loadErr)
+			METRO.Network.PushLoadState(ply, "error", tostring(loadErr))
 			return
 		end
 
@@ -125,17 +152,38 @@ hook.Add("PlayerInitialSpawn", "MetroPlayersGatedSpawn", function(ply)
 		end
 
 		METRO.Storage.CreatePlayer(sid, ply:Name(), function(createErr, created)
-			if not IsValid(ply) then
+			if not IsValid(ply) or not pendingLoad[sid] then
 				return
 			end
 
 			if createErr then
-				METRO.Network.PushLoadState(ply, "error", createErr)
+				METRO.Network.PushLoadState(ply, "error", tostring(createErr))
 				return
 			end
 
 			finishLoad(ply, created)
 		end)
+	end)
+end
+
+hook.Add("PlayerInitialSpawn", "MetroPlayersGatedSpawn", function(ply)
+	local sid = steamID64(ply)
+	pendingLoad[sid] = true
+
+	freezeForLoading(ply)
+	METRO.Network.PushLoadState(ply, "loading")
+
+	METRO.Boot.WaitForReady(function(bootErr)
+		if not IsValid(ply) or not pendingLoad[sid] then
+			return
+		end
+
+		if bootErr then
+			METRO.Network.PushLoadState(ply, "error", tostring(bootErr))
+			return
+		end
+
+		loadPlayer(ply)
 	end)
 end)
 

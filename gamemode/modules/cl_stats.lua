@@ -28,4 +28,9 @@ net.Receive("MetroLoadState", function()
 
 	METRO.LoadState = state
 	METRO.LoadError = state == "error" and message or nil
+
+	if state ~= "ready" then
+		METRO.Stats = nil
+		hook.Run("MetroStatsUpdated")
+	end
 end)
