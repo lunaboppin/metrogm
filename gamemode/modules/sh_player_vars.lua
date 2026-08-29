@@ -2,6 +2,12 @@ METRO.Players = METRO.Players or {}
 METRO.Players.Vars = METRO.Players.Vars or {}
 METRO.Players.VarOrder = METRO.Players.VarOrder or {}
 
+if METRO.Players.PlayerVarsLoaded then
+	return
+end
+
+METRO.Players.PlayerVarsLoaded = true
+
 local function copyDefault(value)
 	if istable(value) then
 		return table.Copy(value)
