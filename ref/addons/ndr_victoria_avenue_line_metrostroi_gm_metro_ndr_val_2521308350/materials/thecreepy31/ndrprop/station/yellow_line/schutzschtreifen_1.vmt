@@ -1,0 +1,5 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "ron/gm_metro_u6/map_textures/schutzschtreifen_1"
+	"$surfaceprop" "tile"
+}

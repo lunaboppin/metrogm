@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$BaseTexture" "thecreepy31\ndrprop\limit\daisy_tlse_0"
+	"$SurfaceProp" "metal"
+	$selfillum 1
+    $selfillummask "thecreepy31\ndrprop\limit\daisy_tlse_0_msk"
+}

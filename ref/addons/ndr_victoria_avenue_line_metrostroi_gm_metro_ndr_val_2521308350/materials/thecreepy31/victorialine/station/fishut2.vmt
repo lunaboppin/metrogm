@@ -1,0 +1,6 @@
+"Lightmappedgeneric"
+{
+	"$BaseTexture" "thecreepy31/victorialine/station/fishut2"
+	"$SurfaceProp" "glass"
+	"$translucent" "1"
+}

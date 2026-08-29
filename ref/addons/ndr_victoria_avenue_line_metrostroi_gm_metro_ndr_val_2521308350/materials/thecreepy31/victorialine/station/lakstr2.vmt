@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "thecreepy31/victorialine/station/lakstr2"
+	"$surfaceprop" "tile"
+	"$bumpmap" "thecreepy31/victorialine/station/lakstr2_n"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" 1
+	"$envmapsaturation" .8
+	"$envmaptint" "[ .25 .25 .25 ]"
+}

@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "metrostroi_dest_signs/destination_table_black/label_empty_d"
+		"$alphatest" 1
+}

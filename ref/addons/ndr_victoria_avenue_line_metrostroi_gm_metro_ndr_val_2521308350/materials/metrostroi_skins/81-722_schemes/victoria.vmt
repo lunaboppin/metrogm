@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "metrostroi_skins/81-722_schemes/victoria"
+	"$model" "1"
+	"VertexLitGeneric"
+	"$phong" "1"
+
+	"$phongboost"				1
+	"$phongfresnelranges"		"[0 0.7 1]"
+}

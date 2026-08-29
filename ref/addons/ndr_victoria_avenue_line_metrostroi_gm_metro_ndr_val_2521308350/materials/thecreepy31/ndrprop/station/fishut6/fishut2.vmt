@@ -1,0 +1,6 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "thecreepy31/victorialine/station/fishut2"
+	"$surfaceprop" "glass"
+	"$translucent" "1"
+}

@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "thecreepy31/victorialine/station/elevator_btn"
+    "$selfillummask" "thecreepy31/victorialine/station/elevator_btn_msk"
+	"$selfillum" 1
+	"$surfaceprop" "Metal"
+}

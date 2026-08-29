@@ -1,0 +1,6 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "ron/gm_berlin/tracks/tunnel_rect"
+	"$surfaceprop" "concrete"
+	"$nodecal" "1"
+}

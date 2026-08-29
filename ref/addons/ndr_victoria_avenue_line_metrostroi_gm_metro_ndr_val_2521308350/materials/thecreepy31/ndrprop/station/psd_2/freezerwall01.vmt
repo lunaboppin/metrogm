@@ -1,0 +1,11 @@
+vertexlitgeneric
+{
+$basetexture "metal/freezerwall01"
+$surfaceprop metalvent
+$bumpmap "metal/freezerwall01-ssbump"
+$envmap env_cubemap
+$envmaptint "[ .8 .8 .8 ]"
+$envmapcontrast ".8"
+$envmapsaturation 1
+$normalmapalphaenvmapmask 1
+}
