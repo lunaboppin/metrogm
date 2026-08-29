@@ -18,9 +18,9 @@ function METRO.LoadDatabaseConfig()
 	end
 
 	local source = file.Read(CONFIG_GAME_PATH, "GAME")
-	local chunk, compileErr = CompileString(source, "metro_database_config", false)
+	local chunk = CompileString(source, "metro_database_config", false)
 	if not isfunction(chunk) then
-		error("metro: garrysmod/" .. CONFIG_GAME_PATH .. " failed to compile: " .. tostring(compileErr), 0)
+		error("metro: garrysmod/" .. CONFIG_GAME_PATH .. " failed to compile: " .. tostring(chunk), 0)
 	end
 
 	local ok, config = pcall(chunk)
