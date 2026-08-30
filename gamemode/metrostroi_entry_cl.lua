@@ -23,6 +23,7 @@ end
 include("metrostroi.lua")
 include("prop_button.lua")
 include("prop_float_ex.lua")
+include("metrostroi_addon_api.lua")
 
 hook.Add("InitPostEntity", "MetroRescanMetrostroiTrainClasses", function()
     if not Metrostroi or #Metrostroi.TrainClasses > 0 then return end
