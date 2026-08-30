@@ -147,8 +147,21 @@ local function buildFleet(container)
 		end
 	end
 	scroll.Refresh()
-	net.Start("MetroServiceFleetRequest")
-	net.SendToServer()
+
+	local function requestFleet()
+		net.Start("MetroServiceFleetRequest")
+		net.SendToServer()
+	end
+
+	requestFleet()
+	timer.Create("MetroFleetRetry", 1, 8, function()
+		if #fleet > 0 or not IsValid(scroll) then
+			timer.Remove("MetroFleetRetry")
+			return
+		end
+		requestFleet()
+	end)
+
 	return scroll
 end
 
