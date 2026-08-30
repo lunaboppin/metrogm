@@ -100,7 +100,7 @@ function TRAIN_SYSTEM:Think()
     local BKCU = Train.BKCU
 
     if self.Power > 0 then
-        --Обработка сигналов контроллера
+        -- Processing controller signals
         self.IX3 = Train.BKCU.Controller ==  3 and 1 or 0
         self.IX2 = Train.BKCU.Controller ==  2 and 1 or 0
         self.IX1 = Train.BKCU.Controller ==  1 and 1 or 0
@@ -122,7 +122,7 @@ function TRAIN_SYSTEM:Think()
             else
                 local CanDrive = (self.IKDV+self.IBKDV)--*self.IPB
                 if Train.BKCU.Controller > 0 then
-                    self.OX =  (1-self.EARS)*(1-self.EKV)*CanDrive*(1-self.BlockX)*self.IX*(1-self.IT)*(1-self.IAVT) --501Г
+                    self.OX =  (1-self.EARS)*(1-self.EKV)*CanDrive*(1-self.BlockX)*self.IX*(1-self.IT)*(1-self.IAVT) --501G
                     self.BlockX = self.BlockX+(1-CanDrive)
                 else
                     self.OX = 0

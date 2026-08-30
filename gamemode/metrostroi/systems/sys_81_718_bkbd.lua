@@ -31,14 +31,14 @@ function TRAIN_SYSTEM:Initialize()
 
     self.Train:LoadSystem("EPKC","Relay")
 
-    self.Train:LoadSystem("KPK1","Relay","",{bass=true,bass_separate=true}) --Коммутация ПК
-    self.Train:LoadSystem("KPK2","Relay","",{bass=true,bass_separate=true}) --Коммутация ПК
-    self.Train:LoadSystem("FMM1","Relay","",{bass=true,bass_separate=true}) --Фиксация местонахождения машиниста
-    self.Train:LoadSystem("FMM2","Relay","",{bass=true,bass_separate=true}) --Фиксация местонахождения машиниста
-    self.Train:LoadSystem("PD1","Relay","",{bass=true,bass_separate=true}) --Переключение дешифратора
-    self.Train:LoadSystem("PD2","Relay","",{bass=true,bass_separate=true}) --Переключение дешифратора
-    self.Train:LoadSystem("ARS_VP","Relay","",{bass=true,bass_separate=true}) --Режим ВП
-    self.Train:LoadSystem("ARS_RT","Relay","",{bass=true,bass_separate=true}) --Реле торможения от АРС-Р
+    self.Train:LoadSystem("KPK1","Relay","",{bass=true,bass_separate=true}) -- PK switching
+    self.Train:LoadSystem("KPK2","Relay","",{bass=true,bass_separate=true}) -- PK switching
+    self.Train:LoadSystem("FMM1","Relay","",{bass=true,bass_separate=true}) -- Driver-cab occupancy latch
+    self.Train:LoadSystem("FMM2","Relay","",{bass=true,bass_separate=true}) -- Driver-cab occupancy latch
+    self.Train:LoadSystem("PD1","Relay","",{bass=true,bass_separate=true}) -- Decoder switchover
+    self.Train:LoadSystem("PD2","Relay","",{bass=true,bass_separate=true}) -- Decoder switchover
+    self.Train:LoadSystem("ARS_VP","Relay","",{bass=true,bass_separate=true}) -- VP mode
+    self.Train:LoadSystem("ARS_RT","Relay","",{bass=true,bass_separate=true}) -- Braking relay from ARS-R (automatic train speed regulation, radio channel)
     self.Train:LoadSystem("NG","Relay","",{bass=true,bass_separate=true})
     self.Train:LoadSystem("NH","Relay","",{bass=true,bass_separate=true})
 

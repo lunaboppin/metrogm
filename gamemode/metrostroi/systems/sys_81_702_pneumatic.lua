@@ -38,29 +38,29 @@ function TRAIN_SYSTEM:Initialize(parameters)
     self.Train:LoadSystem("PneumaticNo1","Relay")
     -- Valve #2
     self.Train:LoadSystem("PneumaticNo2","Relay")
-    -- Автоматический выключатель торможения (АВТ)
+    -- Automatic brake circuit breaker (AVT)
     self.Train:LoadSystem("AVT","Relay","AVT-325")
-    -- Регулятор давления (АК)
+    -- Pressure regulator (AK)
     self.Train:LoadSystem("AK","Relay","AK-11B")
-    -- Автоматический выключатель управления (АВУ)
+    -- Automatic control circuit breaker (AVU)
     self.Train:LoadSystem("AVU","Relay","AVU-045")
-    -- Блокировка тормозов
+    -- Brake interlock
     self.Train:LoadSystem("BPT","Relay","")
-    -- Блокировка дверей
+    -- Door interlock
     self.Train:LoadSystem("BD","Relay","")
-    -- Вентили дверного воздухораспределителя (ВДОЛ, ВДОП, ВДЗ)
+    -- Door air distributor valves (VDOL, VDOP, VDZ)
     self.Train:LoadSystem("VDOL","Relay","", {bass = true})
     self.Train:LoadSystem("VDOP","Relay","", {bass = true})
     self.Train:LoadSystem("VDZ","Relay","", {bass = true})
 
-    -- Краны двойной тяги
+    -- Double-heading isolating valves
     self.Train:LoadSystem("DriverValveTLDisconnect","Relay","Switch", {bass = true})
     self.Train:LoadSystem("DriverValveBLDisconnect","Relay","Switch", {bass = true})
 
     self.Train:LoadSystem("EmergencyBrakeValve","Relay","Switch")
-    -- Воздухораспределитель
+    -- Air distributor
     self.Train:LoadSystem("AirDistributorDisconnect","Relay","Switch")
-    --УАВА
+    -- UAVA
     self.Train:LoadSystem("UAVA","Relay","Switch",{ bass = true})
     self.Train:LoadSystem("UAVAContact","Relay","Switch")
     self.Train:LoadSystem("UAVAC","Relay","",{normally_closed=true,bass=true})
@@ -143,7 +143,7 @@ function TRAIN_SYSTEM:TriggerInput(name,value)
 end
 
 
--- TODO: почистить это говно, сделать раздельные звуки пневмы
+-- TODO: clean up this mess, make separate pneumatic sounds
 -- Calculate derivatives
 function TRAIN_SYSTEM:equalizeCouplePressure(dT,pressure,train,valve_status,rate,close_rate)
     if not valve_status then return 0 end

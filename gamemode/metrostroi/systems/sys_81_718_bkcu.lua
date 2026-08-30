@@ -7,16 +7,16 @@
 Metrostroi.DefineSystem("81_718_BKCU")
 
 function TRAIN_SYSTEM:Initialize()
-    self.KM1 = 0 --Контактор-повторитель КР "Назад"
-    self.KM2 = 0 --Контактор-повторитель КР "Вперёд"
-    self.KM3 = 0 --Контактор-повторитель КР "0"
-    self.KM4 = 0 --Реле блокировки постов управления
-    self.KM5 = 0 --Контактор-повторитель КРУ "Назад"
-    self.KM6 = 0 --Контактор-повторитель КРУ "Вперёд"
-    self.KM7 = 0 --Контактор-повторитель КРУ "0"
-    self.KM8 = 0 --Реле блокировки постов управления
+    self.KM1 = 0 -- KR repeater contactor, "Reverse"
+    self.KM2 = 0 -- KR repeater contactor, "Forward"
+    self.KM3 = 0 -- KR repeater contactor, "0"
+    self.KM4 = 0 -- Control-post interlock relay
+    self.KM5 = 0 -- KRU repeater contactor, "Reverse"
+    self.KM6 = 0 -- KRU repeater contactor, "Forward"
+    self.KM7 = 0 -- KRU repeater contactor, "0"
+    self.KM8 = 0 -- Control-post interlock relay
 
-    --Контроллер
+    -- Controller
     self.Controller = 0
     self.TargetController = 0
 end

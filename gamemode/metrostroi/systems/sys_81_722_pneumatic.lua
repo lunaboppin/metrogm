@@ -37,11 +37,11 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("EmergencyBrakeValve","Relay","Switch")
 
     self.Train:LoadSystem("K31","Relay","Switch", { normally_closed = true}) --KTO
-    self.Train:LoadSystem("K9","Relay","Switch", { normally_closed = true}) --РВТБ
-    self.Train:LoadSystem("K29","Relay","Switch") --КРМШ
-    self.Train:LoadSystem("S1","Relay","") --Двери
+    self.Train:LoadSystem("K9","Relay","Switch", { normally_closed = true}) --RVTB (emergency brake time relay)
+    self.Train:LoadSystem("K29","Relay","Switch") --KRMSh (driver's brake valve relay)
+    self.Train:LoadSystem("S1","Relay","") --Doors
 
-    self.V4 = false --Включение РУ
+    self.V4 = false --Enable RU (control relay)
 
     self.K1 = false
     self.K2 = false
@@ -389,19 +389,19 @@ function TRAIN_SYSTEM:Think(dT)
     if Power then
         if Train:ReadTrainWire(27) > 0 then
             if Train:ReadTrainWire(29) > 0 then
-                EPMPressure = 1.7+self.WeightLoadRatio*0.7 --2 уставка
+                EPMPressure = 1.7+self.WeightLoadRatio*0.7 --setpoint 2
             elseif Train:ReadTrainWire(30) > 0 then
-                EPMPressure = 0.9+self.WeightLoadRatio*0.5 --1 уставка
+                EPMPressure = 0.9+self.WeightLoadRatio*0.5 --setpoint 1
             end
         else
             if Train.BUKV.PN2 then
-                EPMPressure = 1.7+self.WeightLoadRatio*0.7 --2 уставка
+                EPMPressure = 1.7+self.WeightLoadRatio*0.7 --setpoint 2
             elseif Train.BUKV.PN1 then
-                EPMPressure = 0.9+self.WeightLoadRatio*0.5 --1 уставка
+                EPMPressure = 0.9+self.WeightLoadRatio*0.5 --setpoint 1
             end
         end
     end
-    if EPMPressure > PMPressure then --Работа П1
+    if EPMPressure > PMPressure then --P1 valve operating
         targetPressure = EPMPressure
     else
         targetPressure = PMPressure

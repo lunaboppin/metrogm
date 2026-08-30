@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_710_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Выключатель батареи (ВБ)
+    -- Battery switch (VB)
     self.Train:LoadSystem("VB","Relay","VB-11", {bass = true})
 
     -- Buttons on the panel
@@ -40,7 +40,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("R_Program2H","Relay","Switch", {bass = true})
     self.Train:LoadSystem("Ring","Relay","Switch", {bass = true})
 
-    -- АРС
+    -- ARS (automatic train speed regulation)
     self.Train:LoadSystem("PB","Relay","Switch", {bass = true})
     self.Train:LoadSystem("RUM","Relay","Switch",{bass = true, normally_closed = true })
     self.Train:LoadSystem("VAH","Relay","Switch", {bass = true,})
@@ -51,7 +51,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("KB","Relay","Switch", {bass = true})
     self.Train:LoadSystem("KAH","Relay","Switch", {bass = true})
 
-    --САММ
+    -- SAMM
     self.Train:LoadSystem("SAMMSchemeOff","Relay","Switch", {bass = true})
     self.Train:LoadSystem("SAMMStart","Relay","Switch", {bass = true})
     self.Train:LoadSystem("SAMMReset","Relay","Switch", {bass = true})
@@ -62,7 +62,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("SAMMUnit","Relay","Switch", {bass = true})
 
 
-    -- Автоматические выключатели (АВ)
+    -- Automatic circuit breakers (AV)
     self.Train:LoadSystem("VU1","Relay","Switch", {bass = true})
     self.Train:LoadSystem("VU2","Relay","Switch", {bass = true})
     self.Train:LoadSystem("VU3","Relay","Switch", {bass = true})

@@ -124,7 +124,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
 
     RheostatController:TriggerInput("MotorState",(S["10N"]+S["10T"]*(-10)))
 
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value+Train.PositionSwitch.PMPos)
     Train.SR2:TriggerInput("Set",S["10E"]*((C(P==3 or P==4)+Train.LK2.Value))*(1-Train.LK4.Value))
@@ -165,11 +165,11 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
 
     S["1A"] = T[1]*RCU
     S["1R"] = S["1A"]*((1-Train.RV1.Value)*C(P==1)+C(1<=RK and RK<=5 and P==2))
-    Train.KSH2:TriggerInput("Set",S["1R"]*S["ZR"]) --Идет обратная цепь от ЛК к 1 проводу, но мне лень
-    Train.KSH1:TriggerInput("Set",S["1R"]*S["ZR"]) --Идет обратная цепь от ЛК к 1 проводу, но мне лень
+    Train.KSH2:TriggerInput("Set",S["1R"]*S["ZR"]) -- There's a return circuit from LK to wire 1, but I can't be bothered
+    Train.KSH1:TriggerInput("Set",S["1R"]*S["ZR"]) -- There's a return circuit from LK to wire 1, but I can't be bothered
 
     S["1P"] = S["1A"]*C(P == 1 or P == 2)*Train.NR.Value+S["6A"]*C(P==3 or P==4)
-    Train["RUTavt"] = S["1P"]*(Train.KSB1.Value+Train.KSH2.Value)*S["ZR"] --Идет обратная цепь от ЛК к 1 проводу, но мне лень
+    Train["RUTavt"] = S["1P"]*(Train.KSB1.Value+Train.KSH2.Value)*S["ZR"] -- There's a return circuit from LK to wire 1, but I can't be bothered
     S["1G"] = S["1P"]*Train.AVT.Value*(1-Train.RPvozvrat.Value)
     S["1Zh"] = S["1G"]*(Train.LK3.Value+C(RK==1)*(Train.KSH2.Value+Train.KSB1.Value*Train.KSB2.Value)*C(P==1 or P==3)*Train.LK5.Value)
     Train.LK1:TriggerInput("Set",S["1Zh"]*C(P==1 or P==2)*S["ZR"])
@@ -182,7 +182,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     Train["RRTuderzh"] = T[25]
     Train.RKTTsh = T[30]
 
-    --Вспом цепи низкого напряжения
+    -- Auxiliary low-voltage circuits
     Train:WriteTrainWire(11,BO*Train.VU2.Value)
     Train:WriteTrainWire(22,BO*Train.V1.Value*Train.AK.Value)
     Train:WriteTrainWire(23,BO*Train.KU15.Value)
@@ -214,7 +214,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     Train.KO:TriggerInput("Open",T[28])
 
     local BD = 1-Train.BD.Value
-    Train:WriteTrainWire(15,BD*(1-Train.KU11.Value))--Заземление 15 провода
+    Train:WriteTrainWire(15,BD*(1-Train.KU11.Value))-- Grounding of wire 15
     Train.Panel.SD = (S["D1"]+BO*Train.KU11.Value)*(T[15]*(1-Train.KU11.Value)+BD)
 
     Train.VDZ:TriggerInput("Set",T[16]*BD)
@@ -268,11 +268,11 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train,dT,firstIter)
 
     --[[ S["1A"] = T[1]*RCU
     S["1R"] = S["1A"]*((1-Train.RV1.Value)*C(P==1)+C(1<=RK and RK<=5 and P==2))
-    Train.KSH2:TriggerInput("Set",S["1R"]*S["ZR"]) --Идет обратная цепь от ЛК к 1 проводу, но мне лень
-    Train.KSH1:TriggerInput("Set",S["1R"]*S["ZR"]) --Идет обратная цепь от ЛК к 1 проводу, но мне лень
+    Train.KSH2:TriggerInput("Set",S["1R"]*S["ZR"]) -- There's a return circuit from LK to wire 1, but I can't be bothered
+    Train.KSH1:TriggerInput("Set",S["1R"]*S["ZR"]) -- There's a return circuit from LK to wire 1, but I can't be bothered
     Train.NR:TriggerInput("Set",1)
     S["1P"] = S["1A"]*C(P == 1 or P == 2)*Train.NR.Value+S["6A"]*C(P==3 or P==4)
-    Train["RUTavt"] = S["1P"]*(Train.KSB1.Value+Train.KSH2.Value)*S["ZR"] --Идет обратная цепь от ЛК к 1 проводу, но мне лень
+    Train["RUTavt"] = S["1P"]*(Train.KSB1.Value+Train.KSH2.Value)*S["ZR"] -- There's a return circuit from LK to wire 1, but I can't be bothered
     S["1G"] = S["1P"]*Train.AVT.Value*(1-Train.RPvozvrat.Value)
     S["1Zh"] = S["1G"]*(Train.LK3.Value+C(RK==1)+(Train.KSH2.Value+Train.KSB1.Value*Train.KSB2.Value+C(P==1 or P==3))*Train.LK5.Value)
     Train.LK1:TriggerInput("Set",S["1Zh"]*C(P==1 or P==2)*S["ZR"])

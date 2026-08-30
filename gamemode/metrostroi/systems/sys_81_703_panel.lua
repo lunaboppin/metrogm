@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_703_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Выключатель батареи (ВБ)
+    -- Battery switch (VB)
     self.Train:LoadSystem("VB","Relay","Switch", {bass = true})
     self.Train:LoadSystem("AV","Relay","Switch", {bass = true})
 

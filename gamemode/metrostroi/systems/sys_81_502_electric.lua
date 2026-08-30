@@ -228,8 +228,8 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train, dT)
     Panel.TW18 = S["18A"]
 
     S["10A"] = BO*RUM
-    --РУТ
-    --СДРК
+    -- RUT (traction acceleration relay)
+    -- SDRK (resistor controller position sensor)
     S["25B"] = Train.LK2.Value*(1-Train.TSH.Value)
     S["25A"] = Train.KSH2.Value
     Train["RUTreg"] = S["10A"]*(S["25B"]-S["25A"])
@@ -255,7 +255,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train, dT)
     S["10N"] = S["10A"]*(RheostatController.RKM1+Train.SR1.Value*(1-Train.RUT.Value))
     S["10T"] = --[[ S["10N"]*--]] ((1-Train.SR1.Value)+Train.RUT.Value)*RheostatController.RKP
     RheostatController:TriggerInput("MotorState",S["10N"]+S["10T"]*(-10))
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value)
     Train.SR2:TriggerInput("Set",S["10E"]*((C(P==3 or P==4)+Train.KSH2.Value*Train.LK5.Value))*(1-Train.LK4.Value))
 
@@ -269,9 +269,9 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train, dT)
     Train.PositionSwitch:TriggerInput("MotorState",-1.0 + 2.0*math.max(0,S["10AG"]))
 
     if false and KVL then
-        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4))) --ВТФ КВЛ, почему нету ОП
+        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4))) -- VTF KVL, why is there no OP (field weakening)
     else
-        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4)+Train.KSH1.Value*C(2<=RK and RK<=5 and P==2))) --ВТФ КВЛ, почему нету ОП
+        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4)+Train.KSH1.Value*C(2<=RK and RK<=5 and P==2))) -- VTF KVL, why is there no OP (field weakening)
     end
     --S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C((P==2 or P==4) and 2 <= RK and RK <= 18))
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)
@@ -312,7 +312,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train, dT)
     Train.KSH2:TriggerInput("Set",S["20D"])
     Train.KSH1:TriggerInput("Set",S["20D"])--+S["20V"]*(1-Train.Rper.Value))
 
-    --Вспом цепи низкого напряжения
+    -- Auxiliary low-voltage circuits
     Train:WriteTrainWire(11,BO*Train.VU2.Value)
     Train:WriteTrainWire(23,BO*Train.VMK.Value)
     Train:WriteTrainWire(22,T[23]*Train.AK.Value)
@@ -412,7 +412,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train, dT)
     Train.VDZ:TriggerInput("Set",T[16]*(1-Train.RD.Value))
     Train.VDOL:TriggerInput("Set",T[31])
     Train.VDOP:TriggerInput("Set",(T[32]+T[45]))
-    --Схема подзаряда
+    -- Trickle-charge circuit
     Train:WriteTrainWire(40,BO*Train.VSOSD.Value)
     Train:WriteTrainWire(12,T[40]*(1-Train.VSOSD.Value))
     Panel.SOSD = T[12]*(1-Train.KD.Value)
@@ -456,7 +456,7 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train, dT)
     S["10N"] = S["10A"]*(RheostatController.RKM1+Train.SR1.Value*(1-Train.RUT.Value))
     S["10T"] = --[[ S["10N"]*--]] ((1-Train.SR1.Value)+Train.RUT.Value)*RheostatController.RKP
     RheostatController:TriggerInput("MotorState",S["10N"]+S["10T"]*(-10))
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value)
     Train.SR2:TriggerInput("Set",S["10E"]*((C(P==3 or P==4)+Train.KSH2.Value*Train.LK5.Value))*(1-Train.LK4.Value))
 
@@ -471,9 +471,9 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train, dT)
 
     S["2A"] = (T[2]+BO*Train.RO1.Value)*RUM
     if false and KVL then
-        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4))) --ВТФ КВЛ, почему нету ОП
+        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4))) -- VTF KVL, why is there no OP (field weakening)
     else
-        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4)+Train.KSH1.Value*C(2<=RK and RK<=5 and P==2))) --ВТФ КВЛ, почему нету ОП
+        S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C(P==2 or P==4)*(C(5<=RK and RK<=18)+C(2<=RK and RK<=4 and P==4)+Train.KSH1.Value*C(2<=RK and RK<=5 and P==2))) -- VTF KVL, why is there no OP (field weakening)
     end
     --S["2G"] = S["2A"]*(C(P==1 or P==3)*C(1<=RK and RK<=17)+C((P==2 or P==4) and 2 <= RK and RK <= 18))
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)

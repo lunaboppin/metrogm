@@ -7,16 +7,16 @@
 Metrostroi.DefineSystem("81_718_BSKA")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Линейный контактор К1 (КР)
+    -- Line contactor K1 (KR)
     self.Train:LoadSystem("K1","Relay","PK-162",{bass = true,close_time=0.1})
-    -- Линейный контактор К2 (Ход)
+    -- Line contactor K2 (Drive)
     self.Train:LoadSystem("K2","Relay","PK-162",{bass = true,close_time=0.1})
-    -- Линейный контактор К3 (Тормоз)
+    -- Line contactor K3 (Brake)
     self.Train:LoadSystem("K3","Relay","PK-162",{bass = true,close_time=0.1})
 
-    -- Контактор(ы) реверса "Вперёд"
+    -- Reverser contactor(s), "Forward"
     self.Train:LoadSystem("KMR1","Relay","PK-162",{bass = true,close_time=0.1})
-    -- Контактор(ы) реверса "Назад"
+    -- Reverser contactor(s), "Reverse"
     self.Train:LoadSystem("KMR2","Relay","PK-162",{bass = true,close_time=0.1})
 end
 

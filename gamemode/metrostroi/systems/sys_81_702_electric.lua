@@ -167,7 +167,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train, dT)
     Panel.Ring = T[11]*(1-Train.KZ1.Value)+T[28]
 
     local BD = 1-Train.BD.Value
-    Train:WriteTrainWire(15,BD*(1-Train.KU9.Value))--Заземление 15 провода
+    Train:WriteTrainWire(15,BD*(1-Train.KU9.Value))-- Grounding of wire 15
     Train.Panel.SD = (S["D1"]+ BO*Train.KU9.Value)*(T[15]*(1-Train.KU9.Value)+BD)
     Train.VDZ:TriggerInput("Set",T[16]*BD)
     Train.VDOL:TriggerInput("Set",T[31])

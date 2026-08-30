@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- АРС-АЛС
+-- ARS-ALS (automatic train speed regulation - automatic locomotive signalling)
 --------------------------------------------------------------------------------
 Metrostroi.DefineSystem("ALS_ARS_BUM")
 TRAIN_SYSTEM.DontAccelerateSimulation = false

@@ -47,12 +47,12 @@ function TRAIN_SYSTEM:Think(dT)
     local Train = self.Train
     local speed = Train.ALSCoil.Speed
 
-    --vv При торможении смещение на 2км\ч vv
+    --vv Offset by 2km/h under braking vv
     --self.SAdd = self.SAdd or 0
     --self.SAdd = math.max(-1,math.min(0,self.SAdd+(speed-self.Speed)*dT*4))
     --self.Speed = speed
     --speed = speed-self.SAdd*2
-    --^^ При торможении смещение на 2км\ч ^^
+    --^^ Offset by 2km/h under braking ^^
     self.R0 = self.Power*C(speed<7)--11.5)
     Train.BIS_R1:TriggerInput("Set",self.Power*inrange(speed,5.5,11.5))
     Train.BIS_R2:TriggerInput("Set",self.Power*inrange(speed,10,21.5))

@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_502_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Выключатель батареи (ВБ)
+    -- Battery switch (VB)
     self.Train:LoadSystem("VB","Relay","Switch", {bass = true})
     self.Train:LoadSystem("VBA","Relay","Switch", {bass = true})
     self.Train:LoadSystem("VR","Relay","Switch", {bass = true})
@@ -47,7 +47,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("VAKK","Relay","Switch", {bass = true})
     self.Train:LoadSystem("Autodrive","Relay","Switch", {bass = true})
     self.Train:LoadSystem("VUD","Relay","Switch", {bass = true,normally_closed=true})
-    -- Педаль бдительности (ПБ)
+    -- Dead man's pedal (PB)
     self.Train:LoadSystem("PB","Relay","Switch", {bass = true})
 
     self.Train:LoadSystem("R_UPO","Relay","Switch", {bass = true})

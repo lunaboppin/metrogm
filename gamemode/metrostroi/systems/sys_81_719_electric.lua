@@ -111,44 +111,44 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     BBE.Power = S[305]
     Panel.V1 = S[312]
 
-    --1.2. Цепи заряда аккумуляторной батареи. Включение ББЭ. Страница 7
-    BBE.Activate = T[18]*Train.SF12.Value--S[324] --Включение ББЭ
+    --1.2. Battery charging circuits. BBE (battery power unit) activation. Page 7
+    BBE.Activate = T[18]*Train.SF12.Value--S[324] --BBE activation
 
 
-    --1.5. Аварийное отключение ББЭ и сигнализации Страница 9
+    --1.5. Emergency shutdown of the BBE and signalling. Page 9
     Train:WriteTrainWire(20,BBE.Error)
-    BBE.Deactivate = T[19]*Train.SF13.Value --Включение ББЭ
+    BBE.Deactivate = T[19]*Train.SF13.Value --BBE activation
 
-    --2.1. Освещение вагонов основное. Страница 9
+    --2.1. Main car lighting. Page 9
     BBE.KM2Power = T[38]*Train.SF16.Value
 
     Panel.EL7_30 = S[305]*BBE.KM2*Train.SF44.Value--S[409]
 
 
-    --2.2. Аварийное освещение салонов и кабины. Страница 10
+    --2.2. Emergency lighting of the saloons and cab. Page 10
     --S[407] = S[312]*Train.SF44.Value
     Panel.EL3_6 = S[312]*Train.SF44.Value
     S[322] = T[50]*Train.SF11.Value
     Panel.EL1 = S[322]
     S[321] = T[50]*Train.SF10.Value
-    --2.4. Подсветка прибора. Страница 10
+    --2.4. Instrument panel backlight. Page 10
     S[328] = T[50]*Train.SF72.Value
 
     Train:WriteTrainWire(29,Train.SF56.Value*T[50]*Train.SP1.Value) --S[529]
 
-    BKVA.KM2 = clamp(T[29]+T[30]*Train.SF22.Value)--[[*тепловое реле]]
+    BKVA.KM2 = clamp(T[29]+T[30]*Train.SF22.Value)--[[*thermal relay]]
     Train.KK:TriggerInput("Set",(self.Main750V > 200 and 1 or 0)*BKVA.KM2)--S[208]
 
-    --5.1. Вентиляция салонов. Страница 13
+    --5.1. Saloon ventilation. Page 13
     S[307] = S[312]*Train.SF34.Value
 
     BUVS.KM1 = T[40]*Train.SF23.Value
-    BUVS.KV1 = S[307]*BUVS.KM1 --Контроль
-    Train:WriteTrainWire(42,1-BUVS.KV1)--Сигнализация
+    BUVS.KV1 = S[307]*BUVS.KM1 --Monitoring
+    Train:WriteTrainWire(42,1-BUVS.KV1)--Signalling
 
     BUVS.KM2 = T[41]*Train.SF23.Value
-    BUVS.KV2 = S[307]*BUVS.KM2 --Контроль
-    Train:WriteTrainWire(49,1-BUVS.KV2) --Сигнализация
+    BUVS.KV2 = S[307]*BUVS.KM2 --Monitoring
+    Train:WriteTrainWire(49,1-BUVS.KV2) --Signalling
 
 
     --352-353-354
@@ -163,14 +163,14 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     Train.U2:TriggerInput("Set",T[36]*Train.SF18.Value+S[358])
     Train.U3:TriggerInput("Set",T[37]*Train.SF20.Value+S[358])
 
-    --8.3. Контроль положения дверей. Страницы 19-20
+    --8.3. Door position monitoring. Pages 19-20
     --312-SA15..SA22-351
     BKVA.KM4 = S[312]*Train.SAD.Value--S[351]
-    Train:WriteTrainWire(34,T[-34]*Train.SAD.Value) --Разрыв питания онцевых переключателей
+    Train:WriteTrainWire(34,T[-34]*Train.SAD.Value) --Power cutoff for the limit switches
     Panel.HL13 = S[312]*S[354]
 
-    --9. БЛОКИРОВКА ПОСТОВ УПРАВЛЕНИЯ И ФОРМИРОВАНИЕ ЦЕПЕЙ УПРАВЛЕНИЯ ДВИЖЕНИЕМ СОСТАВА
-    --Страница 20-21
+    --9. CONTROL DESK INTERLOCKING AND FORMATION OF TRAIN MOVEMENT CONTROL CIRCUITS
+    --Page 20-21
     --9.4
     --[[ S[335] = T[15]*Train.SF14.Value
     S[337] = T[16]*Train.SF5.Value
@@ -180,8 +180,8 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     --S[517] = (1-BKVA.KM3)
     Train:WriteTrainWire(17,(1-BKVA.KM3))--S[517]
 
-    --10. ЦЕПИ БЕЛЫХ ФАР И ЛАМП СИГНАЛИЗАЦИИ СТОЯНОЧНОГО ТОРМОЗА
-    --Страница 322
+    --10. WHITE HEADLIGHT AND PARKING BRAKE SIGNAL LAMP CIRCUITS
+    --Page 322
 
 
     --316-SF41-365-KM2/6-390
@@ -190,9 +190,9 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     Train:WriteTrainWire(12,S[512])
     Panel.HL46 = S[512]
 
-    --11. ЗАЩИТА СИЛОВЫХ ЦЕПЕЙ. ЦЕПИ КОНТРОЛЯ СОСТОЯНИЯ ЗАЩИТЫ.
-    --11.1. Цепи быстродействующих автоматических выключателей.
-    --Страница 23
+    --11. POWER CIRCUIT PROTECTION. PROTECTION STATUS MONITORING CIRCUITS.
+    --11.1. High-speed circuit breaker circuits.
+    --Page 23
     S[306] = S[312]*Train.SF27.Value
     Train.BVA.Power = S[306]
     S[3061] = S[306]*Train.SF46.Value
@@ -211,13 +211,13 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     --11.4
     Train.BVA.Disable = T[22]
     Panel.HL25 = S[3061]*BUV.ORP
-    --Мы получаем землю
+    --We get ground
     S[528] = Panel.HL25*100+BUV.OIZ
     Train:WriteTrainWire(28,S[528])
     Panel.HL6 = T[28]
     Panel.TW28= S[528]
 
-    --14.1. Ходовые режимы основного управления. Страница 32-33
+    --14.1. Traction modes of main control. Page 32-33
     Train.KMR1:TriggerInput("Set",BUV.OVP*(1-Train.KMR2.Value)*S[314])
     Train.KMR2:TriggerInput("Set",BUV.ONZ*(1-Train.KMR1.Value)*S[314])
     BUV.IRV = S[314]*Train.KMR1.Value
@@ -233,9 +233,9 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     BUV.IKT = Train.K3.Value
     BUV.ILT = Train.K1.Value
 
-    --15. УПРАВЛЕНИЕ СИЛОВЫМ ПРИВОДОМ В ТОРМОЗНЫХ РЕЖИМАХ Страница 36-37
-    --КТ
-    --БКБД головного-511-К4БУВС-БКБД хвостового
+    --15. POWER DRIVE CONTROL IN BRAKING MODES. Page 36-37
+    --KT (braking contactor)
+    --Leading car BKBD (wheel-slip/skid protection unit)-511-K4 BUVS-Trailing car BKBD
     --S[5092] = S[5091]+T[08]*(1-BUVS.KM3)
     --S[5092] = T[09]*Train.SF26.Value+T[08]*(1-BUVS.KM3)
     BUVS.KM3 = S[314]*BUV.ORMT
@@ -248,14 +248,14 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
 
     Train:WriteTrainWire(23,BUV.Power*BUV.OSN)
 
-    --19. УПРАВЛЕНИЕ ОТЖАТИЕМ ТОКОПРИЕМНИКОВ
+    --19. CURRENT COLLECTOR LOWERING CONTROL
     Train.U5:TriggerInput("Set",T[24]*T[59])
 
     Panel.AnnouncerPlaying = T[51]
     Panel.AnnouncerBuzz = T[-51]
 
 
-    --Передача сигналов с поездных проводов в БУВ
+    --Transmission of signals from the train wires to the BUV
     local BUVPower = BUV.Power
     BUV.IX     = BUVPower*T[01]
     BUV.IT     = BUVPower*T[02]
@@ -273,7 +273,7 @@ function TRAIN_SYSTEM:SolveControlCircuits(Train,dT)
     BUV.IU1R   = BUVPower*T[56]
     BUV.IVR    = BUVPower*T[57]
     BUV.INR    = BUVPower*T[58]
-    BUV.IAVR   = BUVPower*(1-Train.SP3.Value) --737-700 14.3. Режим "МАНЕВР".
+    BUV.IAVR   = BUVPower*(1-Train.SP3.Value) --737-700 14.3. "SHUNTING" mode.
     --BUV. =    BUVPower*Train:ReadTrainWire(45)
     self.Schemes = S
 end

@@ -33,13 +33,13 @@ Metrostroi.AddLastStationTex("720",115,"models/metrostroi_schemes/destination_ta
 Metrostroi.AddLastStationTex("720",116,"models/metrostroi_schemes/destination_table_white/label_rechnaya")
 Metrostroi.AddLastStationTex("720",117,"models/metrostroi_schemes/destination_table_white/label_proletarskaya")
 Metrostroi.TickerAdverts = {
-    "МЕТРОПОЛИТЕН ИМЕНИ ГАРРИ НЬЮМАНА ПРИГЛАШАЕТ НА РАБОТУ РЕАЛЬНЕ МАФЕНЕСТОВ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ТЕЛЕФОН ДЛЯ СПРАВОК 8 (800) 555-35-35",
-    "УВАЖАЕМЫЕ ПАССАЖИРЫ, ПРИ ВЫХОДЕ ИЗ ПОЕЗДА, НЕ ЗАБЫВАЙТЕ СВОИ ВЕЩИ",
-    "ЭЛЕКТРОДЕПО КРОССЛАЙНА ПРИГЛАШАЕТ НА РАБОТУ МОДЕЛЕРОВ ДЛЯ ПОСТРОЙКИ ЭЛЕКТРОДЕПО",
-    "СТАНЦИЯ РЕЧНАЯ ПРИГЛАШАЕТ НА РАБОТУ МАШИНИСТОВ И ПОМОЩНИКОВ МАШИНИСТА ЭСКАЛАТОРА. ОПЛАТА 5 КУСОЧКОВ НОМЕРНОГО.",
-    "ЭЛЕКТРОДЕПО КРОССЛАЙА ПРИГЛАШААААААААААААААААААААААААААААААААААААААААААААААВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВССССССССССССССССССССССССССССССССССССССССССССССССС",
+    "THE HARRY NEWMAN METROPOLITAN IS HIRING REAL MAFENESTS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,PHONE FOR INQUIRIES 8 (800) 555-35-35",
+    "DEAR PASSENGERS, WHEN EXITING THE TRAIN, PLEASE DO NOT FORGET YOUR BELONGINGS",
+    "CROSSLINE ELECTRIC DEPOT IS HIRING MODELERS TO BUILD THE ELECTRIC DEPOT",
+    "RECHNAYA STATION IS HIRING ESCALATOR OPERATORS AND ASSISTANT ESCALATOR OPERATORS. PAY: 5 PIECES OF THE NUMBERED ONE.",
+    "CROSSLINE ELECTRIC DEPOT IS HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
     ".",
-    "ЪЪъъЪЪЪъЪЪЪЪъъъЪЪЪЪЪъъЪЪъъЪЪЪъъЪЪъЪЪъЪъъЪЪЪЪъъъЪЪъъЪЪЪЪЪъъЪЪъъЪъЪЪЪЪЪъЪЪЪЪъъЪЪЪЪЪъъъЪЪъ",
+    "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",
 }
 
 

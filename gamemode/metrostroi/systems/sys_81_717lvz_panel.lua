@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_717LVZ_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Выключатель батареи (ВБ)
+    -- Battery switch (VB)
     self.Train:LoadSystem("VB","Relay","Switch",{bass = true})
 
     -- Buttons on the panel
@@ -49,10 +49,10 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("Radio13","Relay","Switch", {bass = true})
     self.Train:LoadSystem("ARS13","Relay","Switch", {bass = true})
 
-    -- Педаль бдительности (ПБ)
+    -- Dead man's pedal (PB)
     self.Train:LoadSystem("PB","Relay","Switch", {bass = true})
 
-    -- Автоматические выключатели (АВ)
+    -- Automatic circuit breakers (AV)
     self.Train:LoadSystem("A11","Relay","VA21-29")
     self.Train:LoadSystem("A17","Relay","VA21-29")
     self.Train:LoadSystem("A44","Relay","VA21-29")
@@ -134,7 +134,7 @@ function TRAIN_SYSTEM:Initialize()
 
     self.Train:LoadSystem("AIS","Relay","VA21-29")
 
-    --ПУАВ автоматы
+    -- PUAV circuit breakers
     self.Train:LoadSystem("A58","Relay","VA21-29")
     self.Train:LoadSystem("A59","Relay","VA21-29")
     self.Train:LoadSystem("A61","Relay","VA21-29")

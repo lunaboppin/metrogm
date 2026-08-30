@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_722_Panel")
 TRAIN_SYSTEM.DontAccelerateSimulation = false
 function TRAIN_SYSTEM:Initialize()
-    --Автоматы ПЗ
+    -- Circuit breakers (PZ)
     self.Train:LoadSystem("SF1","Relay","Switch",{normally_closed = true,bass=true})
     self.Train:LoadSystem("SF2","Relay","Switch",{normally_closed = true,bass=true})
     self.Train:LoadSystem("SF3","Relay","Switch",{normally_closed = true,bass=true})
@@ -41,7 +41,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("SF03","Relay","Switch",{bass=true})
     self.Train:LoadSystem("SF04","Relay","Switch",{bass=true})
 
-    --Автоматы ВЗ
+    -- Circuit breakers (VZ)
     self.Train:LoadSystem("SF31","Relay","Switch",{normally_closed = true,bass=true})
     self.Train:LoadSystem("SF32","Relay","Switch",{normally_closed = true,bass=true})
     self.Train:LoadSystem("SF33","Relay","Switch",{normally_closed = true,bass=true})
@@ -68,7 +68,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("SF57","Relay","Switch",{normally_closed = true,bass=true})
     self.Train:LoadSystem("SF58","Relay","Switch",{normally_closed = true,bass=true})
     self.Train:LoadSystem("SF59","Relay","Switch",{normally_closed = true,bass=true})
-    --Задняя панель кнопок
+    -- Rear button panel
     self.Train:LoadSystem("PSNToggle","Relay","Switch",{bass=true})
     self.Train:LoadSystem("BattOn","Relay","Switch",{bass=true})
     self.Train:LoadSystem("BattOff","Relay","Switch",{bass=true})
@@ -90,7 +90,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("PantSC","Relay","Switch",{maxvalue=4,defaultvalue=1,bass=true})
     self.Train:LoadSystem("RCARS","Relay","Switch",{defaultvalue=1,bass=true})
 
-    --Пульт управления 1
+    -- Control console 1
     self.Train:LoadSystem("MirrorHeating","Relay","Switch",{bass=true})
     self.Train:LoadSystem("DoorLeft2","Relay","Switch",{bass=true})
     --
@@ -115,7 +115,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("KRO","Relay","Switch",{maxvalue = 2,defaultvalue=1,bass=true})
     self.Train:LoadSystem("Compressor","Relay","Switch",{maxvalue=4,defaultvalue=0,bass=true})
     self.Train:LoadSystem("Ring","Relay","Switch",{bass=true})
-    --Освещение
+    -- Lighting
     self.Train:LoadSystem("CabinLight","Relay","Switch",{maxvalue=2,defaultvalue=0,bass=true})
     self.Train:LoadSystem("PanelLight","Relay","Switch",{bass=true})
 

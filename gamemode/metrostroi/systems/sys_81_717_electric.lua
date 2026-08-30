@@ -409,7 +409,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
         Panel.CBKIPower = BO*Train.A76.Value
     end
 
-    --Вагонная часть
+    -- Car section
     S["10A"] = BO*Train.A30.Value
     S["ZR"] = (1-Train.RRP.Value)+(B*Train.A39.Value*(1-Train.RPvozvrat.Value)*Train.RRP.Value)*-1
 
@@ -469,8 +469,8 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     Reverser:TriggerInput("NZ",S["4A"]*Reverser.VP*(1-Train.LK1.Value)*S["ZR"])
     S["5A"] = T[5]*Train.A5.Value
     Reverser:TriggerInput("VP",S["5A"]*Reverser.NZ*(1-Train.LK1.Value)*S["ZR"])
-    --Train.RKR:TriggerInput("Set",(S["4A"]*Reverser.NZ+S["5A"]*Reverser.VP)) --81-717.5(м) МСК
-    Train.RKR:TriggerInput("Set",(S["4A"]*Reverser.NZ+S["5A"]*Reverser.VP)*Train.BV.State*S["ZR"]) --81-717.5 Харько*S["ZR"]в
+    --Train.RKR:TriggerInput("Set",(S["4A"]*Reverser.NZ+S["5A"]*Reverser.VP)) -- 81-717.5(m) Moscow
+    Train.RKR:TriggerInput("Set",(S["4A"]*Reverser.NZ+S["5A"]*Reverser.VP)*Train.BV.State*S["ZR"]) -- 81-717.5 Kharkov
     --+B
     S["1N"] = C(11<=RK and RK<=18)*(1-Train.LK4.Value)
     Train.RR:TriggerInput("Set",S["10A"]*S["1N"] + P.PS*Train.LK4.Value)
@@ -512,7 +512,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     Train.RRT:TriggerInput("Open",(1-Train.RRTuderzh))
 
     Train.RRP:TriggerInput("Set",T[14]*Train.A14.Value)--14A
-    --СДРК Б+ провод
+    -- SDRK, B+ wire
     S["10A3"] = BO*Train.A28.Value
     S["10BG"] = S["10A3"]*(Train.TR1.Value + Train.RV1.Value)
     RheostatController:TriggerInput("MotorCoilState",min(1,S["10A"]*(S["10BG"]*Train.RR.Value - S["10BG"]*(1-Train.RR.Value))))
@@ -542,7 +542,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     end
     Train.RPvozvrat:TriggerInput("Open",S["17A"]) --FIXME Mayve more right RP code
     --
-    --Вспом цепи
+    -- Auxiliary circuits
     Train:WriteTrainWire(10,BO*Train.A56.Value)
     --B->A44->KMMK->23
     Train:WriteTrainWire(23,S["B3"]*Train.RezMK.Value)
@@ -601,9 +601,9 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     Panel.Ring = T[7]
 
     if self.GreenRPRKR then
-        S["10AN"] = Train.RPvozvrat.Value+(1-Train.RKR.Value) --81-717 Харьков
+        S["10AN"] = Train.RPvozvrat.Value+(1-Train.RKR.Value) -- 81-717 Kharkov
     else
-        S["10AN"] = Train.RPvozvrat.Value --81-717 МСК
+        S["10AN"] = Train.RPvozvrat.Value -- 81-717 Moscow
     end
     S["18A"] = (S["10AN"]*100+(1-Train.LK4.Value))*Train.A38.Value
     Train:WriteTrainWire(18,S["18A"])
@@ -715,7 +715,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train,dT,firstIter)
     Panel.PanelLights = T[10]*Train.L_3.Value
 
 
-    --Вспом цепи приём
+    -- Auxiliary circuits, receive
     Panel.EmergencyLights = BO*Train.A49.Value*Train.A15.Value
     Train.RPU:TriggerInput("Set",T[37]*Train.A37.Value)
     Train.Schemes = S
@@ -775,7 +775,7 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train,dT,firstIter)
     local BO    = B*Train.VB.Value
     local T     = Train.SolverTemporaryVariables
 
-    --Вагонная часть
+    -- Car section
     S["10A"] = BO*Train.A30.Value
     S["ZR"] = (1-Train.RRP.Value)+(B*Train.A39.Value*(1-Train.RPvozvrat.Value)*Train.RRP.Value)*-1
 
@@ -803,7 +803,7 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train,dT,firstIter)
     Train.RRT:TriggerInput("Close",Train.RRTuderzh*Train.RRTpod)
     Train.RRT:TriggerInput("Open",(1-Train.RRTuderzh))
 
-    --СДРК Б+ провод
+    -- SDRK, B+ wire
     S["10A3"] = BO*Train.A28.Value
     S["10BG"] = S["10A3"]*(Train.TR1.Value + Train.RV1.Value)
     RheostatController:TriggerInput("MotorCoilState",min(1,S["10A"]*(S["10BG"]*Train.RR.Value - S["10BG"]*(1-Train.RR.Value))))
