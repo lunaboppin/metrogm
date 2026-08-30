@@ -35,6 +35,7 @@ net.Receive("MetroLoadState", function()
 
 	METRO.LoadState = state
 	METRO.LoadError = state == "error" and message or nil
+	hook.Run("MetroLoadStateChanged", state, message)
 
 	if state ~= "ready" then
 		METRO.PlayerVars = {}

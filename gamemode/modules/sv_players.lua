@@ -139,6 +139,18 @@ function METRO.Players.IsLoaded(ply)
 	return METRO.Players.Get(ply) ~= nil
 end
 
+function METRO.Players.Hold(ply)
+	if IsValid(ply) then
+		freezeForLoading(ply)
+	end
+end
+
+function METRO.Players.Release(ply)
+	if IsValid(ply) then
+		releasePlayer(ply)
+	end
+end
+
 function METRO.Players.SetVar(ply, name, value, reason, actor, cb)
 	if isfunction(reason) then
 		cb = reason
@@ -232,7 +244,9 @@ local function finishLoad(ply, record)
 	sessionStart[sid] = os.time()
 	pendingLoad[sid] = nil
 
-	releasePlayer(ply)
+	if hook.Run("MetroPlayerReady", ply) ~= true then
+		releasePlayer(ply)
+	end
 	METRO.Network.PushLoadState(ply, "ready")
 	METRO.Network.PushStats(ply)
 end

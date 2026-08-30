@@ -361,6 +361,7 @@ function TOOL:SpawnWagon(trace)
     --end
     --self.rot = false
     for k,v in pairs(FIXFIXFIX) do SafeRemoveEntity(v) end
+    return trains
 end
 
 function TOOL:OnRemove()
