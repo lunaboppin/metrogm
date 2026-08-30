@@ -115,25 +115,25 @@ ENT.ButtonMap["BUV_MPS"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "PROV", x=5+8*0,y=15+5*2,  radius=3,col="g",var="VIPROV", tooltip="Проверка",},
-        {ID = "AVR",  x=5+8*0,y=15+5*3,  radius=3,col="r",var="VIAVR",  tooltip="Отключение режимов",},
-        {ID = "TARS", x=5+8*0,y=15+5*9,  radius=3,col="g",var="VITARS", tooltip="Тормоз БКБД",},
+        {ID = "PROV", x=5+8*0,y=15+5*2,  radius=3,col="g",var="VIPROV", tooltip="Test",},
+        {ID = "AVR",  x=5+8*0,y=15+5*3,  radius=3,col="r",var="VIAVR",  tooltip="Mode disengage",},
+        {ID = "TARS", x=5+8*0,y=15+5*9,  radius=3,col="g",var="VITARS", tooltip="BKBD brake",},
         {ID = "X" ,   x=5+8*0,y=15+5*10, radius=3,col="g",var="VIX",    tooltip="Код режима \"Ход\"",},
 
-        {ID = "NZ",   x=5+8*1,y=15+5*0,  radius=3,col="g",var="VINZ",   tooltip="Назад",},
-        {ID = "NZR",  x=5+8*1,y=15+5*1,  radius=3,col="g",var="VINR",   tooltip="Резервный назад",},
-        {ID = "PROV0",x=5+8*1,y=15+5*2,  radius=3,col="g",var="VIPROV0",tooltip="Проверка работы",},
-        {ID = "SK",   x=5+8*1,y=15+5*3,  radius=3,col="g",var="",       tooltip="Скорость",},
+        {ID = "NZ",   x=5+8*1,y=15+5*0,  radius=3,col="g",var="VINZ",   tooltip="Backward",},
+        {ID = "NZR",  x=5+8*1,y=15+5*1,  radius=3,col="g",var="VINR",   tooltip="Backup backward",},
+        {ID = "PROV0",x=5+8*1,y=15+5*2,  radius=3,col="g",var="VIPROV0",tooltip="Operation test",},
+        {ID = "SK",   x=5+8*1,y=15+5*3,  radius=3,col="g",var="",       tooltip="Speed",},
         {ID = "T",    x=5+8*1,y=15+5*9,  radius=3,col="g",var="VIT",    tooltip="Код режима \"Тормоз\"",},
-        {ID = "XR",   x=5+8*1,y=15+5*10, radius=3,col="g",var="VIXP",   tooltip="Резервный ход 1",},
-        {ID = "U1",   x=5+8*1,y=15+5*11, radius=3,col="g",var="VIU1",   tooltip="Уставка 1",},
-        {ID = "U2",   x=5+8*1,y=15+5*12, radius=3,col="g",var="VIU2",   tooltip="Уставка 2",},
+        {ID = "XR",   x=5+8*1,y=15+5*10, radius=3,col="g",var="VIXP",   tooltip="Backup traction 1",},
+        {ID = "U1",   x=5+8*1,y=15+5*11, radius=3,col="g",var="VIU1",   tooltip="Setpoint 1",},
+        {ID = "U2",   x=5+8*1,y=15+5*12, radius=3,col="g",var="VIU2",   tooltip="Setpoint 2",},
 
-        {ID = "VP",   x=5+8*2,y=15+5*0,  radius=3,col="g",var="VIVP",   tooltip="Вперёд",},
-        {ID = "VPR",  x=5+8*2,y=15+5*1,  radius=3,col="g",var="VIVR",   tooltip="Резервный вперед",},
-        {ID = "VZ",   x=5+8*2,y=15+5*2.5,radius=3,col="g",var="VIVZ",   tooltip="Возврат защиты",},
-        {ID = "XM",   x=5+8*2,y=15+5*10, radius=3,col="g",var="VIM",    tooltip="Маневровый ход",},
-        {ID = "U1R",  x=5+8*2,y=15+5*11, radius=3,col="g",var="VIU1R",  tooltip="Резервный ход 2",},
+        {ID = "VP",   x=5+8*2,y=15+5*0,  radius=3,col="g",var="VIVP",   tooltip="Forward",},
+        {ID = "VPR",  x=5+8*2,y=15+5*1,  radius=3,col="g",var="VIVR",   tooltip="Backup forward",},
+        {ID = "VZ",   x=5+8*2,y=15+5*2.5,radius=3,col="g",var="VIVZ",   tooltip="Protection reset",},
+        {ID = "XM",   x=5+8*2,y=15+5*10, radius=3,col="g",var="VIM",    tooltip="Shunting mode",},
+        {ID = "U1R",  x=5+8*2,y=15+5*11, radius=3,col="g",var="VIU1R",  tooltip="Backup traction 2",},
     }
 }
 ENT.ButtonMap["BUV_MVD"] = {
@@ -145,8 +145,8 @@ ENT.ButtonMap["BUV_MVD"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "OTK",  x=2+8*1,y=15+5*4.5,radius=3,col="r",var="VOTK",    tooltip="Отказ режимов",},
-        {ID = "RP",   x=2+8*1,y=15+5*6.9,radius=3,col="r",var="VRP",     tooltip="Сработка РП",},
+        {ID = "OTK",  x=2+8*1,y=15+5*4.5,radius=3,col="r",var="VOTK",    tooltip="Mode fault",},
+        {ID = "RP",   x=2+8*1,y=15+5*6.9,radius=3,col="r",var="VRP",     tooltip="RP tripped",},
     }
 }
 
@@ -159,19 +159,19 @@ ENT.ButtonMap["BUV_MALP1"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "MZK", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMZK",   tooltip="Мгновенный запрет ключа",},
-        {ID = "FM",  x=11+8*0,y=15+5*3,  radius=3,col="r",var="VFM",    tooltip="Напряжение на фильтре выше 1000 вольт",},
-        {ID = "400", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU400",  tooltip="Наличие400 вольт",},
-        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE1350", tooltip="Наличие тока якоря Гр А",},
-        {ID = "DIF", x=11+8*0,y=15+5*6,  radius=3,col="g",var="VDIF",   tooltip="Разность токов гр А,В",},
-        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE13650",tooltip="Ток якоря Гр А выше 650 ампер",},
-        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE130",  tooltip="Якорный ток Гр А отсутствует",},
-        {ID = "ARS", x=11+8*0,y=15+5*9,  radius=3,col="r",var="",       tooltip="Срыв частотного запуска",},
-        {ID = "ITA", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Пробой тормозного тиристора Гр А > 100a",},
+        {ID = "MZK", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMZK",   tooltip="Instant key lockout",},
+        {ID = "FM",  x=11+8*0,y=15+5*3,  radius=3,col="r",var="VFM",    tooltip="Filter voltage above 1000 volts",},
+        {ID = "400", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU400",  tooltip="400 volts present",},
+        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE1350", tooltip="Armature current present, group A",},
+        {ID = "DIF", x=11+8*0,y=15+5*6,  radius=3,col="g",var="VDIF",   tooltip="Current difference, groups A and B",},
+        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE13650",tooltip="Armature current above 650 A, group A",},
+        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE130",  tooltip="Armature current absent, group A",},
+        {ID = "ARS", x=11+8*0,y=15+5*9,  radius=3,col="r",var="",       tooltip="Frequency startup failure",},
+        {ID = "ITA", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Brake thyristor breakdown, group A > 100A",},
 
-        {ID = "TR",  x=11+8*1,y=15+5*5.5,radius=3,col="g",var="",       tooltip="Наличие реостатного тока более 100 а Гр А",},
-        {ID = "SN",  x=11+8*1,y=15+5*7.3,radius=3,col="r",var="VSN",     tooltip="Силовая схема не собрана",},
-        {ID = "VN",  x=11+8*1,y=15+5*9,  radius=3,col="r",var="",       tooltip="Неисправность вентиляторов",},
+        {ID = "TR",  x=11+8*1,y=15+5*5.5,radius=3,col="g",var="",       tooltip="Rheostat current above 100 A present, group A",},
+        {ID = "SN",  x=11+8*1,y=15+5*7.3,radius=3,col="r",var="VSN",     tooltip="Power circuit not made up",},
+        {ID = "VN",  x=11+8*1,y=15+5*9,  radius=3,col="r",var="",       tooltip="Fan fault",},
     }
 }
 ENT.ButtonMap["BUV_MALP2"] = {
@@ -183,14 +183,14 @@ ENT.ButtonMap["BUV_MALP2"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "MSU", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMSU",   tooltip="Мгновенный сброс уставки",},
-        {ID = "800", x=11+8*0,y=15+5*3,  radius=3,col="g",var="VU800",  tooltip="Напряжение сети 800 вольт",},
-        {ID = "975", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU975",  tooltip="Максимальное напряжение сети ",},
-        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE2450", tooltip="Наличие тока якоря Гр B",},
-        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE24650",tooltip="Ток якоря Гр B выше 650 ампер",},
-        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE240",  tooltip="Якорный ток Гр B отсутствует",},
-        {ID = "BV",  x=11+8*0,y=15+5*9,  radius=3,col="r",var="VBV",    tooltip="Сработала БВ",},
-        {ID = "ITB", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Пробой тормозного тиристора Гр B > 100a",},
+        {ID = "MSU", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMSU",   tooltip="Instant setpoint reset",},
+        {ID = "800", x=11+8*0,y=15+5*3,  radius=3,col="g",var="VU800",  tooltip="Network voltage 800 volts",},
+        {ID = "975", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU975",  tooltip="Maximum network voltage ",},
+        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE2450", tooltip="Armature current present, group B",},
+        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE24650",tooltip="Armature current above 650 A, group B",},
+        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE240",  tooltip="Armature current absent, group B",},
+        {ID = "BV",  x=11+8*0,y=15+5*9,  radius=3,col="r",var="VBV",    tooltip="BV tripped",},
+        {ID = "ITB", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Brake thyristor breakdown, group B > 100A",},
     }
 }
 ENT.ButtonMap["BUV_MIV"] = {
@@ -202,10 +202,10 @@ ENT.ButtonMap["BUV_MIV"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "33",  x=11+8*0,y=15+5*3.7,radius=3,col="g",var="VZZ",     tooltip="Частотный запуск завершен",},
-        {ID = "V1",  x=11+8*0,y=15+5*5,  radius=3,col="g",var="VV1",     tooltip="Вентиль1",},
-        {ID = "SMA", x=11+8*0,y=15+5*6.3,radius=3,col="g",var="VSMA",    tooltip="Сигнал максимальный Гр А",},
-        {ID = "SMB", x=11+8*0,y=15+5*7.6,radius=3,col="g",var="VSMB",    tooltip="Сигнал максимальный Гр В",},
+        {ID = "33",  x=11+8*0,y=15+5*3.7,radius=3,col="g",var="VZZ",     tooltip="Frequency startup complete",},
+        {ID = "V1",  x=11+8*0,y=15+5*5,  radius=3,col="g",var="VV1",     tooltip="Valve 1",},
+        {ID = "SMA", x=11+8*0,y=15+5*6.3,radius=3,col="g",var="VSMA",    tooltip="Maximum signal, group A",},
+        {ID = "SMB", x=11+8*0,y=15+5*7.6,radius=3,col="g",var="VSMB",    tooltip="Maximum signal, group B",},
     }
 }
 
@@ -218,21 +218,21 @@ ENT.ButtonMap["BUV_MGR"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "TP1", x=5+8*0,y=15+5*2,   radius=3,col="y",var="VITP1", tooltip="Прижатие токоприемника 1",},
-        {ID = "TP3", x=5+8*0,y=15+5*3.5, radius=3,col="y",var="VITP3", tooltip="Прижатие токоприемника 3",},
-        {ID = "KHA", x=5+8*0,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Включение контакторов хода группы А",},
-        {ID = "KTA", x=5+8*0,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Включение контакторов тормоза группы А",},
+        {ID = "TP1", x=5+8*0,y=15+5*2,   radius=3,col="y",var="VITP1", tooltip="Current collector engage 1",},
+        {ID = "TP3", x=5+8*0,y=15+5*3.5, radius=3,col="y",var="VITP3", tooltip="Current collector engage 3",},
+        {ID = "KHA", x=5+8*0,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Traction contactors engage, group A",},
+        {ID = "KTA", x=5+8*0,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Brake contactors engage, group A",},
 
-        {ID = "TP2", x=5+8*1,y=15+5*2,   radius=3,col="y",var="VITP2", tooltip="Прижатие токоприемника 2",},
-        {ID = "TP4", x=5+8*1,y=15+5*3.5, radius=3,col="y",var="VITP4", tooltip="Прижатие токоприемника 4",},
-        {ID = "KHB", x=5+8*1,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Включение контакторов хода группы B",},
-        {ID = "KTB", x=5+8*1,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Включение контакторов тормоза группы B",},
-        {ID = "KRV", x=5+8*1,y=15+5*12,  radius=3,col="y",var="VIRV",  tooltip="Включение контакторов реверса вперёд",},
+        {ID = "TP2", x=5+8*1,y=15+5*2,   radius=3,col="y",var="VITP2", tooltip="Current collector engage 2",},
+        {ID = "TP4", x=5+8*1,y=15+5*3.5, radius=3,col="y",var="VITP4", tooltip="Current collector engage 4",},
+        {ID = "KHB", x=5+8*1,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Traction contactors engage, group B",},
+        {ID = "KTB", x=5+8*1,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Brake contactors engage, group B",},
+        {ID = "KRV", x=5+8*1,y=15+5*12,  radius=3,col="y",var="VIRV",  tooltip="Forward reverser contactors engage",},
 
-        {ID = "NV",  x=5+8*2,y=15+5*1,   radius=3,col="r",var="",      tooltip="Неисправность вентилятора ПТТИ",},
-        {ID = "BV",  x=5+8*2,y=15+5*3,   radius=3,col="g",var="VIBV",  tooltip="БВ взведён",},
-        {ID = "LK",  x=5+8*2,y=15+5*10,  radius=3,col="y",var="VILT",  tooltip="Включение линейного контактора",},
-        {ID = "KRN", x=5+8*2,y=15+5*12,  radius=3,col="y",var="VIRN",  tooltip="Включение контакторов реверса назад",},
+        {ID = "NV",  x=5+8*2,y=15+5*1,   radius=3,col="r",var="",      tooltip="PTTI fan fault",},
+        {ID = "BV",  x=5+8*2,y=15+5*3,   radius=3,col="g",var="VIBV",  tooltip="BV latched",},
+        {ID = "LK",  x=5+8*2,y=15+5*10,  radius=3,col="y",var="VILT",  tooltip="Line contactor engage",},
+        {ID = "KRN", x=5+8*2,y=15+5*12,  radius=3,col="y",var="VIRN",  tooltip="Reverse reverser contactors engage",},
     }
 }
 ENT.ButtonMap["BUV_MLUA"] = {
@@ -244,15 +244,15 @@ ENT.ButtonMap["BUV_MLUA"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "KT",  x=10+8*0,y=17+5*3,  radius=3,col="g",var="VOKT",  tooltip="Команда тормоза",},
-        {ID = "XH",  x=10+8*0,y=17+5*4,  radius=3,col="g",var="VOKX",  tooltip="Команда хода",},
-        {ID = "VP",  x=10+8*0,y=17+5*5,  radius=3,col="g",var="VOVP",  tooltip="Команда включения реверса вперёд",},
-        {ID = "NZ",  x=10+8*0,y=17+5*6,  radius=3,col="g",var="VONZ",  tooltip="Команда включения реверса назад",},
-        {ID = "SS",  x=10+8*0,y=17+5*7,  radius=3,col="g",var="VSS",   tooltip="Сигнал собранной схемы",},
+        {ID = "KT",  x=10+8*0,y=17+5*3,  radius=3,col="g",var="VOKT",  tooltip="Brake command",},
+        {ID = "XH",  x=10+8*0,y=17+5*4,  radius=3,col="g",var="VOKX",  tooltip="Traction command",},
+        {ID = "VP",  x=10+8*0,y=17+5*5,  radius=3,col="g",var="VOVP",  tooltip="Forward reverse engage command",},
+        {ID = "NZ",  x=10+8*0,y=17+5*6,  radius=3,col="g",var="VONZ",  tooltip="Reverse engage command",},
+        {ID = "SS",  x=10+8*0,y=17+5*7,  radius=3,col="g",var="VSS",   tooltip="Circuit made-up signal",},
 
-        {ID = "PV",  x=10+8*0,y=17+5*9,  radius=3,col="g",var="",      tooltip="Команда включения подвозбудителя",},
+        {ID = "PV",  x=10+8*0,y=17+5*9,  radius=3,col="g",var="",      tooltip="Sub-exciter engage command",},
 
-        {ID = "LK",  x=10+8*0,y=17+5*11, radius=3,col="g",var="VOLK",  tooltip="Команда включения линейного конатктора",},
+        {ID = "LK",  x=10+8*0,y=17+5*11, radius=3,col="g",var="VOLK",  tooltip="Line contactor engage command",},
     }
 }
 ENT.ButtonMap["BUV_MUVK1"] = {
@@ -264,14 +264,14 @@ ENT.ButtonMap["BUV_MUVK1"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "V1",  x=11+8*0,y=19+5*2,  radius=3,col="g",var="VOV1",  tooltip="Управление катушкой ВЗ№1",},
-        {ID = "KT",  x=11+8*0,y=19+5*3,  radius=3,col="g",var="VOKT",  tooltip="Управление контакторами тормоза",},
-        {ID = "KH",  x=11+8*0,y=19+5*4,  radius=3,col="g",var="VOKX",  tooltip="Управление контакторами хода",},
-        {ID = "LK",  x=11+8*0,y=19+5*5,  radius=3,col="g",var="VOLK",  tooltip="Управление линейным контактором",},
-        {ID = "PV",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="",      tooltip="Управление подвозбудителем",},
-        {ID = "NZ",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VONZ",  tooltip="Управление реверсом Назад",},
+        {ID = "V1",  x=11+8*0,y=19+5*2,  radius=3,col="g",var="VOV1",  tooltip="VZ No. 1 coil control",},
+        {ID = "KT",  x=11+8*0,y=19+5*3,  radius=3,col="g",var="VOKT",  tooltip="Brake contactor control",},
+        {ID = "KH",  x=11+8*0,y=19+5*4,  radius=3,col="g",var="VOKX",  tooltip="Traction contactor control",},
+        {ID = "LK",  x=11+8*0,y=19+5*5,  radius=3,col="g",var="VOLK",  tooltip="Line contactor control",},
+        {ID = "PV",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="",      tooltip="Sub-exciter control",},
+        {ID = "NZ",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VONZ",  tooltip="Reverser control, backward",},
 
-        {ID = "SN",  x=11+8*1,y=19+5*2,  radius=3,col="r",var="VOSN",  tooltip="Силовая схема вагона не собрана",},
+        {ID = "SN",  x=11+8*1,y=19+5*2,  radius=3,col="r",var="VOSN",  tooltip="Car power circuit not made up",},
     }
 }
 ENT.ButtonMap["BUV_MUVK2"] = {
@@ -283,12 +283,12 @@ ENT.ButtonMap["BUV_MUVK2"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "RTM", x=11+8*0,y=19+5*2,  radius=3,col="g",var="VORKT", tooltip="Управление реле минимального тока",},
-        {ID = "RKT", x=11+8*0,y=19+5*3,  radius=3,col="g",var="VORMT", tooltip="Управление реле контроля торможения",},
-        {ID = "RP",  x=11+8*0,y=19+5*4,  radius=3,col="r",var="VORP",  tooltip="Сработка защиты",},
-        {ID = "OTK", x=11+8*0,y=19+5*5,  radius=3,col="r",var="OIZ",   tooltip="Отказ вагона",},
-        {ID = "75",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="VO75V", tooltip="Резервное питание БУВ",},
-        {ID = "VP",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VOVP",  tooltip="Управление реверсом Вперед",},
+        {ID = "RTM", x=11+8*0,y=19+5*2,  radius=3,col="g",var="VORKT", tooltip="Minimum current relay control",},
+        {ID = "RKT", x=11+8*0,y=19+5*3,  radius=3,col="g",var="VORMT", tooltip="Brake monitoring relay control",},
+        {ID = "RP",  x=11+8*0,y=19+5*4,  radius=3,col="r",var="VORP",  tooltip="Protection tripped",},
+        {ID = "OTK", x=11+8*0,y=19+5*5,  radius=3,col="r",var="OIZ",   tooltip="Car fault",},
+        {ID = "75",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="VO75V", tooltip="BUV power, backup",},
+        {ID = "VP",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VOVP",  tooltip="Reverser control, forward",},
     }
 }
 ---[[
@@ -422,7 +422,7 @@ ENT.ButtonMap["Battery"] = {
     hide=0.8,
 
     buttons = {
-        {ID = "VBToggle", x=0, y=0, w=100, h=100, tooltip="ВБ: Выключатель батареи", model = {
+        {ID = "VBToggle", x=0, y=0, w=100, h=100, tooltip="VB: Battery switch", model = {
             model = "models/metrostroi_train/81-717/battery_enabler.mdl",
             var="VB",speed=0.5,vmin=1,vmax=0.8,
             sndvol = 0.8, snd = function(val) return val and "pak_on" or "pak_off" end,sndmin = 80, sndmax = 1e3/3, sndang = Angle(-90,0,0),
@@ -506,7 +506,7 @@ ENT.ButtonMap["FrontDoor"] = {
     height = 1900,
     scale = 0.1/2,
     buttons = {
-        {ID = "FrontDoor",x=0,y=0,w=642,h=1900, tooltip="Передняя дверь", model = {
+        {ID = "FrontDoor",x=0,y=0,w=642,h=1900, tooltip="Front door", model = {
             var="door1",sndid="door1",
             sndvol = 1, snd = function(val) return val and "cab_door_open" or "cab_door_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
@@ -527,7 +527,7 @@ ENT.ButtonMap["RearDoor"] = {
     height = 1900,
     scale = 0.1/2,
     buttons = {
-        {ID = "RearDoor",x=0,y=0,w=642,h=1900, tooltip="Задняя дверь", model = {
+        {ID = "RearDoor",x=0,y=0,w=642,h=1900, tooltip="Rear door", model = {
             var="door2",sndid="door2",
             sndvol = 1, snd = function(val) return val and "cab_door_open" or "cab_door_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),

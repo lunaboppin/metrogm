@@ -284,18 +284,18 @@ ENT.ButtonMap["Main"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "SA5Toggle", x=30, y=65, radius=24, tooltip="Закрытие дверей", model = {
+        {ID = "SA5Toggle", x=30, y=65, radius=24, tooltip="Door closing", model = {
             model = "models/metrostroi_train/switches/vudwhite.mdl", z=-20,
             var="SA5",speed=6,
             sndvol = 1, snd = function(val) return val and "vu224_on" or "vu224_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB3Set",         x=81, y=32, radius=20, tooltip="КРЗД", model = {
+        {ID = "SB3Set",         x=81, y=32, radius=20, tooltip="KRZD", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl",z=-9, vmin=1, vmax=0,
             var="SB3",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {   ID = "SA7Toggle",x=85, y=90, radius=20, tooltip="Выбор стороны", model = {
+        {   ID = "SA7Toggle",x=85, y=90, radius=20, tooltip="Side select", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA7",speed=6,ang=90-90,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
@@ -303,13 +303,13 @@ ENT.ButtonMap["Main"] = {
             disableoff = "SB1Set",disableon = "SB2Set",
         }},
 
-        {ID = "SB1Set",x=31, y=148, radius=20, tooltip="Двери левые", model = {
+        {ID = "SB1Set",x=31, y=148, radius=20, tooltip="Left doors", model = {
             model = "models/metrostroi_train/81-502/buttons/button_717_1.mdl",vmin=1,vmax=0,z=-14,
             var="SB1",speed=16,
             lamp = {model = "models/metrostroi_train/81-717/buttons/lamp_button_2.mdl",anim=true,var="HL3",speed=6,z=2.2},
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB2Set",x=82, y=148, radius=20, tooltip="Двери правые", model = {
+        {ID = "SB2Set",x=82, y=148, radius=20, tooltip="Right doors", model = {
             model = "models/metrostroi_train/81-502/buttons/button_717_1.mdl",vmin=1,vmax=0,z=-14,
             var="SB2",speed=16,
             lamp = {model = "models/metrostroi_train/81-717/buttons/lamp_button_2.mdl",anim=true,var="HL4",speed=6,z=2.2},
@@ -327,20 +327,20 @@ ENT.ButtonMap["Main"] = {
         }},
 
 
-        {ID = "SA8Toggle",x=136, y=32, radius=20, tooltip="Выключатель аварийного хода", model = {
+        {ID = "SA8Toggle",x=136, y=32, radius=20, tooltip="Emergency traction switch", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA8",speed=16,ang=180-90,
             plomb = {model = "models/metrostroi_train/81/plomb.mdl",ang=270,x=0,y=28,z=15,var="SA8Pl", ID="SA8Pl",},
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB4Set",x=136, y=91, radius=20, tooltip="Проверка", model = {
+        {ID = "SB4Set",x=136, y=91, radius=20, tooltip="Test", model = {
             model = "models/metrostroi_train/81-502/buttons/button_717_1.mdl",vmin=1,vmax=0,z=-12,
             var="SB4",speed=16,
             lamp = {model = "models/metrostroi_train/81-717/buttons/lamp_button_2.mdl",anim=true,var="HL5",speed=6,z=2.2},
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB5Set",x=136, y=148, radius=20, tooltip="Передача управления(звонок)", model = {
+        {ID = "SB5Set",x=136, y=148, radius=20, tooltip="Control handover (bell)", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl",vmin=1,vmax=0,z=-9,
             var="SB5",speed=16,
             --lamp = {model = "models/metrostroi_train/81-717/buttons/lamp_button_2.mdl",anim=true,var="RZP",speed=9,z=2.2},
@@ -348,7 +348,7 @@ ENT.ButtonMap["Main"] = {
         }},
 
 
-        {ID = "SA9Toggle",x=186, y=32, radius=20, tooltip="Откл. АВУ", model = {
+        {ID = "SA9Toggle",x=186, y=32, radius=20, tooltip="AVU off", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA9",speed=16,ang=180-90,
             plomb = {model = "models/metrostroi_train/81/plomb.mdl",ang=270,x=0,y=28,z=15,var="SA9Pl", ID="SA9Pl",},
@@ -357,26 +357,26 @@ ENT.ButtonMap["Main"] = {
         }},
 
 
-        {ID = "SA13Toggle",x=291, y=32, radius=20, tooltip="АРС", model = {
+        {ID = "SA13Toggle",x=291, y=32, radius=20, tooltip="ARS (automatic train speed regulation)", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA13",speed=16,ang=180-90,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SA14Toggle",x=316, y=32, radius=20, tooltip="АРС-Р", model = {
+        {ID = "SA14Toggle",x=316, y=32, radius=20, tooltip="ARS-R", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA14",speed=16,ang=180-90,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SA15Toggle",x=341, y=32, radius=20, tooltip="АЛС", model = {
+        {ID = "SA15Toggle",x=341, y=32, radius=20, tooltip="ALS (automatic cab signaling)", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA15",speed=16,ang=180-90,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SA2Toggle",x=236, y=32, radius=20, tooltip="Выключатель аварийный дверей", model = {
+        {ID = "SA2Toggle",x=236, y=32, radius=20, tooltip="Emergency door switch", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA2",speed=16,ang=180-90,
             plomb = {model = "models/metrostroi_train/81/plomb.mdl",ang=270,x=0,y=28,z=15,var="SA2Pl", ID="SA2Pl",},
@@ -384,7 +384,7 @@ ENT.ButtonMap["Main"] = {
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SB6KToggle",x=186, y=88, radius=20, tooltip="Крышка хода аварийного", model = {
+        {ID = "SB6KToggle",x=186, y=88, radius=20, tooltip="Emergency traction cover", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             plomb = {model = "models/metrostroi_train/81/plomb.mdl",ang=270,x=3,y=23,z=15,var="SB6Pl", ID="SB6Pl",},
             var="SB6K",speed=5,ang=90-90,
@@ -397,12 +397,12 @@ ENT.ButtonMap["Main"] = {
             var="SB6K",speed=1,
             sndvol = 0.10, snd = function(val) return val and "kr_left" or "kr_right" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB6Set",x=233, y=95, radius=20, tooltip="Ход аварийный", model = {
+        {ID = "SB6Set",x=233, y=95, radius=20, tooltip="Emergency traction mode", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl",vmin=1,vmax=0,z=-11,
             var="SB6",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB7KToggle",x=186, y=146, radius=20, tooltip="Крышка хода маневрового", model = {
+        {ID = "SB7KToggle",x=186, y=146, radius=20, tooltip="Shunting mode cover", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SB7K",speed=5,ang=90-90,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
@@ -415,29 +415,29 @@ ENT.ButtonMap["Main"] = {
             sndvol = 0.10, snd = function(val) return val and "kr_left" or "kr_right" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SB7Set",x=233, y=152, radius=20, tooltip="Ход маневровый", model = {
+        {ID = "SB7Set",x=233, y=152, radius=20, tooltip="Shunting mode", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-11,
             var="SB7",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SB8Set",x=291, y=95, radius=20, tooltip="КБ1", model = {
+        {ID = "SB8Set",x=291, y=95, radius=20, tooltip="KB1", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_red.mdl", vmin=1, vmax=0, z=-9,
             var="SB8",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB10Set",x=291, y=152, radius=20, tooltip="Программа 1", model = {
+        {ID = "SB10Set",x=291, y=152, radius=20, tooltip="Program 1", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-10,
             var="SB10",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SB9Set",x=341, y=95, radius=20, tooltip="КБ2", model = {
+        {ID = "SB9Set",x=341, y=95, radius=20, tooltip="KB2", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-9,
             var="SB9",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB11Set",x=341, y=152, radius=20, tooltip="Программа 2", model = {
+        {ID = "SB11Set",x=341, y=152, radius=20, tooltip="Program 2", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-10,
             var="SB11",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
@@ -445,35 +445,35 @@ ENT.ButtonMap["Main"] = {
 
 
 
-        {ID = "SA16Toggle",x=397.5, y=30, radius=20, tooltip="Компрессор", model = {
+        {ID = "SA16Toggle",x=397.5, y=30, radius=20, tooltip="Compressor", model = {
             model = "models/metrostroi_train/81-508/em508_switcher.mdl",z=-15,
             var="SA16",speed=16,ang=180-90,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB12Set",x=398, y=95, radius=20, tooltip="Включение БВА", model = {
+        {ID = "SB12Set",x=398, y=95, radius=20, tooltip="BVA engage", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_red.mdl", vmin=1, vmax=0, z=-9,
             var="SB12",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB13Set",x=398, y=148, radius=20, tooltip="Отключение БВА", model = {
+        {ID = "SB13Set",x=398, y=148, radius=20, tooltip="BVA disengage", model = {
             model = "models/metrostroi_train/81-502/buttons/button_717_1.mdl",vmin=1,vmax=0,z=-12,
             lamp = {model = "models/metrostroi_train/81-717/buttons/lamp_button_2.mdl",anim=true,var="HL6",getfunc = function(ent) return ent:GetPackedRatio("HL6") end,speed=6,z=2.2},
             var="SB13",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SB14Set",x=452, y=34, radius=20, tooltip="Резервный мотор-компрессор", model = {
+        {ID = "SB14Set",x=452, y=34, radius=20, tooltip="Motor-compressor, backup", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-9,
             var="SB14",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB15Set",x=452, y=95, radius=20, tooltip="Включение ББЭ", model = {
+        {ID = "SB15Set",x=452, y=95, radius=20, tooltip="BBE engage", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_red.mdl", vmin=1, vmax=0, z=-9,
             var="SB15",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SB16Set",x=452, y=148, radius=20, tooltip="Отключение ББЭ", model = {
+        {ID = "SB16Set",x=452, y=148, radius=20, tooltip="BBE disengage", model = {
             model = "models/metrostroi_train/81-502/buttons/button_717_1.mdl",vmin=1,vmax=0,z=-12,
             lamp = {model = "models/metrostroi_train/81-717/buttons/lamp_button_2.mdl",anim=true,var="HL7",speed=6,z=2.2},
             var="SB16",speed=16,
@@ -502,25 +502,25 @@ ENT.ButtonMap["Right"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "SA1/1Toggle",x=55-38, y=93, radius=10, tooltip="Фары 1 группа", model = {
+        {ID = "SA1/1Toggle",x=55-38, y=93, radius=10, tooltip="Headlight group 1", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",ang = 180,z=-3.5,
             var="SA1/1",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SA2/1Toggle",x=55-19, y=93, radius=10, tooltip="Фары 2 группа", model = {
+        {ID = "SA2/1Toggle",x=55-19, y=93, radius=10, tooltip="Headlight group 2", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",ang = 180,z=-3.5,
             var="SA2/1",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SA5/1Toggle",x=55+19, y=93, radius=10, tooltip="Яркость табло", model = {
+        {ID = "SA5/1Toggle",x=55+19, y=93, radius=10, tooltip="Indicator board brightness", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",ang = 180,z=-3.5,
             var="SA5/1",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SA4/1Toggle",x=55+38, y=93, radius=10, tooltip="Подсветка приборов", model = {
+        {ID = "SA4/1Toggle",x=55+38, y=93, radius=10, tooltip="Instrument backlighting", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",ang = 180,z=-3.5,
             var="SA4/1",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
@@ -609,34 +609,34 @@ ENT.ButtonMap["BUP_MVSU"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "KDV",  x=8.5+6.15*0,y=0+4.44*4,  radius=3,col="g",var="BIKDV", tooltip="ДВ",},
-        {ID = "BDV",  x=8.5+6.15*0,y=0+4.44*5,  radius=3,col="r",var="BINKDV", tooltip="ДВ",},
-        {ID = "PB",   x=8.5+6.15*0,y=0+4.44*7,  radius=3,col="g",var="BIPB",  tooltip="ПБ",},
-        {ID = "ARS",  x=8.5+6.15*0,y=0+4.44*8,  radius=3,col="r",var="BIARS", tooltip="АРС",},
-        {ID = "AVT",  x=8.5+6.15*0,y=0+4.44*10, radius=3,col="r",var="BIAVT", tooltip="АВТ",},
-        {ID = "KVV",  x=8.5+6.15*1,y=1+4.26*1,  radius=3,col="g",var="BIV",   tooltip="В",},
-        {ID = "KVN",  x=8.5+6.15*1,y=1+4.26*2.1,  radius=3,col="g",var="BIN",   tooltip="Н",},
-        {ID = "KVX3", x=8.5+6.15*1,y=0+4.46*4,  radius=3,col="g",var="BIX3",  tooltip="Х3",},
-        {ID = "KVX2", x=8.5+6.15*1,y=0+4.46*5,  radius=3,col="g",var="BIX2",  tooltip="Х2",},
-        {ID = "KVX1", x=8.5+6.15*1,y=0+4.46*6,  radius=3,col="g",var="BIX1",  tooltip="Х1",},
+        {ID = "KDV",  x=8.5+6.15*0,y=0+4.44*4,  radius=3,col="g",var="BIKDV", tooltip="DV",},
+        {ID = "BDV",  x=8.5+6.15*0,y=0+4.44*5,  radius=3,col="r",var="BINKDV", tooltip="DV",},
+        {ID = "PB",   x=8.5+6.15*0,y=0+4.44*7,  radius=3,col="g",var="BIPB",  tooltip="PB",},
+        {ID = "ARS",  x=8.5+6.15*0,y=0+4.44*8,  radius=3,col="r",var="BIARS", tooltip="ARS (automatic train speed regulation)",},
+        {ID = "AVT",  x=8.5+6.15*0,y=0+4.44*10, radius=3,col="r",var="BIAVT", tooltip="AVT",},
+        {ID = "KVV",  x=8.5+6.15*1,y=1+4.26*1,  radius=3,col="g",var="BIV",   tooltip="On",},
+        {ID = "KVN",  x=8.5+6.15*1,y=1+4.26*2.1,  radius=3,col="g",var="BIN",   tooltip="N",},
+        {ID = "KVX3", x=8.5+6.15*1,y=0+4.46*4,  radius=3,col="g",var="BIX3",  tooltip="Kh3",},
+        {ID = "KVX2", x=8.5+6.15*1,y=0+4.46*5,  radius=3,col="g",var="BIX2",  tooltip="Kh2",},
+        {ID = "KVX1", x=8.5+6.15*1,y=0+4.46*6,  radius=3,col="g",var="BIX1",  tooltip="Kh1",},
         {ID = "KV0",  x=8.5+6.15*1,y=0+4.46*7,  radius=3,col="g",var="BI0",   tooltip="0",},
-        {ID = "KVT1", x=8.5+6.15*1,y=0+4.46*8,  radius=3,col="g",var="BIT1",  tooltip="Т1",},
-        {ID = "KVT2", x=8.5+6.15*1,y=0+4.46*9,  radius=3,col="g",var="BIT2",  tooltip="Т2",},
-        {ID = "KVT3", x=8.5+6.15*1,y=0+4.46*10, radius=3,col="g",var="BIT3",  tooltip="Т3",},
-        {ID = "PVU",  x=8.5+6.15*1,y=1+4.26*12, radius=3,col="r",var="BIPVU", tooltip="ПВУ",},
-        {ID = "RPB",  x=8.5+6.15*1,y=1+4.26*13.1,radius=3,col="r",var="BIRPB", tooltip="РПБ",},
+        {ID = "KVT1", x=8.5+6.15*1,y=0+4.46*8,  radius=3,col="g",var="BIT1",  tooltip="T1",},
+        {ID = "KVT2", x=8.5+6.15*1,y=0+4.46*9,  radius=3,col="g",var="BIT2",  tooltip="T2",},
+        {ID = "KVT3", x=8.5+6.15*1,y=0+4.46*10, radius=3,col="g",var="BIT3",  tooltip="T3",},
+        {ID = "PVU",  x=8.5+6.15*1,y=1+4.26*12, radius=3,col="r",var="BIPVU", tooltip="PVU",},
+        {ID = "RPB",  x=8.5+6.15*1,y=1+4.26*13.1,radius=3,col="r",var="BIRPB", tooltip="RPB",},
 
         {ID = "ARSX", x=8.5+6.15*2,y=1+4.26*1,   radius=3,col="g",var="BIX",   tooltip="X",},
         {ID = "ARST", x=8.5+6.15*2,y=1+4.26*2.1, radius=3,col="r",var="BIT",   tooltip="T",},
-        {ID = "ARSX3",x=8.5+6.15*2,y=0+4.46*4,   radius=3,col="g",var="BIBX3",  tooltip="Х3",},
-        {ID = "ARSX2",x=8.5+6.15*2,y=0+4.46*5,   radius=3,col="g",var="BIBX2",  tooltip="Х2",},
-        {ID = "ARSX1",x=8.5+6.15*2,y=0+4.46*6,   radius=3,col="g",var="BIBX1",  tooltip="Х1",},
+        {ID = "ARSX3",x=8.5+6.15*2,y=0+4.46*4,   radius=3,col="g",var="BIBX3",  tooltip="Kh3",},
+        {ID = "ARSX2",x=8.5+6.15*2,y=0+4.46*5,   radius=3,col="g",var="BIBX2",  tooltip="Kh2",},
+        {ID = "ARSX1",x=8.5+6.15*2,y=0+4.46*6,   radius=3,col="g",var="BIBX1",  tooltip="Kh1",},
         {ID = "ARS0", x=8.5+6.15*2,y=0+4.46*7,   radius=3,col="g",var="BIB0",   tooltip="0",},
-        {ID = "ARST1",x=8.5+6.15*2,y=0+4.46*8,   radius=3,col="g",var="BIBT1",  tooltip="Т1",},
-        {ID = "ARST2",x=8.5+6.15*2,y=0+4.46*9,   radius=3,col="g",var="BIBT2",  tooltip="Т2",},
-        {ID = "ARST3",x=8.5+6.15*2,y=0+4.46*10,  radius=3,col="g",var="BIBT3",  tooltip="Т3",},
-        {ID = "ROT",  x=8.5+6.15*2,y=1+4.26*12,  radius=3,col="r",var="BIROT", tooltip="РОТ",},
-        {ID = "SOT",  x=8.5+6.15*2,y=1+4.26*13.1,radius=3,col="r",var="BISOT", tooltip="СОТ",},
+        {ID = "ARST1",x=8.5+6.15*2,y=0+4.46*8,   radius=3,col="g",var="BIBT1",  tooltip="T1",},
+        {ID = "ARST2",x=8.5+6.15*2,y=0+4.46*9,   radius=3,col="g",var="BIBT2",  tooltip="T2",},
+        {ID = "ARST3",x=8.5+6.15*2,y=0+4.46*10,  radius=3,col="g",var="BIBT3",  tooltip="T3",},
+        {ID = "ROT",  x=8.5+6.15*2,y=1+4.26*12,  radius=3,col="r",var="BIROT", tooltip="ROT",},
+        {ID = "SOT",  x=8.5+6.15*2,y=1+4.26*13.1,radius=3,col="r",var="BISOT", tooltip="SOT",},
     }
 }
 
@@ -649,14 +649,14 @@ ENT.ButtonMap["BUP_MLUP"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "VP",   x=5+8*0,y=-1+4.8*3,     radius=3,col="g",var="BV",   tooltip="ВП",},
-        {ID = "NZ",   x=5+8*0,y=-1+4.8*4,     radius=3,col="g",var="BN",   tooltip="НЗ",},
-        {ID = "BUP",  x=5+8*0,y=-1+4.8*5,     radius=3,col="r",var="BBBUP", tooltip="БЛ БУП",},
+        {ID = "VP",   x=5+8*0,y=-1+4.8*3,     radius=3,col="g",var="BV",   tooltip="VP",},
+        {ID = "NZ",   x=5+8*0,y=-1+4.8*4,     radius=3,col="g",var="BN",   tooltip="NZ",},
+        {ID = "BUP",  x=5+8*0,y=-1+4.8*5,     radius=3,col="r",var="BBBUP", tooltip="BL BUP",},
         {ID = "V0",   x=5+8*0,y=-2.5+4.8*7-1, radius=3,col="r",var="BV0",   tooltip="V=0",},
-        {ID = "KU",   x=5+8*0,y=-2.5+4.8*8-1, radius=3,col="r",var="BEKV",  tooltip="КУ",},
-        {ID = "BAV",  x=5+8*0,y=-2.5+4.8*9-1, radius=3,col="r",var="BEBAV", tooltip="БАВ",},
-        {ID = "KR",   x=5+8*0,y=-2.5+4.8*10-1,radius=3,col="r",var="BEKR",  tooltip="КР",},
-        {ID = "ARS",  x=5+8*0,y=-2.5+4.8*11-1,radius=3,col="r",var="BEARS", tooltip="АРС",},
+        {ID = "KU",   x=5+8*0,y=-2.5+4.8*8-1, radius=3,col="r",var="BEKV",  tooltip="KU",},
+        {ID = "BAV",  x=5+8*0,y=-2.5+4.8*9-1, radius=3,col="r",var="BEBAV", tooltip="BAV",},
+        {ID = "KR",   x=5+8*0,y=-2.5+4.8*10-1,radius=3,col="r",var="BEKR",  tooltip="KR",},
+        {ID = "ARS",  x=5+8*0,y=-2.5+4.8*11-1,radius=3,col="r",var="BEARS", tooltip="ARS (automatic train speed regulation)",},
     }
 }
 ENT.ButtonMap["BUP_MUVS1"] = {
@@ -668,14 +668,14 @@ ENT.ButtonMap["BUP_MUVS1"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "VP",   x=5+8*0,y=-0.7+4.7*3,  radius=3,col="g",var="BOV",   tooltip="ВП",},
-        {ID = "NZ",   x=5+8*0,y=-0.7+4.7*4,  radius=3,col="g",var="BON",   tooltip="НЗ",},
-        {ID = "X",    x=5+8*0,y= 0.9+4.7*5,radius=3,col="g",var="BOX",   tooltip="Х",},
-        {ID = "T",    x=5+8*0,y= 0.9+4.7*6,radius=3,col="r",var="BOT",   tooltip="Т",},
-        {ID = "U1",   x=5+8*0,y= 0.9+4.7*7,radius=3,col="g",var="BOU1",  tooltip="Уставка 1",},
-        {ID = "U2",   x=5+8*0,y= 0.9+4.7*8,radius=3,col="g",var="BOU2",  tooltip="Уставка 2",},
-        {ID = "BAV",  x=5+8*0,y= 2.2+4.7*9, radius=3,col="g",var="BOBBAV",tooltip="БЛ БАВ",},
-        {ID = "BUP",  x=5+8*0,y= 2.2+4.7*10,radius=3,col="g",var="BOBBUP",tooltip="БЛ БУВ",},
+        {ID = "VP",   x=5+8*0,y=-0.7+4.7*3,  radius=3,col="g",var="BOV",   tooltip="VP",},
+        {ID = "NZ",   x=5+8*0,y=-0.7+4.7*4,  radius=3,col="g",var="BON",   tooltip="NZ",},
+        {ID = "X",    x=5+8*0,y= 0.9+4.7*5,radius=3,col="g",var="BOX",   tooltip="Kh",},
+        {ID = "T",    x=5+8*0,y= 0.9+4.7*6,radius=3,col="r",var="BOT",   tooltip="T",},
+        {ID = "U1",   x=5+8*0,y= 0.9+4.7*7,radius=3,col="g",var="BOU1",  tooltip="Setpoint 1",},
+        {ID = "U2",   x=5+8*0,y= 0.9+4.7*8,radius=3,col="g",var="BOU2",  tooltip="Setpoint 2",},
+        {ID = "BAV",  x=5+8*0,y= 2.2+4.7*9, radius=3,col="g",var="BOBBAV",tooltip="BL BAV",},
+        {ID = "BUP",  x=5+8*0,y= 2.2+4.7*10,radius=3,col="g",var="BOBBUP",tooltip="BL BUV",},
     }
 }
 ENT.ButtonMap["BUP_MUVS2"] = {
@@ -687,8 +687,8 @@ ENT.ButtonMap["BUP_MUVS2"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "0",    x=5+8*0,y=0.8+4.35*5.6,radius=3,col="g",var="BO0",   tooltip="Выбег",},
-        {ID = "ZPT",  x=5+8*0,y=0.8+4.35*7.8,radius=3,col="r",var="BOZPT", tooltip="ЗПТ",},
+        {ID = "0",    x=5+8*0,y=0.8+4.35*5.6,radius=3,col="g",var="BO0",   tooltip="Coasting",},
+        {ID = "ZPT",  x=5+8*0,y=0.8+4.35*7.8,radius=3,col="r",var="BOZPT", tooltip="ZPT",},
     }
 }
 ENT.ButtonMap["BUP_MS"] = {
@@ -700,7 +700,7 @@ ENT.ButtonMap["BUP_MS"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "MS",    x=5+8*0,y=1.3+4.35*6,radius=3,col="g",var="BMS",   tooltip="Норма",},
+        {ID = "MS",    x=5+8*0,y=1.3+4.35*6,radius=3,col="g",var="BMS",   tooltip="Normal",},
     }
 }
 ENT.ButtonMap["BUP_MP"] = {
@@ -712,7 +712,7 @@ ENT.ButtonMap["BUP_MP"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "MP",    x=5+8*0,y=2.7+4.35*9,radius=3,col="g",var="BMP",   tooltip="Норма",},
+        {ID = "MP",    x=5+8*0,y=2.7+4.35*9,radius=3,col="g",var="BMP",   tooltip="Normal",},
     }
 }
 ---[[
@@ -725,25 +725,25 @@ ENT.ButtonMap["BUV_MPS"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "PROV", x=5+8*0,y=15+5*2,  radius=3,col="g",var="VIPROV", tooltip="Проверка",},
-        {ID = "AVR",  x=5+8*0,y=15+5*3,  radius=3,col="r",var="VIAVR",  tooltip="Отключение режимов",},
-        {ID = "TARS", x=5+8*0,y=15+5*9,  radius=3,col="g",var="VITARS", tooltip="Тормоз БКБД",},
+        {ID = "PROV", x=5+8*0,y=15+5*2,  radius=3,col="g",var="VIPROV", tooltip="Test",},
+        {ID = "AVR",  x=5+8*0,y=15+5*3,  radius=3,col="r",var="VIAVR",  tooltip="Mode disengage",},
+        {ID = "TARS", x=5+8*0,y=15+5*9,  radius=3,col="g",var="VITARS", tooltip="BKBD brake",},
         {ID = "X" ,   x=5+8*0,y=15+5*10, radius=3,col="g",var="VIX",    tooltip="Код режима \"Ход\"",},
 
-        {ID = "NZ",   x=5+8*1,y=15+5*0,  radius=3,col="g",var="VINZ",   tooltip="Назад",},
-        {ID = "NZR",  x=5+8*1,y=15+5*1,  radius=3,col="g",var="VINR",   tooltip="Резервный назад",},
-        {ID = "PROV0",x=5+8*1,y=15+5*2,  radius=3,col="g",var="VIPROV0",tooltip="Проверка работы",},
-        {ID = "SK",   x=5+8*1,y=15+5*3,  radius=3,col="g",var="",       tooltip="Скорость",},
+        {ID = "NZ",   x=5+8*1,y=15+5*0,  radius=3,col="g",var="VINZ",   tooltip="Backward",},
+        {ID = "NZR",  x=5+8*1,y=15+5*1,  radius=3,col="g",var="VINR",   tooltip="Backup backward",},
+        {ID = "PROV0",x=5+8*1,y=15+5*2,  radius=3,col="g",var="VIPROV0",tooltip="Operation test",},
+        {ID = "SK",   x=5+8*1,y=15+5*3,  radius=3,col="g",var="",       tooltip="Speed",},
         {ID = "T",    x=5+8*1,y=15+5*9,  radius=3,col="g",var="VIT",    tooltip="Код режима \"Тормоз\"",},
-        {ID = "XR",   x=5+8*1,y=15+5*10, radius=3,col="g",var="VIXP",   tooltip="Резервный ход 1",},
-        {ID = "U1",   x=5+8*1,y=15+5*11, radius=3,col="g",var="VIU1",   tooltip="Уставка 1",},
-        {ID = "U2",   x=5+8*1,y=15+5*12, radius=3,col="g",var="VIU2",   tooltip="Уставка 2",},
+        {ID = "XR",   x=5+8*1,y=15+5*10, radius=3,col="g",var="VIXP",   tooltip="Backup traction 1",},
+        {ID = "U1",   x=5+8*1,y=15+5*11, radius=3,col="g",var="VIU1",   tooltip="Setpoint 1",},
+        {ID = "U2",   x=5+8*1,y=15+5*12, radius=3,col="g",var="VIU2",   tooltip="Setpoint 2",},
 
-        {ID = "VP",   x=5+8*2,y=15+5*0,  radius=3,col="g",var="VIVP",   tooltip="Вперёд",},
-        {ID = "VPR",  x=5+8*2,y=15+5*1,  radius=3,col="g",var="VIVR",   tooltip="Резервный вперед",},
-        {ID = "VZ",   x=5+8*2,y=15+5*2.5,radius=3,col="g",var="VIVZ",   tooltip="Возврат защиты",},
-        {ID = "XM",   x=5+8*2,y=15+5*10, radius=3,col="g",var="VIM",    tooltip="Маневровый ход",},
-        {ID = "U1R",  x=5+8*2,y=15+5*11, radius=3,col="g",var="VIU1R",  tooltip="Резервный ход 2",},
+        {ID = "VP",   x=5+8*2,y=15+5*0,  radius=3,col="g",var="VIVP",   tooltip="Forward",},
+        {ID = "VPR",  x=5+8*2,y=15+5*1,  radius=3,col="g",var="VIVR",   tooltip="Backup forward",},
+        {ID = "VZ",   x=5+8*2,y=15+5*2.5,radius=3,col="g",var="VIVZ",   tooltip="Protection reset",},
+        {ID = "XM",   x=5+8*2,y=15+5*10, radius=3,col="g",var="VIM",    tooltip="Shunting mode",},
+        {ID = "U1R",  x=5+8*2,y=15+5*11, radius=3,col="g",var="VIU1R",  tooltip="Backup traction 2",},
     }
 }
 ENT.ButtonMap["BUV_MVD"] = {
@@ -755,8 +755,8 @@ ENT.ButtonMap["BUV_MVD"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "OTK",  x=2+8*1,y=15+5*4.5,radius=3,col="r",var="VOTK",    tooltip="Отказ режимов",},
-        {ID = "RP",   x=2+8*1,y=15+5*6.9,radius=3,col="r",var="VRP",     tooltip="Сработка РП",},
+        {ID = "OTK",  x=2+8*1,y=15+5*4.5,radius=3,col="r",var="VOTK",    tooltip="Mode fault",},
+        {ID = "RP",   x=2+8*1,y=15+5*6.9,radius=3,col="r",var="VRP",     tooltip="RP tripped",},
     }
 }
 
@@ -769,19 +769,19 @@ ENT.ButtonMap["BUV_MALP1"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "MZK", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMZK",   tooltip="Мгновенный запрет ключа",},
-        {ID = "FM",  x=11+8*0,y=15+5*3,  radius=3,col="r",var="VFM",    tooltip="Напряжение на фильтре выше 1000 вольт",},
-        {ID = "400", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU400",  tooltip="Наличие400 вольт",},
-        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE1350", tooltip="Наличие тока якоря Гр А",},
-        {ID = "DIF", x=11+8*0,y=15+5*6,  radius=3,col="g",var="VDIF",   tooltip="Разность токов гр А,В",},
-        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE13650",tooltip="Ток якоря Гр А выше 650 ампер",},
-        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE130",  tooltip="Якорный ток Гр А отсутствует",},
-        {ID = "ARS", x=11+8*0,y=15+5*9,  radius=3,col="r",var="",       tooltip="Срыв частотного запуска",},
-        {ID = "ITA", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Пробой тормозного тиристора Гр А > 100a",},
+        {ID = "MZK", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMZK",   tooltip="Instant key lockout",},
+        {ID = "FM",  x=11+8*0,y=15+5*3,  radius=3,col="r",var="VFM",    tooltip="Filter voltage above 1000 volts",},
+        {ID = "400", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU400",  tooltip="400 volts present",},
+        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE1350", tooltip="Armature current present, group A",},
+        {ID = "DIF", x=11+8*0,y=15+5*6,  radius=3,col="g",var="VDIF",   tooltip="Current difference, groups A and B",},
+        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE13650",tooltip="Armature current above 650 A, group A",},
+        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE130",  tooltip="Armature current absent, group A",},
+        {ID = "ARS", x=11+8*0,y=15+5*9,  radius=3,col="r",var="",       tooltip="Frequency startup failure",},
+        {ID = "ITA", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Brake thyristor breakdown, group A > 100A",},
 
-        {ID = "TR",  x=11+8*1,y=15+5*5.5,radius=3,col="g",var="",       tooltip="Наличие реостатного тока более 100 а Гр А",},
-        {ID = "SN",  x=11+8*1,y=15+5*7.3,radius=3,col="r",var="VSN",     tooltip="Силовая схема не собрана",},
-        {ID = "VN",  x=11+8*1,y=15+5*9,  radius=3,col="r",var="",       tooltip="Неисправность вентиляторов",},
+        {ID = "TR",  x=11+8*1,y=15+5*5.5,radius=3,col="g",var="",       tooltip="Rheostat current above 100 A present, group A",},
+        {ID = "SN",  x=11+8*1,y=15+5*7.3,radius=3,col="r",var="VSN",     tooltip="Power circuit not made up",},
+        {ID = "VN",  x=11+8*1,y=15+5*9,  radius=3,col="r",var="",       tooltip="Fan fault",},
     }
 }
 ENT.ButtonMap["BUV_MALP2"] = {
@@ -793,14 +793,14 @@ ENT.ButtonMap["BUV_MALP2"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "MSU", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMSU",   tooltip="Мгновенный сброс уставки",},
-        {ID = "800", x=11+8*0,y=15+5*3,  radius=3,col="g",var="VU800",  tooltip="Напряжение сети 800 вольт",},
-        {ID = "975", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU975",  tooltip="Максимальное напряжение сети ",},
-        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE2450", tooltip="Наличие тока якоря Гр B",},
-        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE24650",tooltip="Ток якоря Гр B выше 650 ампер",},
-        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE240",  tooltip="Якорный ток Гр B отсутствует",},
-        {ID = "BV",  x=11+8*0,y=15+5*9,  radius=3,col="r",var="VBV",    tooltip="Сработала БВ",},
-        {ID = "ITB", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Пробой тормозного тиристора Гр B > 100a",},
+        {ID = "MSU", x=11+8*0,y=15+5*2,  radius=3,col="r",var="VMSU",   tooltip="Instant setpoint reset",},
+        {ID = "800", x=11+8*0,y=15+5*3,  radius=3,col="g",var="VU800",  tooltip="Network voltage 800 volts",},
+        {ID = "975", x=11+8*0,y=15+5*4,  radius=3,col="g",var="VU975",  tooltip="Maximum network voltage ",},
+        {ID = "50" , x=11+8*0,y=15+5*5,  radius=3,col="g",var="VE2450", tooltip="Armature current present, group B",},
+        {ID = "650", x=11+8*0,y=15+5*7,  radius=3,col="r",var="VE24650",tooltip="Armature current above 650 A, group B",},
+        {ID = "0",   x=11+8*0,y=15+5*8,  radius=3,col="r",var="VE240",  tooltip="Armature current absent, group B",},
+        {ID = "BV",  x=11+8*0,y=15+5*9,  radius=3,col="r",var="VBV",    tooltip="BV tripped",},
+        {ID = "ITB", x=11+8*0,y=15+5*10, radius=3,col="r",var="",       tooltip="Brake thyristor breakdown, group B > 100A",},
     }
 }
 ENT.ButtonMap["BUV_MIV"] = {
@@ -812,10 +812,10 @@ ENT.ButtonMap["BUV_MIV"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "33",  x=11+8*0,y=15+5*3.7,radius=3,col="g",var="VZZ",     tooltip="Частотный запуск завершен",},
-        {ID = "V1",  x=11+8*0,y=15+5*5,  radius=3,col="g",var="VV1",     tooltip="Вентиль1",},
-        {ID = "SMA", x=11+8*0,y=15+5*6.3,radius=3,col="g",var="VSMA",    tooltip="Сигнал максимальный Гр А",},
-        {ID = "SMB", x=11+8*0,y=15+5*7.6,radius=3,col="g",var="VSMB",    tooltip="Сигнал максимальный Гр В",},
+        {ID = "33",  x=11+8*0,y=15+5*3.7,radius=3,col="g",var="VZZ",     tooltip="Frequency startup complete",},
+        {ID = "V1",  x=11+8*0,y=15+5*5,  radius=3,col="g",var="VV1",     tooltip="Valve 1",},
+        {ID = "SMA", x=11+8*0,y=15+5*6.3,radius=3,col="g",var="VSMA",    tooltip="Maximum signal, group A",},
+        {ID = "SMB", x=11+8*0,y=15+5*7.6,radius=3,col="g",var="VSMB",    tooltip="Maximum signal, group B",},
     }
 }
 
@@ -828,21 +828,21 @@ ENT.ButtonMap["BUV_MGR"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "TP1", x=5+8*0,y=15+5*2,   radius=3,col="y",var="VITP1", tooltip="Прижатие токоприемника 1",},
-        {ID = "TP3", x=5+8*0,y=15+5*3.5, radius=3,col="y",var="VITP3", tooltip="Прижатие токоприемника 3",},
-        {ID = "KHA", x=5+8*0,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Включение контакторов хода группы А",},
-        {ID = "KTA", x=5+8*0,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Включение контакторов тормоза группы А",},
+        {ID = "TP1", x=5+8*0,y=15+5*2,   radius=3,col="y",var="VITP1", tooltip="Current collector engage 1",},
+        {ID = "TP3", x=5+8*0,y=15+5*3.5, radius=3,col="y",var="VITP3", tooltip="Current collector engage 3",},
+        {ID = "KHA", x=5+8*0,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Traction contactors engage, group A",},
+        {ID = "KTA", x=5+8*0,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Brake contactors engage, group A",},
 
-        {ID = "TP2", x=5+8*1,y=15+5*2,   radius=3,col="y",var="VITP2", tooltip="Прижатие токоприемника 2",},
-        {ID = "TP4", x=5+8*1,y=15+5*3.5, radius=3,col="y",var="VITP4", tooltip="Прижатие токоприемника 4",},
-        {ID = "KHB", x=5+8*1,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Включение контакторов хода группы B",},
-        {ID = "KTB", x=5+8*1,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Включение контакторов тормоза группы B",},
-        {ID = "KRV", x=5+8*1,y=15+5*12,  radius=3,col="y",var="VIRV",  tooltip="Включение контакторов реверса вперёд",},
+        {ID = "TP2", x=5+8*1,y=15+5*2,   radius=3,col="y",var="VITP2", tooltip="Current collector engage 2",},
+        {ID = "TP4", x=5+8*1,y=15+5*3.5, radius=3,col="y",var="VITP4", tooltip="Current collector engage 4",},
+        {ID = "KHB", x=5+8*1,y=15+5*9,   radius=3,col="y",var="VIKX",  tooltip="Traction contactors engage, group B",},
+        {ID = "KTB", x=5+8*1,y=15+5*10.5,radius=3,col="y",var="VIKT",  tooltip="Brake contactors engage, group B",},
+        {ID = "KRV", x=5+8*1,y=15+5*12,  radius=3,col="y",var="VIRV",  tooltip="Forward reverser contactors engage",},
 
-        {ID = "NV",  x=5+8*2,y=15+5*1,   radius=3,col="r",var="",      tooltip="Неисправность вентилятора ПТТИ",},
-        {ID = "BV",  x=5+8*2,y=15+5*3,   radius=3,col="g",var="VIBV",  tooltip="БВ взведён",},
-        {ID = "LK",  x=5+8*2,y=15+5*10,  radius=3,col="y",var="VILT",  tooltip="Включение линейного контактора",},
-        {ID = "KRN", x=5+8*2,y=15+5*12,  radius=3,col="y",var="VIRN",  tooltip="Включение контакторов реверса назад",},
+        {ID = "NV",  x=5+8*2,y=15+5*1,   radius=3,col="r",var="",      tooltip="PTTI fan fault",},
+        {ID = "BV",  x=5+8*2,y=15+5*3,   radius=3,col="g",var="VIBV",  tooltip="BV latched",},
+        {ID = "LK",  x=5+8*2,y=15+5*10,  radius=3,col="y",var="VILT",  tooltip="Line contactor engage",},
+        {ID = "KRN", x=5+8*2,y=15+5*12,  radius=3,col="y",var="VIRN",  tooltip="Reverse reverser contactors engage",},
     }
 }
 ENT.ButtonMap["BUV_MLUA"] = {
@@ -854,15 +854,15 @@ ENT.ButtonMap["BUV_MLUA"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "KT",  x=10+8*0,y=17+5*3,  radius=3,col="g",var="VOKT",  tooltip="Команда тормоза",},
-        {ID = "XH",  x=10+8*0,y=17+5*4,  radius=3,col="g",var="VOKX",  tooltip="Команда хода",},
-        {ID = "VP",  x=10+8*0,y=17+5*5,  radius=3,col="g",var="VOVP",  tooltip="Команда включения реверса вперёд",},
-        {ID = "NZ",  x=10+8*0,y=17+5*6,  radius=3,col="g",var="VONZ",  tooltip="Команда включения реверса назад",},
-        {ID = "SS",  x=10+8*0,y=17+5*7,  radius=3,col="g",var="VSS",   tooltip="Сигнал собранной схемы",},
+        {ID = "KT",  x=10+8*0,y=17+5*3,  radius=3,col="g",var="VOKT",  tooltip="Brake command",},
+        {ID = "XH",  x=10+8*0,y=17+5*4,  radius=3,col="g",var="VOKX",  tooltip="Traction command",},
+        {ID = "VP",  x=10+8*0,y=17+5*5,  radius=3,col="g",var="VOVP",  tooltip="Forward reverse engage command",},
+        {ID = "NZ",  x=10+8*0,y=17+5*6,  radius=3,col="g",var="VONZ",  tooltip="Reverse engage command",},
+        {ID = "SS",  x=10+8*0,y=17+5*7,  radius=3,col="g",var="VSS",   tooltip="Circuit made-up signal",},
 
-        {ID = "PV",  x=10+8*0,y=17+5*9,  radius=3,col="g",var="",      tooltip="Команда включения подвозбудителя",},
+        {ID = "PV",  x=10+8*0,y=17+5*9,  radius=3,col="g",var="",      tooltip="Sub-exciter engage command",},
 
-        {ID = "LK",  x=10+8*0,y=17+5*11, radius=3,col="g",var="VOLK",  tooltip="Команда включения линейного конатктора",},
+        {ID = "LK",  x=10+8*0,y=17+5*11, radius=3,col="g",var="VOLK",  tooltip="Line contactor engage command",},
     }
 }
 ENT.ButtonMap["BUV_MUVK1"] = {
@@ -874,14 +874,14 @@ ENT.ButtonMap["BUV_MUVK1"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "V1",  x=11+8*0,y=19+5*2,  radius=3,col="g",var="VOV1",  tooltip="Управление катушкой ВЗ№1",},
-        {ID = "KT",  x=11+8*0,y=19+5*3,  radius=3,col="g",var="VOKT",  tooltip="Управление контакторами тормоза",},
-        {ID = "KH",  x=11+8*0,y=19+5*4,  radius=3,col="g",var="VOKX",  tooltip="Управление контакторами хода",},
-        {ID = "LK",  x=11+8*0,y=19+5*5,  radius=3,col="g",var="VOLK",  tooltip="Управление линейным контактором",},
-        {ID = "PV",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="",      tooltip="Управление подвозбудителем",},
-        {ID = "NZ",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VONZ",  tooltip="Управление реверсом Назад",},
+        {ID = "V1",  x=11+8*0,y=19+5*2,  radius=3,col="g",var="VOV1",  tooltip="VZ No. 1 coil control",},
+        {ID = "KT",  x=11+8*0,y=19+5*3,  radius=3,col="g",var="VOKT",  tooltip="Brake contactor control",},
+        {ID = "KH",  x=11+8*0,y=19+5*4,  radius=3,col="g",var="VOKX",  tooltip="Traction contactor control",},
+        {ID = "LK",  x=11+8*0,y=19+5*5,  radius=3,col="g",var="VOLK",  tooltip="Line contactor control",},
+        {ID = "PV",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="",      tooltip="Sub-exciter control",},
+        {ID = "NZ",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VONZ",  tooltip="Reverser control, backward",},
 
-        {ID = "SN",  x=11+8*1,y=19+5*2,  radius=3,col="r",var="VOSN",  tooltip="Силовая схема вагона не собрана",},
+        {ID = "SN",  x=11+8*1,y=19+5*2,  radius=3,col="r",var="VOSN",  tooltip="Car power circuit not made up",},
     }
 }
 ENT.ButtonMap["BUV_MUVK2"] = {
@@ -893,12 +893,12 @@ ENT.ButtonMap["BUV_MUVK2"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "RTM", x=11+8*0,y=19+5*2,  radius=3,col="g",var="VORKT", tooltip="Управление реле минимального тока",},
-        {ID = "RKT", x=11+8*0,y=19+5*3,  radius=3,col="g",var="VORMT", tooltip="Управление реле контроля торможения",},
-        {ID = "RP",  x=11+8*0,y=19+5*4,  radius=3,col="r",var="VORP",  tooltip="Сработка защиты",},
-        {ID = "OTK", x=11+8*0,y=19+5*5,  radius=3,col="r",var="VOOIZ",   tooltip="Отказ вагона",},
-        {ID = "75",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="VO75V", tooltip="Резервное питание БУВ",},
-        {ID = "VP",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VOVP",  tooltip="Управление реверсом Вперед",},
+        {ID = "RTM", x=11+8*0,y=19+5*2,  radius=3,col="g",var="VORKT", tooltip="Minimum current relay control",},
+        {ID = "RKT", x=11+8*0,y=19+5*3,  radius=3,col="g",var="VORMT", tooltip="Brake monitoring relay control",},
+        {ID = "RP",  x=11+8*0,y=19+5*4,  radius=3,col="r",var="VORP",  tooltip="Protection tripped",},
+        {ID = "OTK", x=11+8*0,y=19+5*5,  radius=3,col="r",var="VOOIZ",   tooltip="Car fault",},
+        {ID = "75",  x=11+8*0,y=19+5*6,  radius=3,col="g",var="VO75V", tooltip="BUV power, backup",},
+        {ID = "VP",  x=11+8*0,y=19+5*7,  radius=3,col="g",var="VOVP",  tooltip="Reverser control, forward",},
     }
 }
 ---[[
@@ -929,21 +929,21 @@ ENT.ButtonMap["DriverValveDisconnect"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "DriverValveDisconnectToggle", x=0, y=10, w=70, h=70, tooltip="Клапан разобщения", model = {
+        {ID = "DriverValveDisconnectToggle", x=0, y=10, w=70, h=70, tooltip="Isolating valve", model = {
             var="DriverValveDisconnect",--sndid="brake_disconnect",
             sndvol = 1, snd = function(val) return "disconnect_valve" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
             model = "models/metrostroi_train/81-718/disconnect_valve.mdl", ang=90,z=13,
             speed=4, min=1,max=0.75
         }},
-        {ID = "ParkingBrakeToggle", x=82.5, y=10, w=70, h=70, tooltip="Стояночный тормоз", model = {
+        {ID = "ParkingBrakeToggle", x=82.5, y=10, w=70, h=70, tooltip="Parking brake", model = {
             var="ParkingBrake",--sndid="brake_disconnect2",
             sndvol = 1, snd = function(val) return "disconnect_valve" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
             model = "models/metrostroi_train/81-718/disconnect_valve.mdl", ang=90,z=13,
             speed=4, min=1,max=0.75
         }},
-        {ID = "EPKToggle", x=188, y=0, w=70, h=70, tooltip="ЭПВ: Электропневматический вентиль АРС", model = {
+        {ID = "EPKToggle", x=188, y=0, w=70, h=70, tooltip="EPV: ARS electropneumatic valve", model = {
             var="EPK",--sndid="brake_disconnect2",
             sndvol = 1, snd = function(val) return "disconnect_valve" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
@@ -962,17 +962,17 @@ ENT.ButtonMap["KR"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "SBR14Set",x=20, y=20, radius=20, tooltip="Резервный ход 1", model = {
+        {ID = "SBR14Set",x=20, y=20, radius=20, tooltip="Backup traction 1", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_red.mdl", vmin=1, vmax=0, z=-3,
             var="SBR14",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SBR16Set",x=90, y=20, radius=20, tooltip="КАХ", model = {
+        {ID = "SBR16Set",x=90, y=20, radius=20, tooltip="KAKh", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_red.mdl", vmin=1, vmax=0, z=-3,
             var="SBR16",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SBR15Set",x=160, y=20, radius=20, tooltip="Резервный ход 2", model = {
+        {ID = "SBR15Set",x=160, y=20, radius=20, tooltip="Backup traction 2", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_red.mdl", vmin=1, vmax=0, z=-3,
             var="SBR15",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
@@ -989,33 +989,33 @@ ENT.ButtonMap["BackPPZ"] = {
     hide=0.8,
 
     buttons = {
-        {ID = "SF51Toggle",x=0*35.5, y=73, w=20,h=40, tooltip = "SF51: Основное питание АРС",},
-        {ID = "SF52Toggle",x=1*35.5, y=73, w=20,h=40, tooltip = "SF52: Резервное питание АРС",},
-        {ID = "SF53Toggle",x=2*35.5, y=73, w=20,h=40, tooltip = "SF53: Тормозные цепи АРС",},
-        {ID = "SF60Toggle",x=3*35.5, y=73, w=20,h=40, tooltip = "SF60: 12V АРС",},
-        {ID = "SF61Toggle",x=4*35.5, y=73, w=20,h=40, tooltip = "SF61: 50V АРС(ФММ1)",},
-        {ID = "SF77Toggle",x=5*35.5, y=73, w=20,h=40, tooltip = "SF77: Аварийный ход основное управление",},
-        {ID = "SF78Toggle",x=6*35.5, y=73, w=20,h=40, tooltip = "SF78: Аварийный ход резервное управление",},
-        {ID = "SF40Toggle",x=7*35.5, y=73, w=20,h=40, tooltip = "SF40: Вентиль №2",},
-        {ID = "SF41Toggle",x=8*35.5, y=73, w=20,h=40, tooltip = "SF41: Фары",},
-        {ID = "SF8Toggle" ,x=9*35.5, y=73, w=20,h=40, tooltip = "SF8: Двери",},
-        {ID = "SF10Toggle",x=10*35.5, y=73, w=20,h=40, tooltip = "SF10:Вентиляторы 1 группа"},
-        {ID = "SF11Toggle",x=11*35.5, y=73, w=20,h=40, tooltip = "SF11:Вентиляторы 2 группа"},
-        {ID = "SF7Toggle" ,x=12*35.5, y=73, w=20,h=40, tooltip = "SF7: ББЭ, Мотор-компрессор"},
+        {ID = "SF51Toggle",x=0*35.5, y=73, w=20,h=40, tooltip = "SF51: ARS power, main",},
+        {ID = "SF52Toggle",x=1*35.5, y=73, w=20,h=40, tooltip = "SF52: ARS power, backup",},
+        {ID = "SF53Toggle",x=2*35.5, y=73, w=20,h=40, tooltip = "SF53: ARS brake circuits",},
+        {ID = "SF60Toggle",x=3*35.5, y=73, w=20,h=40, tooltip = "SF60: ARS 12V",},
+        {ID = "SF61Toggle",x=4*35.5, y=73, w=20,h=40, tooltip = "SF61: ARS 50V (FMM1)",},
+        {ID = "SF77Toggle",x=5*35.5, y=73, w=20,h=40, tooltip = "SF77: Emergency traction, main control",},
+        {ID = "SF78Toggle",x=6*35.5, y=73, w=20,h=40, tooltip = "SF78: Emergency traction, backup control",},
+        {ID = "SF40Toggle",x=7*35.5, y=73, w=20,h=40, tooltip = "SF40: Valve No. 2",},
+        {ID = "SF41Toggle",x=8*35.5, y=73, w=20,h=40, tooltip = "SF41: Headlights",},
+        {ID = "SF8Toggle" ,x=9*35.5, y=73, w=20,h=40, tooltip = "SF8: Doors",},
+        {ID = "SF10Toggle",x=10*35.5, y=73, w=20,h=40, tooltip = "SF10: Ventilation group 1"},
+        {ID = "SF11Toggle",x=11*35.5, y=73, w=20,h=40, tooltip = "SF11: Ventilation group 2"},
+        {ID = "SF7Toggle" ,x=12*35.5, y=73, w=20,h=40, tooltip = "SF7: BBE, motor-compressor"},
 
-        {ID = "SF50Toggle",x=0*35.5, y=275, w=20,h=40, tooltip = "SF50: Скоростимер",},
-        {ID = "SF76Toggle",x=1*35.5, y=275, w=20,h=40, tooltip = "SF76: Пожарная сигнализация",},
-        {ID = "SF73Toggle",x=2*35.5, y=275, w=20,h=40, tooltip = "SF73: Гребнесмазыватель",},
-        {ID = "SF3Toggle" ,x=3*35.5, y=275, w=20,h=40, tooltip = "SF3: Вагонное питание, ЦУВ",},
-        {ID = "SF71Toggle",x=4*35.5, y=275, w=20,h=40, tooltip = "SF71: Экстренная связь",},
-        {ID = "SF63Toggle",x=5*35.5, y=275, w=20,h=40, tooltip = "SF63: Радиостанция",},
-        {ID = "SF54Toggle",x=6*35.5, y=275, w=20,h=40, tooltip = "SF54: Радиооповещение 50А",},
-        {ID = "SF65Toggle",x=7*35.5, y=275, w=20,h=40, tooltip = "SF65: Вентиляция кабины",},
-        {ID = "SF55Toggle",x=8*35.5, y=275, w=20,h=40, tooltip = "SF55: СОТ-3",},
-        {ID = "SF9Toggle" ,x=9*35.5, y=275, w=20,h=40, tooltip = "SF9: Управление поездом резервное",},
-        {ID = "SF6Toggle",x=10*35.5, y=275, w=20,h=40, tooltip = "SF6: Управление поездом основное"},
-        {ID = "SF5Toggle",x=11*35.5, y=275, w=20,h=40, tooltip = "SF5: Управление БКЦУ"},
-        {ID = "SF2Toggle" ,x=12*35.5, y=275, w=20,h=40, tooltip = "SF2: Поездное питание"},
+        {ID = "SF50Toggle",x=0*35.5, y=275, w=20,h=40, tooltip = "SF50: Speed recorder",},
+        {ID = "SF76Toggle",x=1*35.5, y=275, w=20,h=40, tooltip = "SF76: Fire alarm",},
+        {ID = "SF73Toggle",x=2*35.5, y=275, w=20,h=40, tooltip = "SF73: Flange lubricator",},
+        {ID = "SF3Toggle" ,x=3*35.5, y=275, w=20,h=40, tooltip = "SF3: Car power, TsUV",},
+        {ID = "SF71Toggle",x=4*35.5, y=275, w=20,h=40, tooltip = "SF71: Emergency intercom",},
+        {ID = "SF63Toggle",x=5*35.5, y=275, w=20,h=40, tooltip = "SF63: Radio station",},
+        {ID = "SF54Toggle",x=6*35.5, y=275, w=20,h=40, tooltip = "SF54: Radio announcement 50A",},
+        {ID = "SF65Toggle",x=7*35.5, y=275, w=20,h=40, tooltip = "SF65: Cab ventilation",},
+        {ID = "SF55Toggle",x=8*35.5, y=275, w=20,h=40, tooltip = "SF55: SOT-3",},
+        {ID = "SF9Toggle" ,x=9*35.5, y=275, w=20,h=40, tooltip = "SF9: Train control, backup",},
+        {ID = "SF6Toggle",x=10*35.5, y=275, w=20,h=40, tooltip = "SF6: Train control, main"},
+        {ID = "SF5Toggle",x=11*35.5, y=275, w=20,h=40, tooltip = "SF5: BKTsU control"},
+        {ID = "SF2Toggle" ,x=12*35.5, y=275, w=20,h=40, tooltip = "SF2: Train power"},
     }
 }
 
@@ -1081,31 +1081,31 @@ ENT.ButtonMap["VPU"] = {
     hide=0.8,
 
     buttons = {
-        {ID = "SAP8Toggle",x=60, y=31, radius=10, tooltip="Освещение салона", model = {
+        {ID = "SAP8Toggle",x=60, y=31, radius=10, tooltip="Saloon lighting", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP8",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP13Toggle",x=91, y=31, radius=10, tooltip="Освещение кабины", model = {
+        {ID = "SAP13Toggle",x=91, y=31, radius=10, tooltip="Cab lighting", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP13",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP36Toggle",x=245, y=31, radius=10, tooltip="Включение контроля экстренной связи", model = {
+        {ID = "SAP36Toggle",x=245, y=31, radius=10, tooltip="Emergency intercom monitoring engage", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP36",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP12Toggle",x=330, y=31, radius=10, tooltip="Освещение отсека", model = {
+        {ID = "SAP12Toggle",x=330, y=31, radius=10, tooltip="Compartment lighting", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP12",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP11Toggle",x=365, y=31, radius=10, tooltip="Включение отопления кабины", model = {
+        {ID = "SAP11Toggle",x=365, y=31, radius=10, tooltip="Cab heating engage", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP11",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
@@ -1120,47 +1120,47 @@ ENT.ButtonMap["VPU"] = {
         }},
 
 
-        {ID = "SAP9Toggle",x=60, y=85, radius=10, tooltip="Вентиляция 1 группа", model = {
+        {ID = "SAP9Toggle",x=60, y=85, radius=10, tooltip="Ventilation group 1", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP9",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP10Toggle",x=91, y=85, radius=10, tooltip="Вентиляция 2 группа", model = {
+        {ID = "SAP10Toggle",x=91, y=85, radius=10, tooltip="Ventilation group 2", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP10",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
 
-        {ID = "SAP3Toggle",x=116, y=85, radius=10, tooltip="УНЧ", model = {
+        {ID = "SAP3Toggle",x=116, y=85, radius=10, tooltip="UNCh", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP3",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP39Toggle",x=165, y=85, radius=10, tooltip="КГ", model = {
+        {ID = "SAP39Toggle",x=165, y=85, radius=10, tooltip="KG", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP39",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SBP22Set",x=209, y=80, radius=20, tooltip="Проверка работоспособности", model = {
+        {ID = "SBP22Set",x=209, y=80, radius=20, tooltip="Functional test", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-3,
             var="SBP22",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SBP6Set",x=246, y=80, radius=20, tooltip="Резерв двери правые", model = {
+        {ID = "SBP6Set",x=246, y=80, radius=20, tooltip="Right doors, backup", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-3,
             var="SBP6",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SBP4Set",x=283, y=80, radius=20, tooltip="Резерв двери левые", model = {
+        {ID = "SBP4Set",x=283, y=80, radius=20, tooltip="Left doors, backup", model = {
             model = "models/metrostroi_train/81-710/ezh3_button_black.mdl", vmin=1, vmax=0, z=-3,
             var="SBP4",speed=16,
             sndvol = 0.07, snd = function(val) return val and "button3_on" or "button3_off" end,sndmin = 60, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP14Toggle",x=330, y=85, radius=10, tooltip="Переключение режима дешифратора АЛС (вверх 2/6, вниз 1/5)", model = {
+        {ID = "SAP14Toggle",x=330, y=85, radius=10, tooltip="ALS decoder mode switch (up 2/6, down 1/5)", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP14",speed=16,ang=180,
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
@@ -1173,7 +1173,7 @@ ENT.ButtonMap["VPU"] = {
             sndvol = 1, snd = function(val) return val and "switchbl_on" or "switchbl_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "SAP24Toggle",x=400, y=85, radius=10, tooltip="ВОВТ: Выключатель отключения вентильных тормозов", model = {
+        {ID = "SAP24Toggle",x=400, y=85, radius=10, tooltip="VOVT: Valve brake cutout switch", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t1.mdl",z=-2,
             var="SAP24",speed=16,ang=180,vmin=1,vmax=0,
             plomb = {model = "models/metrostroi_train/81/plomb_b.mdl",ang=90-30,x=-1+13,y=-25,z=0,var="SAP24Pl", ID="SAP24Pl",},
@@ -1207,8 +1207,8 @@ ENT.ButtonMap["Battery"] = {
             var="VTPR",speed=2,min=1,max=0.61,getfunc = function(ent) return ent:GetPackedRatio("VTPR") end,
             sndvol = 0.8, snd = function(_,val) return val%2>0 and "pak_on" or "pak_off" end,sndmin = 80, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID="VTPR-",x=300-30, y=40-30, w=30,h=60, tooltip="ВТПР(влево)"},
-        {ID="VTPR+",x=300   , y=40-30, w=30,h=60, tooltip="ВТПР(вправо)"},
+        {ID="VTPR-",x=300-30, y=40-30, w=30,h=60, tooltip="VTPR (left)"},
+        {ID="VTPR+",x=300   , y=40-30, w=30,h=60, tooltip="VTPR (right)"},
     }
 }
 
@@ -1222,27 +1222,27 @@ ENT.ButtonMap["ARS"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "!Speedometer1",  x=107,y=6,w=13,h=22,tooltip="Индикатор скорости", model = {
+        {ID = "!Speedometer1",  x=107,y=6,w=13,h=22,tooltip="Speed indicator", model = {
             name="SPU_Speed2",model = "models/metrostroi_train/81-717/segments/segment_mvm.mdl", color=Color(175,250,20),skin=0,z=1,ang=Angle(0,0,-90),
         }},
-        {ID = "!Speedometer2",  x=118,y=6,w=13,h=22,tooltip="Индикатор скорости", model = {
+        {ID = "!Speedometer2",  x=118,y=6,w=13,h=22,tooltip="Speed indicator", model = {
             name="SPU_Speed1",model = "models/metrostroi_train/81-717/segments/segment_mvm.mdl", color=Color(175,250,20),skin=0,z=1,ang=Angle(0,0,-90),
         }},
 
-        {ID = "!SD",       x=9,y=7,w=33,h=13,tooltip="СД: Лампа сигнализации дверей поезда (двери закрыты)",model = {
+        {ID = "!SD",       x=9,y=7,w=33,h=13,tooltip="SD: Train door signaling lamp (doors closed)",model = {
             name="SPU_SD",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/big_g.mdl",z=1, var="SPU_SD", getfunc=function(ent) return ent:GetPackedBool("SPU_SD") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!KT",       x=48,y=7,w=33,h=13,tooltip="КТ: Лампа контроля торможения",model = {
+        {ID = "!KT",       x=48,y=7,w=33,h=13,tooltip="KT: Brake monitoring lamp",model = {
             name="SPU_KT",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/big_g.mdl",z=1, var="SPU_KT", getfunc=function(ent) return ent:GetPackedBool("SPU_KT") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!RS",       x=158.5,y=7,w=33,h=13,tooltip="РС: Лампа равенства скоростей",model = {
+        {ID = "!RS",       x=158.5,y=7,w=33,h=13,tooltip="RS: Equal speeds lamp",model = {
             name="SPU_RS",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/big_g.mdl",z=1, var="SPU_RS", getfunc=function(ent) return ent:GetPackedBool("SPU_RS") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!SK",       x=196.5,y=7,w=33,h=13,tooltip="СН: Лампа соответствия направления движения",model = {
+        {ID = "!SK",       x=196.5,y=7,w=33,h=13,tooltip="SN: Direction of travel match lamp",model = {
             name="SPU_SK",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/big_g.mdl",z=1, var="SPU_SN", getfunc=function(ent) return ent:GetPackedBool("SPU_SN") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
 
-        {ID = "!04",       x=9,y=33.5,w=33,h=13,tooltip="ОЧ: Лампа отсутствия частоты",model = {
+        {ID = "!04",       x=9,y=33.5,w=33,h=13,tooltip="OCh: No-frequency lamp",model = {
             name="SPU_04",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/big_r.mdl",z=1, var="SPU_04", getfunc=function(ent) return ent:GetPackedBool("SPU_04") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
         {ID = "!0",       x=48,y=33.5,w=33,h=13,tooltip="0: Лампа разрешённой скорости 0 км\\ч",model = {
@@ -1261,32 +1261,32 @@ ENT.ButtonMap["ARS"] = {
             name="SPU_80",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/big_g.mdl",z=1, var="SPU_80", getfunc=function(ent) return ent:GetPackedBool("SPU_80") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
 
-        {ID = "!KES",       x=15,y=60.5,w=18,h=13,tooltip="КЭС: Контроль экстренной связи",model = {
+        {ID = "!KES",       x=15,y=60.5,w=18,h=13,tooltip="KES: Emergency intercom monitoring",model = {
             name="SPU_KES",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/litlle_r.mdl",z=1, var="SPU_KES", getfunc=function(ent) return ent:GetPackedBool("SPU_KES") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!ST",       x=34,y=60.5,w=18,h=13,tooltip="СТ: Применение пневматического торможения или сработка стояночного тормоза",model = {
+        {ID = "!ST",       x=34,y=60.5,w=18,h=13,tooltip="ST: Pneumatic braking applied or parking brake tripped",model = {
             name="SPU_ST",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/litlle_r.mdl",z=1, var="SPU_ST", getfunc=function(ent) return ent:GetPackedBool("SPU_ST") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!CUV",       x=53,y=60.5,w=18,h=13,tooltip="ЦУВ: Невключение ЦУВ на вагоне",model = {
+        {ID = "!CUV",       x=53,y=60.5,w=18,h=13,tooltip="TsUV: TsUV not engaged on the car",model = {
             name="SPU_CUV",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/litlle_r.mdl",z=1, var="SPU_CUV"},
         }},
-        {ID = "!AVU",       x=72,y=60.5,w=18,h=13,tooltip="АВУ: Сработка АВУ",model = {
+        {ID = "!AVU",       x=72,y=60.5,w=18,h=13,tooltip="AVU: AVU tripped",model = {
             name="SPU_AVU",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/litlle_r.mdl",z=1, var="SPU_AVU", getfunc=function(ent) return ent:GetPackedBool("SPU_AVU") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!AIP",       x=91,y=60.5,w=18,h=13,tooltip="АИП",model = {
+        {ID = "!AIP",       x=91,y=60.5,w=18,h=13,tooltip="AIP",model = {
             name="SPU_AIP",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/litlle_r.mdl",z=1, var="SPU_AIP"},
         }},
 
-        {ID = "!RIP",       x=148,y=60.5,w=18,h=13,tooltip="РИП",model = {
+        {ID = "!RIP",       x=148,y=60.5,w=18,h=13,tooltip="RIP",model = {
             name="SPU_RIP",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/little_g.mdl",z=1, var="SPU_RIP"},
         }},
-        {ID = "!KVD",       x=167,y=60.5,w=18,h=13,tooltip="КВД: Лампа выключения ходового режима системой АРС",model = {
+        {ID = "!KVD",       x=167,y=60.5,w=18,h=13,tooltip="KVD: ARS traction mode cutout lamp",model = {
             name="SPU_KVD",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/little_g.mdl",z=1, var="SPU_KVD", getfunc=function(ent) return ent:GetPackedBool("SPU_KVD") and (ent:GetPackedBool("VD1") and 1 or 0.8) or 0 end},
         }},
-        {ID = "!VS1",       x=186,y=60.5,w=18,h=13,tooltip="ВС1: Выключенное состояние вентиляции 1 группы",model = {
+        {ID = "!VS1",       x=186,y=60.5,w=18,h=13,tooltip="VS1: Ventilation group 1 off state",model = {
             name="SPU_VS1",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/little_g.mdl",z=1, var="SPU_VS1"},
         }},
-        {ID = "!VS2",       x=205,y=60.5,w=18,h=13,tooltip="ВС2: Выключенное состояние вентиляции 2 группы",model = {
+        {ID = "!VS2",       x=205,y=60.5,w=18,h=13,tooltip="VS2: Ventilation group 2 off state",model = {
             name="SPU_VS2",lamp = {speed=10,model = "models/metrostroi_train/81-718/lamps/little_g.mdl",z=1, var="SPU_VS2"},
         }},
     }
@@ -1300,13 +1300,13 @@ ENT.ButtonMap["BZOS"] = {
     hideseat=0.2,
 
     buttons = {
-        {ID = "!VH2",x=8, y=19, radius=4, tooltip="Лампа тревоги охранной сигнализации", model = {
+        {ID = "!VH2",x=8, y=19, radius=4, tooltip="Security alarm warning lamp", model = {
             lamp = {speed=16,model = "models/metrostroi_train/common/lamps/svetodiod2.mdl",z=-1,var="VH2",color=Color(255,56,30)}},
         },
-        {ID = "!VH1",x=8, y=30, radius=4, tooltip="Лампа включения охранной сигнализации", model = {
+        {ID = "!VH1",x=8, y=30, radius=4, tooltip="Security alarm on lamp", model = {
             lamp = {speed=16,model = "models/metrostroi_train/common/lamps/svetodiod2.mdl",z=-1,var="VH1",color=Color(175,250,20)}},
         },
-        {ID = "SAB1Toggle",x=8, y=45, radius=8, tooltip="Выключатель охранной сигнализации", model = {
+        {ID = "SAB1Toggle",x=8, y=45, radius=8, tooltip="Security alarm switch", model = {
             model = "models/metrostroi_train/81-710/ezh3_tumbler_t2.mdl",ang = 180,z=-4,
             var="SAB1",speed=16,
             sndvol = 0.5,snd = function(val) return val and "pnm_on" or "pnm_off" end,
@@ -1323,13 +1323,13 @@ ENT.ButtonMap["UAVAPanel"] = {
     scale = 0.0625,
 
     buttons = {
-        {ID = "UAVAToggle",x=0, y=0, w=60, h=200, tooltip="УАВА: Включение автоматического выключателя автостопа", model = {
+        {ID = "UAVAToggle",x=0, y=0, w=60, h=200, tooltip="UAVA: Trainstop circuit breaker engage", model = {
             plomb = {var="UAVAPl", ID="UAVAPl",},
             var="UAVA",
             sndid="UAVALever",sndvol = 1, snd = function(val) return val and "uava_on" or "uava_off" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "UAVAContactSet",x=60, y=0, w=120, h=200, tooltip="Восстановление контактов УАВА"},
+        {ID = "UAVAContactSet",x=60, y=0, w=120, h=200, tooltip="UAVA contact reset"},
     }
 }
 
@@ -1458,7 +1458,7 @@ ENT.ButtonMap["CabinDoor"] = {
     height = 2000,
     scale = 0.1/2,
     buttons = {
-        {ID = "CabinDoor",x=0,y=0,w=642,h=2000, tooltip="Дверь в кабину машиниста", model = {
+        {ID = "CabinDoor",x=0,y=0,w=642,h=2000, tooltip="Door to the driver's cab", model = {
             var="door2",sndid="door2",
             sndvol = 1, snd = function(val) return val and "cab_door_open" or "cab_door_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),

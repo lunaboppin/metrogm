@@ -79,7 +79,7 @@ function ENT:InitializeSounds()
     self.SoundPositions["bpsn3"] = {500,1e9,Vector(0,45,-448),0.03}
     self.SoundPositions["bpsn4"] = {500,1e9,Vector(0,45,-448),0.02}
 
-    --Подвагонка
+    -- Under-car wiring
     self.SoundNames["lk2_on"] = "subway_trains/717/pneumo/lk2_on.mp3"
     self.SoundNames["lk5_on"] = "subway_trains/717/pneumo/lk1_on.mp3"
     self.SoundNames["lk2_off"] = "subway_trains/717/pneumo/lk2_off.mp3"
@@ -292,28 +292,28 @@ function ENT:PostInitializeSystems()
     self.Electric:TriggerInput("X2PS",1)
 end
 function ENT:InitializeSystems()
-    -- Электросистема 81-710
+    -- Electrical system, 81-710
     self:LoadSystem("Electric","81_714_Electric")
 
-    -- Токоприёмник
+    -- Current collector
     self:LoadSystem("TR","TR_3B")
-    -- Электротяговые двигатели
+    -- Traction motors
     self:LoadSystem("Engines","DK_117DM")
 
-    -- Резисторы для реостата/пусковых сопротивлений
+    -- Resistors for the rheostat / starting resistances
     self:LoadSystem("KF_47A","KF_47A1")
-    -- Резисторы для ослабления возбуждения
+    -- Resistors for field weakening
     self:LoadSystem("KF_50A")
-    -- Ящик с предохранителями
+    -- Fuse box
     self:LoadSystem("YAP_57")
 
-    -- Реостатный контроллер для управления пусковыми сопротивления
+    -- Rheostat controller for starting resistances
     self:LoadSystem("RheostatController","EKG_17B")
-    -- Групповой переключатель положений
+    -- Group position switch
     self:LoadSystem("PositionSwitch","PKG_761")
     self:LoadSystem("Reverser","PR_722D")
 
-    -- Ящики с реле и контакторами
+    -- Boxes with relays and contactors
     self:LoadSystem("BV","BV_630")
     self:LoadSystem("LK_755A")
     self:LoadSystem("YAR_13B","YAR_13B_SPB")
@@ -323,9 +323,9 @@ function ENT:InitializeSystems()
     self:LoadSystem("YAS_44V")
     self:LoadSystem("YARD_2")
 
-    -- Панель управления 81-710
+    -- Control panel, 81-710
     self:LoadSystem("Panel","81_714_Panel")
-    -- Пневмосистема 81-710
+    -- Pneumatic system, 81-710
     self:LoadSystem("Pneumatic","81_717_Pneumatic",{br013_1 = true})
     -- Everything else
     self:LoadSystem("Battery")

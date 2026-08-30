@@ -193,9 +193,9 @@ function ENT:InitializeSounds()
 end
 function ENT:InitializeSystems()
     self:LoadSystem("Electric","81_719_Electric")
-    -- Токоприёмник
+    -- Current collector
     self:LoadSystem("TR","TR_3B")
-    -- Электротяговые двигатели
+    -- Traction motors
     self:LoadSystem("Engines","DK_117DM")
 
     self:LoadSystem("BBE","81_718_BBE")
@@ -215,7 +215,7 @@ function ENT:InitializeSystems()
     self:LoadSystem("Announcer","81_71_Announcer", "AnnouncementsASNP")
     --self:LoadSystem("ASNP","81_71_ASNP")
 
-    -- Пневмосистема 81-710
+    -- Pneumatic system, 81-710
     self:LoadSystem("Pneumatic","81_718_Pneumatic")
     self:LoadSystem("Battery","81_718_Battery")
 

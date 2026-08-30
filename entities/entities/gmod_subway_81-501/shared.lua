@@ -76,12 +76,12 @@ function ENT:InitializeSounds()
     self.SoundPositions["epv_on"] = {100,1e9,Vector(437.2,-53.1,-32.0),1}
     self.SoundPositions["epv_off"] = {100,1e9,Vector(437.2,-53.1,-32.0),1}
     self.SoundPositions["epv_off"] = {60,1e9,Vector(437.2,-53.1,-32.0),1}
-    -- Релюшки
+    -- Relays
     self.SoundNames["avu_off"] = "subway_trains/common/pneumatic/ak11b_off.mp3"
     self.SoundNames["avu_on"] = "subway_trains/common/pneumatic/ak11b_on.mp3"
     self.SoundPositions["avu_on"] = {60,1e9, Vector(400,-40,-45),0.5}
     self.SoundPositions["avu_off"] = {60,1e9, Vector(400,-40,-45),0.5}
-    --Подвагонка
+    -- Under-car wiring
     self.SoundNames["lk2_on"] = "subway_trains/717/pneumo/lk1_on.mp3"
     self.SoundNames["lk2_off"] = "subway_trains/717/pneumo/lk2_off.mp3"
     self.SoundNames["lk5_on"] = "subway_trains/717/pneumo/lk2_on.mp3"
@@ -369,32 +369,32 @@ function ENT:InitializeSystems()
     self:LoadSystem("Electric","81_501_Electric")
     self.Electric:TriggerInput("Type",self.Electric.NVL)
 
-    -- Токоприёмник
+    -- Current collector
     self:LoadSystem("TR","TR_3B")
-    -- Электротяговые двигатели
+    -- Traction motors
     self:LoadSystem("Engines","DK_108D")
 
-    -- Резисторы для реостата/пусковых сопротивлений
+    -- Resistors for the rheostat / starting resistances
     self:LoadSystem("KF_47A","81_703_KF_47A")
-    -- Резисторы для ослабления возбуждения
+    -- Resistors for field weakening
     self:LoadSystem("KF_50A")
-    -- Ящик с предохранителями
+    -- Fuse box
     self:LoadSystem("YAP_57")
 
-    -- Резисторы для цепей управления
+    -- Resistors for control circuits
     --self:LoadSystem("YAS_44V")
     self:LoadSystem("Reverser","PR_722D")
-    -- Реостатный контроллер для управления пусковыми сопротивления
+    -- Rheostat controller for starting resistances
     self:LoadSystem("RheostatController","EKG_17A")
-    -- Групповой переключатель положений
+    -- Group position switch
     self:LoadSystem("PositionSwitch","EKG_18A")
-    -- Кулачковый контроллер
+    -- Camshaft controller
     self:LoadSystem("KV","KV_55")
     -- Панель резервного управления
     self:LoadSystem("PRU_502")
 
 
-    -- Ящики с реле и контакторами
+    -- Boxes with relays and contactors
     self:LoadSystem("LK_755A")
     self:LoadSystem("YAR_13A")
     --self:LoadSystem("YAR_27")

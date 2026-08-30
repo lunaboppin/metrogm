@@ -83,7 +83,7 @@ function ENT:InitializeSounds()
     self.SoundPositions["epv_on"] = {80,1e9,Vector(437.2,-53.1,-32.0),0.85}
     self.SoundPositions["epv_off"] = {80,1e9,Vector(437.2,-53.1,-32.0),0.85}
     self.SoundPositions["epv_off"] = {60,1e9,Vector(437.2,-53.1,-32.0),0.85}
-    -- Релюшки
+    -- Relays
     --self.SoundNames["rpb_on"] = "subway_trains/717/relays/new/ro_off.mp3"
     --self.SoundNames["rpb_off"] = "subway_trains/717/relays/ro_on.mp3"
     self.SoundNames["rpb_on"] = "subway_trains/717/relays/rev813t_on1.mp3"
@@ -157,7 +157,7 @@ function ENT:InitializeSounds()
     self.SoundPositions["bpsn2"] = {500,1e9,Vector(0,45,-448),0.025}
     self.SoundPositions["bpsn3"] = {500,1e9,Vector(0,45,-448),0.03}
     self.SoundPositions["bpsn4"] = {500,1e9,Vector(0,45,-448),0.02}
-    --Подвагонка
+    -- Under-car wiring
     self.SoundNames["lk2_on"] = "subway_trains/717/pneumo/lk2_on.mp3"
     self.SoundNames["lk5_on"] = "subway_trains/717/pneumo/lk1_on.mp3"
     self.SoundNames["lk2_off"] = "subway_trains/717/pneumo/lk2_off.mp3"
@@ -758,35 +758,35 @@ function ENT:PostInitializeSystems()
     end
 end
 function ENT:InitializeSystems()
-    -- Электросистема 81-710
+    -- Electrical system, 81-710
     self:LoadSystem("Electric","81_717_Electric")
 
-    -- Токоприёмник
+    -- Current collector
     self:LoadSystem("TR","TR_3B")
-    -- Электротяговые двигатели
+    -- Traction motors
     self:LoadSystem("Engines","DK_117DM")
 
-    -- Резисторы для реостата/пусковых сопротивлений
+    -- Resistors for the rheostat / starting resistances
     self:LoadSystem("KF_47A","KF_47A1")
-    -- Резисторы для ослабления возбуждения
+    -- Resistors for field weakening
     self:LoadSystem("KF_50A")
-    -- Ящик с предохранителями
+    -- Fuse box
     self:LoadSystem("YAP_57")
 
-    -- Резисторы для цепей управления
+    -- Resistors for control circuits
     --self:LoadSystem("YAS_44V")
     self:LoadSystem("Reverser","PR_722D")
-    -- Реостатный контроллер для управления пусковыми сопротивления
+    -- Rheostat controller for starting resistances
     self:LoadSystem("RheostatController","EKG_17B")
-    -- Групповой переключатель положений
+    -- Group position switch
     self:LoadSystem("PositionSwitch","PKG_761")
-    -- Кулачковый контроллер
+    -- Camshaft controller
     self:LoadSystem("KV","KV_70")
-    -- Контроллер резервного управления
+    -- Backup control controller
     self:LoadSystem("KRU")
 
 
-    -- Ящики с реле и контакторами
+    -- Boxes with relays and contactors
     self:LoadSystem("BV","BV_630")
     self:LoadSystem("LK_755A")
     self:LoadSystem("YAR_13B","YAR_13B_SPB")
@@ -797,9 +797,9 @@ function ENT:InitializeSystems()
     self:LoadSystem("YARD_2")
     self:LoadSystem("PR_14X_Panels")
 
-    -- Пневмосистема 81-710
+    -- Pneumatic system, 81-710
     self:LoadSystem("Pneumatic","81_717_Pneumatic")
-    -- Панель управления 81-710
+    -- Control panel, 81-710
     self:LoadSystem("Panel","81_717LVZ_Panel")
     -- Everything else
     self:LoadSystem("Battery")

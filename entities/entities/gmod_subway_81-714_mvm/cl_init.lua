@@ -259,7 +259,7 @@ ENT.ButtonMap["Battery"] = {
     hide=0.8,
 
     buttons = {
-        {ID = "VBToggle", x=0, y=0, w=100, h=100, tooltip="ВБ: Выключатель батареи", model = {
+        {ID = "VBToggle", x=0, y=0, w=100, h=100, tooltip="VB: Battery switch", model = {
             model = "models/metrostroi_train/81-717/battery_enabler.mdl",
             var="VB",speed=0.5,vmin=1,vmax=0.8,
             sndvol = 0.8, snd = function(val) return val and "pak_on" or "pak_off" end,sndmin = 80, sndmax = 1e3/3, sndang = Angle(-90,0,0),
@@ -487,8 +487,8 @@ ENT.ButtonMap["Shunt"] = {
             var="RV",speed=2,min=1,max=0.5,getfunc = function(ent) return ent:GetPackedRatio("RV") end,
             sndvol = 0.8, snd = function(_,val) return val%2>0 and "pak_on" or "pak_off" end,sndmin = 80, sndmax = 1e3/3, sndang = Angle(-90,0,0),
         }},
-        {ID="RV-",x=176-30, y=140-30, w=30,h=60, tooltip="ВТПР(влево)"},
-        {ID="RV+",x=176   , y=140-30, w=30,h=60, tooltip="ВТПР(вправо)"},
+        {ID="RV-",x=176-30, y=140-30, w=30,h=60, tooltip="VTPR (left)"},
+        {ID="RV+",x=176   , y=140-30, w=30,h=60, tooltip="VTPR (right)"},
     }
 }
 
@@ -518,7 +518,7 @@ ENT.ButtonMap["FrontDoor"] = {
     height = 1900,
     scale = 0.1/2,
     buttons = {
-        {ID = "FrontDoor",x=0,y=0,w=642,h=1900, tooltip="Передняя дверь", model = {
+        {ID = "FrontDoor",x=0,y=0,w=642,h=1900, tooltip="Front door", model = {
             var="door1",sndid="door1",
             sndvol = 1, snd = function(val) return val and "cab_door_open" or "cab_door_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
@@ -539,7 +539,7 @@ ENT.ButtonMap["RearDoor"] = {
     height = 1900,
     scale = 0.1/2,
     buttons = {
-        {ID = "RearDoor",x=0,y=0,w=642,h=1900, tooltip="Задняя дверь", model = {
+        {ID = "RearDoor",x=0,y=0,w=642,h=1900, tooltip="Rear door", model = {
             var="door2",sndid="door2",
             sndvol = 1, snd = function(val) return val and "cab_door_open" or "cab_door_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
