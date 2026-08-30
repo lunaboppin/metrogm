@@ -59,48 +59,95 @@ end
 
 function TOOL.BuildCPanel(panel)
 	panel:AddControl("Header", { Description = "#tool.metro_depot.0" })
-
-	local depot = panel:TextEntry("#tool.metro_depot.depot", "metro_depot_depot")
-	depot:SetTooltip("#tool.metro_depot.depot")
-
+	panel:TextEntry("#tool.metro_depot.depot", "metro_depot_depot")
 	panel:TextEntry("#tool.metro_depot.label", "metro_depot_label")
 
 	local list = vgui.Create("DListView", panel)
-	list:SetTall(160)
+	list:SetTall(200)
 	list:AddColumn("#tool.metro_depot.depot")
 	list:AddColumn("#tool.metro_depot.label")
+	list:AddColumn("#tool.metro_depot.model")
+	panel:AddItem(list)
+
+	local function request()
+		net.Start("MetroDepotListRequest")
+		net.SendToServer()
+	end
+
+	local function manage(depotName, className)
+		net.Start("MetroDepotManage")
+		net.WriteString(depotName)
+		net.WriteString(className or "")
+		net.SendToServer()
+		timer.Simple(0.6, request)
+	end
+
 	list.OnRowSelected = function(_, _, row)
 		RunConsoleCommand("metro_depot_depot", row:GetColumnText(1))
 		RunConsoleCommand("metro_depot_label", row:GetColumnText(2))
 	end
-	panel:AddItem(list)
 
-	local function refresh(names)
-		list:Clear()
-		for _, entry in ipairs(names or {}) do
-			list:AddLine(entry.name, entry.label)
-		end
+	list.DoDoubleClick = function(_, _, row)
+		RunConsoleCommand("metro_depot_depot", row:GetColumnText(1))
 	end
 
 	net.Receive("MetroDepotList", function()
-		local count = net.ReadUInt(8)
-		local names = {}
-		for _ = 1, count do
-			table.insert(names, { name = net.ReadString(), label = net.ReadString() })
+		list:Clear()
+		for _ = 1, net.ReadUInt(8) do
+			local name = net.ReadString()
+			local label = net.ReadString()
+			local hasDefault = net.ReadBool()
+			local count = net.ReadUInt(8)
+
+			if hasDefault then
+				local row = list:AddLine(name, label, "#tool.metro_depot.defaultRow")
+				row.depotName = name
+				row.className = ""
+			end
+
+			for _ = 1, count do
+				local className = net.ReadString()
+				local row = list:AddLine(name, label, className)
+				row.depotName = name
+				row.className = className
+			end
 		end
-		refresh(names)
 	end)
 
-	local button = panel:Button("#tool.metro_depot.refresh")
-	button.DoClick = function()
-		net.Start("MetroDepotListRequest")
-		net.SendToServer()
+	local refresh = panel:Button("#tool.metro_depot.refresh")
+	refresh.DoClick = request
+
+	local removePlacement = panel:Button("#tool.metro_depot.removePlacement")
+	removePlacement.DoClick = function()
+		local row = list:GetSelectedLine() and list:GetLine(list:GetSelectedLine())
+		if not row or not row.depotName or row.className == "" then return end
+		manage(row.depotName, row.className)
 	end
-	button:DoClick()
+
+	local removeDepot = panel:Button("#tool.metro_depot.removeDepot")
+	removeDepot.DoClick = function()
+		local row = list:GetSelectedLine() and list:GetLine(list:GetSelectedLine())
+		if not row or not row.depotName then return end
+		Derma_Query(
+			language.GetPhrase("tool.metro_depot.confirmRemove"),
+			language.GetPhrase("tool.metro_depot.removeDepot"),
+			language.GetPhrase("tool.metro_depot.confirmYes"), function() manage(row.depotName, nil) end,
+			language.GetPhrase("tool.metro_depot.confirmNo"), function() end
+		)
+	end
+
+	request()
 end
 
 if CLIENT then
 	language.Add("tool.metro_depot.depot", "Depot name")
 	language.Add("tool.metro_depot.label", "Display label")
-	language.Add("tool.metro_depot.refresh", "Refresh depot list")
+	language.Add("tool.metro_depot.refresh", "Refresh list")
+	language.Add("tool.metro_depot.model", "Train model")
+	language.Add("tool.metro_depot.defaultRow", "(depot default)")
+	language.Add("tool.metro_depot.removePlacement", "Remove selected placement")
+	language.Add("tool.metro_depot.removeDepot", "Remove whole depot")
+	language.Add("tool.metro_depot.confirmRemove", "Remove this depot and every placement saved in it?")
+	language.Add("tool.metro_depot.confirmYes", "Remove")
+	language.Add("tool.metro_depot.confirmNo", "Cancel")
 end

@@ -13,6 +13,7 @@ util.AddNetworkString("MetroServiceSpawn")
 util.AddNetworkString("MetroServiceResult")
 util.AddNetworkString("MetroDepotList")
 util.AddNetworkString("MetroDepotListRequest")
+util.AddNetworkString("MetroDepotManage")
 
 local function playerKey(ply)
 	return ply:SteamID64()
@@ -167,12 +168,15 @@ local function depotTrace(name, className)
 		return nil
 	end
 
+	local trackForward = track.forward or forward
+	local trackUp = track.up or up
+
 	return {
 		Hit = true,
 		HitPos = track.centerpos,
-		HitNormal = track.up or up,
-		StartPos = track.centerpos - (track.up or up) * 128,
-		Normal = track.up or up,
+		HitNormal = trackUp,
+		StartPos = track.centerpos - trackForward * 128,
+		Normal = trackForward,
 	}
 end
 
@@ -409,10 +413,49 @@ function METRO.Service.ListDepots()
 	local depots = readDepots()
 	local list = {}
 	for name, depot in pairs(depots) do
-		table.insert(list, { name = name, label = depot.label or name })
+		local classes = {}
+		for className in pairs(type(depot.placements) == "table" and depot.placements or {}) do
+			table.insert(classes, className)
+		end
+		table.sort(classes)
+		table.insert(list, {
+			name = name,
+			label = depot.label or name,
+			hasDefault = depot.default ~= nil,
+			placements = classes,
+		})
 	end
 	table.sort(list, function(a, b) return a.name < b.name end)
 	return list
+end
+
+function METRO.Service.RemoveDepot(depotName)
+	local name = validName(depotName)
+	local depots = readDepots()
+	if not name or not depots[name] then
+		return false, "depotUnknown"
+	end
+
+	depots[name] = nil
+	writeDepots(depots)
+	return true, "depotRemoveSuccess", name
+end
+
+function METRO.Service.RemovePlacementClass(depotName, className)
+	local name = validName(depotName)
+	local depots = readDepots()
+	local depot = name and depots[name]
+	if type(depot) ~= "table" then
+		return false, "depotUnknown"
+	end
+
+	if type(depot.placements) ~= "table" or not depot.placements[className] then
+		return false, "depotNoPlacement"
+	end
+
+	depot.placements[className] = nil
+	writeDepots(depots)
+	return true, "depotPlacementCleared", className, depot.label or name
 end
 
 function METRO.Service.SavePlacement(ply, depotName, label, asDefault)
@@ -548,6 +591,30 @@ net.Receive("MetroDepotListRequest", function(_, ply)
 		if index > 255 then break end
 		net.WriteString(entry.name)
 		net.WriteString(entry.label)
+		net.WriteBool(entry.hasDefault)
+		net.WriteUInt(math.min(#entry.placements, 255), 8)
+		for classIndex, className in ipairs(entry.placements) do
+			if classIndex > 255 then break end
+			net.WriteString(className)
+		end
 	end
 	net.Send(ply)
+end)
+
+net.Receive("MetroDepotManage", function(_, ply)
+	if not IsValid(ply) or not ply:IsSuperAdmin() or not allowedRequest(ply, "depotManage") then
+		return
+	end
+
+	local depotName = net.ReadString()
+	local className = net.ReadString()
+
+	local success, message, first, second
+	if className == "" then
+		success, message, first = METRO.Service.RemoveDepot(depotName)
+	else
+		success, message, first, second = METRO.Service.RemovePlacementClass(depotName, className)
+	end
+
+	ply:NotifyLocalized(message, first or "", second or "")
 end)
