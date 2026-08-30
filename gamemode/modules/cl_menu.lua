@@ -192,7 +192,7 @@ function PANEL:Init()
 	self.content:DockPadding(ScreenScale(14), ScreenScale(14), ScreenScale(14), ScreenScale(14))
 	self.errorLabel = addLabel(self.content, "", "MetroDashboardBody", Color(255, 120, 120))
 	self.errorLabel:SetVisible(false)
-	for _, key in ipairs({ "dashboardHomeTab", "dashboardFleetTab", "dashboardProfileTab", "dashboardGuideTab" }) do
+	for _, key in ipairs({ "dashboardHomeTab", "dashboardFleetTab", "dashboardMapTab", "dashboardProfileTab", "dashboardGuideTab" }) do
 		self.tabs[key] = addButton(sidebar, L(key), function() self:SelectTab(key) end)
 	end
 	if not sessionGate then
@@ -207,6 +207,7 @@ function PANEL:SelectTab(key)
 	if not self.panels[key] then
 		if key == "dashboardHomeTab" then self.panels[key] = buildHome(self.content, self)
 		elseif key == "dashboardFleetTab" then self.panels[key] = buildFleet(self.content)
+		elseif key == "dashboardMapTab" then self.panels[key] = self.content:Add("metroRailmap")
 		elseif key == "dashboardProfileTab" then self.panels[key] = buildProfile(self.content)
 		else self.panels[key] = buildGuide(self.content) end
 	end
