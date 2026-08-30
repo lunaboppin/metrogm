@@ -73,6 +73,21 @@ end
 Metrostroi.Version = 1537278077
 Metrostroi.Loaded = false
 
+function Metrostroi.GetTimedT(notsync)
+    local T0 = GetGlobalFloat("MetrostroiT0", os.time()) + GetGlobalFloat("MetrostroiTY")
+    local T1 = GetGlobalFloat("MetrostroiT1", CurTime())
+
+    if notsync then
+        return (os.time() - T0) - (CurTime() - T1)
+    end
+
+    return (os.time() - T0 + (CurTime() % 1.0)) - (CurTime() - T1)
+end
+
+function Metrostroi.GetSyncTime(notsync)
+    return os.time() - Metrostroi.GetTimedT(notsync)
+end
+
 --------------------------------------------------------------------------------
 -- Add skins function
 --  category - a skin category(pass, cab, train)
