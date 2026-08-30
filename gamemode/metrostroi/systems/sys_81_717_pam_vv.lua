@@ -8,9 +8,9 @@ Metrostroi.DefineSystem("PAM_VV")
 function TRAIN_SYSTEM:Initialize()
     self.Power = 0
     self.KGR = 0
-    self.KRR = 0 --Контроль нулевого положения реверсивной рукоятки головного вагона
-    self.KRR1 = 0 --Контроль нулевого положения реверсивной рукоятки хвостового вагона
-    self.KRR2 = 0 --Контроль реверсивной рукоятки, установленной в положение «Назад»
+    self.KRR = 0 -- Monitors the zero position of the reverser handle on the lead car
+    self.KRR1 = 0 -- Monitors the zero position of the reverser handle on the trailing car
+    self.KRR2 = 0 -- Monitors the reverser handle set to the "Reverse" position
     self.KRT = 0
     self.KRH = 0
     self.KB = 0

@@ -58,7 +58,7 @@ local function ClientAdvanced(panel)
     panel:Button(Metrostroi.GetPhrase("Panel.ReloadLang"),"metrostroi_language_reload",true)
     AddSlider(panel,"metrostroi_softdrawmultipier",Metrostroi.GetPhrase("Panel.SoftDraw"),25,400)
     AddBox(panel,"metrostroi_language_softreload",Metrostroi.GetPhrase("Panel.SoftReloadLang"))
-    --panel:AddControl("combobox","metrostroi_language",{Label="Language", options = {"Русский","Английский"}})
+    --panel:AddControl("combobox","metrostroi_language",{Label="Language", options = {"Russian","English"}})
     --panel:AddControl("Checkbox",{Label="Draw debugging info", Command = "metrostroi_drawdebug"})
 end
 

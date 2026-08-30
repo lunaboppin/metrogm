@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_723_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    --Автоматы ВЗ
+    -- Circuit breakers (VZ)
     self.Train:LoadSystem("SF31","Relay","Switch",{bass=true,normally_closed = true})
     self.Train:LoadSystem("SF32","Relay","Switch",{bass=true,normally_closed = true})
     self.Train:LoadSystem("SF33","Relay","Switch",{bass=true,normally_closed = true})

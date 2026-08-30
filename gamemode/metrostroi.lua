@@ -564,9 +564,9 @@ if SERVER then
     --       metrostroi.net site with requests       --
     --           Thanks for understanding            --
     --===============================================--
-    --  Если ты читаешь это,  пожалуйта, не пытайся  --
-    --    спамить запросами на сайт metrostroi.net   --
-    --              Спасибо за понимание             --
+    --   If you are reading this, please don't try   --
+    --     to spam requests to metrostroi.net site    --
+    --              Thanks for understanding          --
     ---------------------------------------------------
     --Cvars
     local R_Disabled = CreateConVar("metrostroi_reverser_local",0, FCVAR_ARCHIVE,"Switch reverser IDs to local mode")
@@ -640,11 +640,11 @@ if SERVER then
     --  metrostroi.net.  Monitoring not created for  --
     --      break it.  Thanks for understanding      --
     --===============================================--
-    --   Если ты читаешь это, пожалуйта, не пытайся  --
-    --  сломать мониторинг  отправкой не достоверных --
-    --   данных на сайт metrostroi.net.  Мониторинг  --
-    --     создан не для того, чтобы его пытались    --
-    --         сломать. Спасибо за понимание         --
+    --  If you are reading this, please don't try to --
+    -- break the monitoring by sending false data to  --
+    --   metrostroi.net.  Monitoring was not created  --
+    --      for people to try to break it.  Thanks    --
+    --              for understanding                --
     ---------------------------------------------------
     --Cvars
     local CV_Enabled = CreateConVar("metrostroi_monitoring_allow",1, FCVAR_ARCHIVE,"Enables metrostroi servers monitoring for this server. Send only basic info(map,ip,port,hostname) for metrostroi servers list")

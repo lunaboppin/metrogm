@@ -37,72 +37,72 @@ if TURBOSTROI then return end
 function TRAIN_SYSTEM:TriggerInput(name,value)
 end
 TRAIN_SYSTEM.ErrorNames = {
-    [1] = {"сбой РВ",1},
-    [2] = {"сбой КУ",1},
-    [3] = {"Блокировка режима «Ход» системой БАРС",1}, --
-    [4] = {"Двери не закрыты на %d вагоне",1}, --
-    [5] = {"Двери не закрыты",1}, --
-    --[5] = {"Не закрыта Х левая дверь на вагоне",1},
-    --[6] = {"Не закрыта Х правая дверь на вагоне",1},
-    [7] = {"Приведение в действие экстренного торможения на %d вагоне",1}, --
-    [8] = {"Не отпущен пневматический тормоз на %d вагоне",1},
-    [9] = {"Использование стояночного тормоза на %d вагоне",1},--
-    --[10] = {"Перегрев букс на %d вагоне",1},
-    [11] = {"Сработала охранная сигнализация",2},
-    [12] = {"%d вагон не ориентирован",1},
-    [13] = {"Обрыв петли безопасности",1},
-    [14] = {"Низкое давление в напорной магистрали",2},
-    [15] = {"Включи МК",3},
-    [16] = {"Нет связи с хвостовым БУКП",2},
-    [17] = {"Нет освещения на %d вагоне ",3},
-    --[18] = {"Пожар в вагоне",1},
-    --[19] = {"Срыв муфты на %d вагоне",1},
-    --[20] = {"Неисправность в пневматическом подвешивании на вагоне",1},
-    --[21] = {"Низкое напряжение бортсети на вагоне",2},
-    [22] = {"Отказ 1 канала системы БАРС",1},
-    [23] = {"Отказ 2 канала системы БАРС",1},
-    --[24] = {"Отказ МК на %d вагоне",2},
-    [25] = {"Отказ вентиляции на вагоне",3},
-    --[26] = {"Нет связи с ПСН на вагоне",2},
-    --[27] = {"Нет связи с БУТП на вагоне",2},
-    --[28] = {"Нет связи с АДУТ на %d вагоне",2},
-    [29] = {"Открыта торцевая дверь на %d вагоне",3},
-    --[30] = {"Отключение БВ на %d вагоне",2},
-    --[31] = {"нет связи с СРПИ",3},
-    [32] = {"нет связи с СБУЦИК",3},
-    --[33] = {"Отказ инвертора на вагоне",2},
-    --[34] = {"Срабатывание защиты инвертора на вагоне",2},
-    --[35] = {"Перегрев инвертора на %d вагоне",2},
-    --[36] = {"Нет синхронизации времени с СРПИ",3},
-    [37] = {"Нет связи с БУВ %d вагона",1},
-    [38] = {"Активны 2 кабины",1},
-    [39] = {"Тормоз удержания от БАРС",3},
-    [40] = {"Выбран режим «Движение без контроля дверей»",3},
-    [41] = {"Разгон в режиме «Движение без контроля дверей»",3},
-    [42] = {"Токоприемники на %d вагоне отключены",3},
-    [43] = {"Экстренное торможение БАРС",1},
-    --[44] = {"Нет связи с КПД",1},
-    --[45] = {"нет связи с УПИ-2",1},
-    --[46] = {"нет связи с БТБУ",1},
-    --[47] = {"Не открывается Х левая дверь на %d вагоне",2},
-    --[48] = {"Не открывается Х правая дверь на %d вагоне",2},
-    [49] = {"Открытие левых дверей на хвостовом вагоне подтверждено",3},
-    --[50] = {"Отказ системы внутреннего видеонаблюдения на вагоне",3},
-    --[51] = {"Вызов связи «Пассажир-Машинист» на вагоне",3},
-    --[52] = {"Неисправность ключей КПД",1},
-    [53] = {"Срабатывание замещения электротормоза на %d вагоне",3},
-    [54] = {"Недопустимый ввод в эксплуатацию кабины хвостового вагона",1},
-    [55] = {"Отсутствие напряжения контактного рельса на всех вагонах",1},
-    [56] = {"Не открываются левые двери на %d вагоне",2},
-    [57] = {"Не открываются правые двери на %d вагоне",2},
-    [58] = {"Не выбрано направление движения",2},
-    [59] = {"Выбрано направление движения «Назад»",3},
-    [60] = {"Освещение салона выключено",3},
-    [61] = {"Не выполнены все условия открытия дверей",2},
-    --[62] = {"Неверная идентификация машиниста",1},
-    [63] = {"Падение давления в тормозной магистрали на %d вагоне",2},
-    [64] = {"Нет контроля дверей",1},
-    [65] = {"Неполный состав",1},
+    [1] = {"RV (reverser) fault",1},
+    [2] = {"KU (control unit) fault",1},
+    [3] = {"Traction mode locked out by BARS (automatic train protection system)",1}, --
+    [4] = {"Doors not closed on car %d",1}, --
+    [5] = {"Doors not closed",1}, --
+    --[5] = {"Left door X not closed on car",1},
+    --[6] = {"Right door X not closed on car",1},
+    [7] = {"Emergency braking applied on car %d",1}, --
+    [8] = {"Pneumatic brake not released on car %d",1},
+    [9] = {"Parking brake in use on car %d",1},--
+    --[10] = {"Axle box overheating on car %d",1},
+    [11] = {"Security alarm triggered",2},
+    [12] = {"Car %d not oriented",1},
+    [13] = {"Safety loop broken",1},
+    [14] = {"Low pressure in the supply line",2},
+    [15] = {"Turn on the MK (motor-compressor)",3},
+    [16] = {"No comms with the tail-end BUKP (train control unit)",2},
+    [17] = {"No lighting on car %d ",3},
+    --[18] = {"Fire in car",1},
+    --[19] = {"Coupling failure on car %d",1},
+    --[20] = {"Fault in the pneumatic suspension on car",1},
+    --[21] = {"Low onboard network voltage on car",2},
+    [22] = {"BARS channel 1 failure",1},
+    [23] = {"BARS channel 2 failure",1},
+    --[24] = {"MK failure on car %d",2},
+    [25] = {"Ventilation failure on car",3},
+    --[26] = {"No comms with the PSN (auxiliary power converter) on car",2},
+    --[27] = {"No comms with the BUTP on car",2},
+    --[28] = {"No comms with the ADUT on car %d",2},
+    [29] = {"End door open on car %d",3},
+    --[30] = {"BV (high-speed circuit breaker) tripped on car %d",2},
+    --[31] = {"no comms with the SRPI",3},
+    [32] = {"no comms with the SBUTsIK",3},
+    --[33] = {"Inverter failure on car",2},
+    --[34] = {"Inverter protection tripped on car",2},
+    --[35] = {"Inverter overheating on car %d",2},
+    --[36] = {"No time sync with the SRPI",3},
+    [37] = {"No comms with the BUV (car control unit) of car %d",1},
+    [38] = {"2 cabs active",1},
+    [39] = {"Holding brake applied by BARS",3},
+    [40] = {"\"Movement without door control\" mode selected",3},
+    [41] = {"Accelerating in \"Movement without door control\" mode",3},
+    [42] = {"Current collectors on car %d disabled",3},
+    [43] = {"Emergency braking by BARS",1},
+    --[44] = {"No comms with the KPD",1},
+    --[45] = {"no comms with the UPI-2",1},
+    --[46] = {"no comms with the BTBU",1},
+    --[47] = {"Left door X won't open on car %d",2},
+    --[48] = {"Right door X won't open on car %d",2},
+    [49] = {"Left-door opening confirmed on the tail car",3},
+    --[50] = {"Interior video surveillance system failure on car",3},
+    --[51] = {"\"Passenger-Driver\" intercom call on car",3},
+    --[52] = {"KPD key fault",1},
+    [53] = {"Electric brake substitution triggered on car %d",3},
+    [54] = {"Invalid activation of the tail car cab",1},
+    [55] = {"No third-rail voltage on any car",1},
+    [56] = {"Left doors won't open on car %d",2},
+    [57] = {"Right doors won't open on car %d",2},
+    [58] = {"No direction of travel selected",2},
+    [59] = {"\"Reverse\" direction of travel selected",3},
+    [60] = {"Interior lighting switched off",3},
+    [61] = {"Not all conditions for opening doors are met",2},
+    --[62] = {"Invalid driver identification",1},
+    [63] = {"Brake line pressure drop on car %d",2},
+    [64] = {"No door control",1},
+    [65] = {"Incomplete train consist",1},
 }
 if SERVER then
     function TRAIN_SYSTEM:ErrorRemove(ID,full)
@@ -190,14 +190,14 @@ if SERVER then
         if self.State <= 0 or Train.BUKP.Back>0 or math.random() < 0.06 and value then return end
         local Active = Train.Electric.CabActive>0
         local lineSel = 0
-        if self.MFDUL2State == 0 then --Мы на основном экране
+        if self.MFDUL2State == 0 then --We are on the main screen
             for i=2,Active and 9 or 2 do
                 local px,py = 1+(i-1)*80,537
                 if px < x and x < px+78 and py < y and y < py+62 and i~=6 then
                     if not value then --FIXME
                         self.MFDUL2State = i
 
-                        if i==2 then --Номер маршрута и т.д
+                        if i==2 then --Route number, etc.
                             self.RouteN = self.RouteNumber
                             self.StationN = self.StationNumber
                             self.DriverN = self.DriverNumber
@@ -205,7 +205,7 @@ if SERVER then
                             self.NewActive = false
                         end
                         if i==3 then self.Selected = 0 self.LogSelected = 0 end
-                        if i==4 or i==5 or i>=7 then --Пневмосистема
+                        if i==4 or i==5 or i>=7 then --Pneumatic system
                             self.Selected = 0
                             self.Page = 0
                         end
@@ -217,17 +217,17 @@ if SERVER then
                     end
                 end
             end
-            --отбитие ошибок
+            --acknowledging errors
             if self.Errors[1] and 84 < x and x < 84+601 and 60 < y and y < 60+319 and value then
                 self:ErrorConfirm(self.Errors[1])
             end
         end
-        if self.MFDUL2State == 2 then --Номер маршрута и т.д
+        if self.MFDUL2State == 2 then --Route number, etc.
             local br = false
             for i=0,9 do
                 local px,py = 416 + ((i-1)%3)*115,124+90*(math.ceil(i/3)-1)
                 if i==0 then px,py=531,394 end
-                if px < x and x < px+88 and py < y and y < py+73 then --Ввод циферок с тача
+                if px < x and x < px+88 and py < y and y < py+73 then --Entering digits from the touchscreen
                     if not value then
                         if self.Selected == 1 and (not self.RouteN or self.RouteN < 99) then self.RouteN = tonumber((self.RouteN or "")..i) end
                         if self.Selected == 2 and (not self.StationN or self.StationN < 99) then self.StationN = tonumber((self.StationN or "")..i) end
@@ -237,7 +237,7 @@ if SERVER then
                     end
                 end
             end
-            --Выбираем окошко и сбрасываем ввод
+            --Selecting the field and resetting input
             if Active and 141 < x and x < 141+148 and 151 < y and y < 151+38 and self.Selected == 0 and not self.NewActive then
                 self.Selected = 1
                 self.RouteN = false
@@ -250,10 +250,10 @@ if SERVER then
                 self.Selected = 3
                 self.DriverN = false
             end
-            if 98 < x and x < 98+248 and 438 < y and y < 438+86 then --А это у нас подтверждение кабины
+            if 98 < x and x < 98+248 and 438 < y and y < 438+86 then --And this is our cab confirmation
                 self.NewActive = true
             end
-            --Сброс значения обратно
+            --Resetting the value back
             if 721 < x and x < 721+78 and 537 < y and y < 537+62 then
                 if value then
                     lineSel = 1
@@ -266,7 +266,7 @@ if SERVER then
                     --br = true
                 end
             end
-            --Подтверждение значения
+            --Confirming the value
             if 561 < x and x < 561+78 and 537 < y and y < 537+62 then
                 if value then
                     lineSel = 2
@@ -298,7 +298,7 @@ if SERVER then
             Train:SetNW2Int("MFDUEStationNumber",self.StationN or -1)
             Train:SetNW2Int("MFDUEDriverNumber",self.DriverN or -1)
             Train:SetNW2Int("MFDUSelected",self.Selected)
-            --if br then return end --Хак для блока кнопки Обратно
+            --if br then return end --Hack to block the Back button
         end
         if self.MFDUL2State == 3 then
             for i=0,6 do
@@ -322,7 +322,7 @@ if SERVER then
             end
             Train:SetNW2Int("MFDUSelected",self.Selected)
         end
-        if (self.MFDUL2State == 4 or self.MFDUL2State == 8 or self.MFDUL2State == 9) then --Номер маршрута и т.д
+        if (self.MFDUL2State == 4 or self.MFDUL2State == 8 or self.MFDUL2State == 9) then --Route number, etc.
             local max = self.MFDUL2State == 8 and 4 or 2
             for i=0,max do
                 if 1+80*i < x and x < 1+80*i+78 and 537 < y and y < 537+62 then
@@ -757,16 +757,16 @@ else
         render.PopRenderTarget()
     end
     local buttons = {
-        "Настр.\nэкрана",
-        "№ марш.\nстан.\nмаш.",
-        "Отказы\n(%d)",
-        "Пнев.\nсистема",
-        "ПВУ",
-        "Диагн",
-        "Двери",
-        "Вагон.\nоборуд.",
-        "Тяговый\nпривод.",
-        "Теневой"
+        "Screen\nsettings",
+        "Route no.\nstation\ndriver",
+        "Failures\n(%d)",
+        "Pneum.\nsystem",
+        "PVU",
+        "Diag",
+        "Doors",
+        "Car\nequip.",
+        "Traction\ndrive",
+        "Shadow"
     }
     for i=1,#buttons do
         local x = {}
@@ -777,11 +777,11 @@ else
     end
 
     local mainerrs = {
-        "K НЕТ",
-        "П НЕТ",
-        "U НЕТ",
-        "П ОТКЛ",
-        "УПР",
+        "K NONE",
+        "P NONE",
+        "U NONE",
+        "P OFF",
+        "CTRL",
         true,
     }
     for i,str in ipairs(mainerrs) do
@@ -791,9 +791,9 @@ else
     end
 
     local errorstates = {
-        {"А",Color(255,0,0)},
-        {"Б",Color(255,255,0)},
-        {"В",Color(255,255,255)},
+        {"A",Color(255,0,0)},
+        {"B",Color(255,255,0)},
+        {"C",Color(255,255,255)},
     }
 
     function TRAIN_SYSTEM:ClientInitialize()
@@ -885,20 +885,20 @@ else
             end
             if state2 == 0 then
                 if Back then
-                    draw.SimpleText("Задняя кабина","Metrostroi_Calibri35",400, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Rear cab","Metrostroi_Calibri35",400, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 else
-                    draw.SimpleText("Основной экран","Metrostroi_Calibri35",400, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Main screen","Metrostroi_Calibri35",400, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 end
 
                 if Active then
                     if Train:GetNW2Bool("MFDUALSActive") then
                         local speedLimit = Train:GetNW2Int("MFDUSpeedLimit",-1)
                         if speedLimit == -1 then
-                            draw.SimpleText("НЧ","Metrostroi_BUKPSpeed",180, 105,Color(220,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("NO FREQ","Metrostroi_BUKPSpeed",180, 105,Color(220,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         elseif speedLimit >= 0 then
                             local color = Color(speedLimit < 60 and 255 or 0,speedLimit > 20 and 255 or 0,0)
                             draw.SimpleText(speedLimit,"Metrostroi_BUKPSpeed",180, 105,color,TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                            draw.SimpleText("км/ч","Metrostroi_Calibri30",180, 145,color,TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("km/h","Metrostroi_Calibri30",180, 145,color,TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         end
                     end
 
@@ -915,17 +915,17 @@ else
                     end
                     if Train:GetNW2Bool("MFDUBARSActive") then
                         draw.SimpleText(math.floor(Train:GetNW2Int("MFDUSpeed",0)),"Metrostroi_BUKPSpeed",384, 220,Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                        draw.SimpleText("км/ч","Metrostroi_Calibri30",384, 260,Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("km/h","Metrostroi_Calibri30",384, 260,Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     else
                         draw.SimpleText(math.floor(Train:GetNW2Int("MFDUSpeed",0)),"Metrostroi_BUKPSpeed",384, 220,Color(255,255,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                        draw.SimpleText("км/ч","Metrostroi_Calibri30",384, 260,Color(255,255,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("km/h","Metrostroi_Calibri30",384, 260,Color(255,255,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
 
                 else
                     if Back then
                         draw.SimpleText(os.date("!%H:%M:%S",Metrostroi.GetSyncTime()),"Metrostroi_Calibri30",384, 352,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         draw.SimpleText(math.floor(Train:GetNW2Int("MFDUSpeed",0)),"Metrostroi_BUKPSpeed",384, 220,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                        draw.SimpleText("км/ч","Metrostroi_Calibri30",384, 260,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("km/h","Metrostroi_Calibri30",384, 260,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     else
                         draw.SimpleText(os.date("!%H:%M:%S",Metrostroi.GetSyncTime()),"Metrostroi_Calibri40",384, 220,Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
@@ -1006,9 +1006,9 @@ else
                         surface.SetDrawColor(220,0,0)
                     end
                     surface.DrawRect(698,58,92,71)
-                    draw.SimpleText("Напряж.","Metrostroi_Calibri26",744,93.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("К.Р.","Metrostroi_Calibri26",744,93.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText(Format("%d В",voltage),"Metrostroi_Calibri26",744,93.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Voltage","Metrostroi_Calibri26",744,93.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("C.R.","Metrostroi_Calibri26",744,93.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText(Format("%d V",voltage),"Metrostroi_Calibri26",744,93.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     if Train:GetNW2Bool("MFDUTrainSD") then
                         surface.SetDrawColor(200,200,200)
@@ -1016,8 +1016,8 @@ else
                         surface.SetDrawColor(220,0,0)
                     end
                     surface.DrawRect(698,141,92,71)
-                    draw.SimpleText("Контроль","Metrostroi_Calibri26",744,176.50-11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("дверей","Metrostroi_Calibri26",744,176.50+11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Door","Metrostroi_Calibri26",744,176.50-11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("control","Metrostroi_Calibri26",744,176.50+11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     local NMPress = Train:GetNW2Int("MFDUL2TL1",0)/10
                     if 6.4 <= NMPress and NMPress <= 8.1 then
@@ -1026,9 +1026,9 @@ else
                         surface.SetDrawColor(220,0,0)
                     end
                     surface.DrawRect(698,224,92,71)
-                    draw.SimpleText("Давл. НМ.","Metrostroi_Calibri26",744,259.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Supply P.","Metrostroi_Calibri26",744,259.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     draw.SimpleText(Format("%.1f",NMPress),"Metrostroi_Calibri26",744,259.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("кгс/см²","Metrostroi_Calibri26",744,259.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("kgf/cm²","Metrostroi_Calibri26",744,259.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     local TMPress = Train:GetNW2Int("MFDUL2BL1",0)/10
                     if 2.8 <= TMPress and TMPress <= 5.4 then
@@ -1037,24 +1037,24 @@ else
                         surface.SetDrawColor(220,0,0)
                     end
                     surface.DrawRect(698,307,92,71)
-                    draw.SimpleText("Давл. ТМ.","Metrostroi_Calibri26",744,342.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Brake P.","Metrostroi_Calibri26",744,342.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     draw.SimpleText(Format("%.1f",TMPress),"Metrostroi_Calibri26",744,342.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("кгс/см²","Metrostroi_Calibri26",744,342.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("kgf/cm²","Metrostroi_Calibri26",744,342.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 else
-                    draw.SimpleText("Напряж.","Metrostroi_Calibri26",744,93.50-23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("К.Р.","Metrostroi_Calibri26",744,93.50, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("0 В","Metrostroi_Calibri26",744,93.50+23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Voltage","Metrostroi_Calibri26",744,93.50-23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("C.R.","Metrostroi_Calibri26",744,93.50, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("0 V","Metrostroi_Calibri26",744,93.50+23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
-                    draw.SimpleText("Контроль","Metrostroi_Calibri26",744,176.50-11, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("дверей","Metrostroi_Calibri26",744,176.50+11, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Door","Metrostroi_Calibri26",744,176.50-11, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("control","Metrostroi_Calibri26",744,176.50+11, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
-                    draw.SimpleText("Давл. НМ.","Metrostroi_Calibri26",744,259.50-23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Supply P.","Metrostroi_Calibri26",744,259.50-23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     draw.SimpleText("0.0","Metrostroi_Calibri26",744,259.50, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("кгс/см²","Metrostroi_Calibri26",744,259.50+23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("kgf/cm²","Metrostroi_Calibri26",744,259.50+23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
-                    draw.SimpleText("Давл. ТМ.","Metrostroi_Calibri26",744,342.50-23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Brake P.","Metrostroi_Calibri26",744,342.50-23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     draw.SimpleText("0.0","Metrostroi_Calibri26",744,342.50, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("кгс/см²","Metrostroi_Calibri26",744,342.50+23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("kgf/cm²","Metrostroi_Calibri26",744,342.50+23, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 end
             elseif state2 == 2 then
                 local routen = Train:GetNW2Int("MFDUERouteNumber",-1)
@@ -1069,21 +1069,21 @@ else
                     surface.DrawRect(148,151+(sel-1)*106,148,38)
                 end
                 if Active then
-                    draw.SimpleText("№ МАРШРУТА","Metrostroi_Calibri35",220,136, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("ROUTE No.","Metrostroi_Calibri35",220,136, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     Metrostroi.DrawRectOutline(148,151,148,38,Color(129,129,129),2)
                     if sel == 1 then
                         if routen > -1 then draw.SimpleText(Format("%d",routen),"Metrostroi_Calibri35",222,169, sel == 1 and Color(0,0,0) or Color(0,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER) end
                     else
                         draw.SimpleText(Format("%03d",routen),"Metrostroi_Calibri35",222,169, sel == 1 and Color(0,0,0) or Color(0,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
-                    draw.SimpleText("№ СТАНЦИИ","Metrostroi_Calibri35",220,237, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("STATION No.","Metrostroi_Calibri35",220,237, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     Metrostroi.DrawRectOutline(148,257,148,38,Color(129,129,129),2)
                     if sel == 2 then
                         if stnum > -1 then draw.SimpleText(Format("%d",stnum),"Metrostroi_Calibri35",222,275, sel == 2 and Color(0,0,0) or Color(0,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER) end
                     else
                         draw.SimpleText(Format("%03d",stnum),"Metrostroi_Calibri35",222,275, sel == 2 and Color(0,0,0) or Color(0,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
-                    draw.SimpleText("№ МАШИНИСТА","Metrostroi_Calibri35",220,342, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("DRIVER No.","Metrostroi_Calibri35",220,342, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     Metrostroi.DrawRectOutline(98,363,248,38,Color(129,129,129),2)
                     if sel == 3 then
                         if drvnum > -1 then draw.SimpleText(Format("%d",drvnum),"Metrostroi_Calibri35",222,381, sel == 3 and Color(0,0,0) or Color(0,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER) end
@@ -1110,8 +1110,8 @@ else
                         draw.SimpleText(i,"Metrostroi_Calibri60",px+88/2,py+72/2, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
                 end
-                draw.SimpleText(Active and "ДЕАКТИВИРОВАТЬ" or "АКТИВИРОВАТЬ","Metrostroi_Calibri35",222,481-16, newAct and Color(0,0,0) or Color(128,128,128),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText("КАБИНУ","Metrostroi_Calibri35",222,481+16, newAct and Color(0,0,0) or Color(128,128,128),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText(Active and "DEACTIVATE" or "ACTIVATE","Metrostroi_Calibri35",222,481-16, newAct and Color(0,0,0) or Color(128,128,128),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("CAB","Metrostroi_Calibri35",222,481+16, newAct and Color(0,0,0) or Color(128,128,128),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 if lineSel == 3 then
                     surface.SetDrawColor(0,255,255)
                     surface.DrawRect(391,539,76,59)
@@ -1121,10 +1121,10 @@ else
                 end
 
 
-                draw.SimpleText("Исправ.","Metrostroi_Calibri23",30+5*80,568, lineSel==3 and Color(32,32,32) or Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("Correct","Metrostroi_Calibri23",30+5*80,568, lineSel==3 and Color(32,32,32) or Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
-                draw.SimpleText("ОК","Metrostroi_Calibri23",40+7*80,568, lineSel==2 and Color(32,32,32) or Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText("Помощь","Metrostroi_Calibri23",40+8*80,568, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("OK","Metrostroi_Calibri23",40+7*80,568, lineSel==2 and Color(32,32,32) or Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("Help","Metrostroi_Calibri23",40+8*80,568, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
             elseif state2 == 3 then
                 local sel = Train:GetNW2Int("MFDUSelected",0)
                 surface.SetDrawColor(127,127,127)
@@ -1134,13 +1134,13 @@ else
                 surface.SetTexture(failures)
                 surface.DrawTexturedRectRotated(512,512,1024,1024,0)
 
-                drawButton(0,"Начало",lineSel==1,nil,Color(0,255,255))
-                drawButton(1,"Конец",lineSel==2,nil,Color(0,255,255))
+                drawButton(0,"Start",lineSel==1,nil,Color(0,255,255))
+                drawButton(1,"End",lineSel==2,nil,Color(0,255,255))
                 drawButton(2,"↑",lineSel==3,nil,Color(0,255,255))
                 drawButton(3,"↓",lineSel==4,nil,Color(0,255,255))
 
-                drawButton(5,{"Все","(%d)"},sel == 0 or lineSel==6,Train:GetNW2Int("MFDUErrorsA",0),sel~=0 and Color(0,255,255))
-                drawButton(6,{"Неустр.","(%d)"},sel == 1 or lineSel==7,Train:GetNW2Int("MFDUErrorsB",0),sel~=1 and Color(0,255,255))
+                drawButton(5,{"All","(%d)"},sel == 0 or lineSel==6,Train:GetNW2Int("MFDUErrorsA",0),sel~=0 and Color(0,255,255))
+                drawButton(6,{"Unresolved","(%d)"},sel == 1 or lineSel==7,Train:GetNW2Int("MFDUErrorsB",0),sel~=1 and Color(0,255,255))
 
                 for i=1,Train:GetNW2Int("MFDUErrorCount",-1) do
                     local errID = Train:GetNW2Int("MFDUErrorType"..i,-1)
@@ -1159,16 +1159,16 @@ else
                 if Train:GetNW2Int("MFDUErrorCount",-1) > 0 then
                     draw.SimpleText(os.date("!%H:%M:%S",Train:GetNW2Int("MFDUErrorTime1",0)),"Metrostroi_Calibri23l",128,496, Color(0,232,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
                     if Train:GetNW2Bool("MFDUErrorSolved") then
-                        draw.SimpleText("УСТРАНЁННЫЙ","Metrostroi_Calibri23l",387,496, Color(0,232,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("RESOLVED","Metrostroi_Calibri23l",387,496, Color(0,232,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
                     else
-                        draw.SimpleText("НЕУСТРАНЁННЫЙ","Metrostroi_Calibri23l",387,496, Color(232,0,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("UNRESOLVED","Metrostroi_Calibri23l",387,496, Color(232,0,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
                     end
 
                     local time = Train:GetNW2Int("MFDUErrorConfirmT",-1)
                     if time > -1 then
                         draw.SimpleText(os.date("!%H:%M:%S",Train:GetNW2Int("MFDUErrorConfirmT",0)),"Metrostroi_Calibri23l",680,496, Color(0,232,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
                     else
-                        draw.SimpleText("НЕТ","Metrostroi_Calibri23l",680,496, Color(232,0,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("NONE","Metrostroi_Calibri23l",680,496, Color(232,0,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
                     end
 
 
@@ -1199,8 +1199,8 @@ else
                     end
                 end
 
-                drawButton(0,"ПС1",sel == 0 or lineSel==1,nil,sel~=0 and Color(0,255,255))
-                drawButton(1,"ПС2",sel == 1 or lineSel==2,nil,sel~=1 and Color(0,255,255))
+                drawButton(0,"PS1",sel == 0 or lineSel==1,nil,sel~=0 and Color(0,255,255))
+                drawButton(1,"PS2",sel == 1 or lineSel==2,nil,sel~=1 and Color(0,255,255))
 
                 if sel == 0 then
                     surface.SetDrawColor(255,255,255)
@@ -1256,18 +1256,18 @@ else
                         draw.SimpleText(Format("%05d",Train:GetNW2Int("MFDUWagNum"..i,0)),"Metrostroi_Calibri40",71+ix*131,78, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                         Metrostroi.DrawRectOutline(13+ix*131,110,117,58,Train:GetNW2Bool("MFDUDPVUC"..i.."_1") and Color(220,0,0) or Color(129,129,129),Train:GetNW2Bool("MFDUDPVUC"..i.."_1") and 6 or 1)
-                        draw.SimpleText("Двери","Metrostroi_Calibri35",71+ix*131,137,Train:GetNW2Bool("MFDUDPVUB"..i.."_1") and Color(220,0,0) or Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Doors","Metrostroi_Calibri35",71+ix*131,137,Train:GetNW2Bool("MFDUDPVUB"..i.."_1") and Color(220,0,0) or Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         Metrostroi.DrawRectOutline(13+ix*131,181,117,58,Train:GetNW2Bool("MFDUDPVUC"..i.."_2") and Color(220,0,0) or Color(129,129,129),Train:GetNW2Bool("MFDUDPVUC"..i.."_2") and 6 or 1)
-                        draw.SimpleText("Свет","Metrostroi_Calibri35",71+ix*131,208, Train:GetNW2Bool("MFDUDPVUB"..i.."_2") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Light","Metrostroi_Calibri35",71+ix*131,208, Train:GetNW2Bool("MFDUDPVUB"..i.."_2") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         if Train:GetNW2Bool("MFDUWagTyp"..i,false) then
                             Metrostroi.DrawRectOutline(13+ix*131,252,117,58,Train:GetNW2Bool("MFDUDPVUC"..i.."_3") and Color(220,0,0) or Color(129,129,129),Train:GetNW2Bool("MFDUDPVUC"..i.."_3") and 6 or 1)
-                            draw.SimpleText("ПСН","Metrostroi_Calibri35",71+ix*131,279, Train:GetNW2Bool("MFDUDPVUB"..i.."_3") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("PSN","Metrostroi_Calibri35",71+ix*131,279, Train:GetNW2Bool("MFDUDPVUB"..i.."_3") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                             Metrostroi.DrawRectOutline(13+ix*131,323,117,58,Train:GetNW2Bool("MFDUDPVUC"..i.."_4") and Color(220,0,0) or Color(129,129,129),Train:GetNW2Bool("MFDUDPVUC"..i.."_4") and 6 or 1)
-                            draw.SimpleText("МК","Metrostroi_Calibri35",71+ix*131,350, Train:GetNW2Bool("MFDUDPVUB"..i.."_4") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("MK","Metrostroi_Calibri35",71+ix*131,350, Train:GetNW2Bool("MFDUDPVUB"..i.."_4") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                             Metrostroi.DrawRectOutline(13+ix*131,394,117,58,Train:GetNW2Bool("MFDUDPVUC"..i.."_5") and Color(220,0,0) or Color(129,129,129),Train:GetNW2Bool("MFDUDPVUC"..i.."_5") and 6 or 1)
-                            draw.SimpleText("БВ","Metrostroi_Calibri35",71+ix*131,421, Train:GetNW2Bool("MFDUDPVUB"..i.."_5") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("BV","Metrostroi_Calibri35",71+ix*131,421, Train:GetNW2Bool("MFDUDPVUB"..i.."_5") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                             Metrostroi.DrawRectOutline(13+ix*131,465,117,58,Train:GetNW2Bool("MFDUDPVUC"..i.."_6") and Color(220,0,0) or Color(129,129,129),Train:GetNW2Bool("MFDUDPVUC"..i.."_6") and 6 or 1)
-                            draw.SimpleText("ТП","Metrostroi_Calibri35",71+ix*131,492, Train:GetNW2Bool("MFDUDPVUB"..i.."_6") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("TP","Metrostroi_Calibri35",71+ix*131,492, Train:GetNW2Bool("MFDUDPVUB"..i.."_6") and Color(220,0,0) or Color(0,220,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         end
 
 
@@ -1281,72 +1281,72 @@ else
                         surface.SetDrawColor(220,0,0)
                         surface.DrawRect(92,64+ix*53,85,45)
                         Metrostroi.DrawRectOutline(91,63+ix*53,88,48,Color(129,129,129),1)
-                        draw.SimpleText("Двери","Metrostroi_Calibri35",135,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Doors","Metrostroi_Calibri35",135,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     else
                         surface.SetDrawColor(38,38,38)
                         surface.DrawRect(92,64+ix*53,85,45)
                         Metrostroi.DrawRectOutline(91,63+ix*53,88,48,Color(129,129,129),1)
-                        draw.SimpleText("Двери","Metrostroi_Calibri35",135,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Doors","Metrostroi_Calibri35",135,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
 
                     if Train:GetPackedBool("MFDUDisableLights"..i) then
                         surface.SetDrawColor(220,0,0)
                         surface.DrawRect(192,64+ix*53,85,45)
                         Metrostroi.DrawRectOutline(191,63+ix*53,88,48,Color(129,129,129),1)
-                        draw.SimpleText("Свет","Metrostroi_Calibri35",235,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Light","Metrostroi_Calibri35",235,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     else
                         surface.SetDrawColor(38,38,38)
                         surface.DrawRect(192,64+ix*53,85,45)
                         Metrostroi.DrawRectOutline(191,63+ix*53,88,48,Color(129,129,129),1)
-                        draw.SimpleText("Свет","Metrostroi_Calibri35",235,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Light","Metrostroi_Calibri35",235,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
                     if Train:GetNW2Bool("MFDUWagTyp"..i,false) then
                         if Train:GetPackedBool("MFDUDisablePSN"..i) then
                             surface.SetDrawColor(220,0,0)
                             surface.DrawRect(292,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(291,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("ПСН","Metrostroi_Calibri35",335,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("PSN","Metrostroi_Calibri35",335,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         else
                             surface.SetDrawColor(38,38,38)
                             surface.DrawRect(292,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(291,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("ПСН","Metrostroi_Calibri35",335,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("PSN","Metrostroi_Calibri35",335,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         end
 
                         if Train:GetPackedBool("MFDUDisableMK"..i) then
                             surface.SetDrawColor(220,0,0)
                             surface.DrawRect(392,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(391,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("МК","Metrostroi_Calibri35",435,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("MK","Metrostroi_Calibri35",435,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         else
                             surface.SetDrawColor(38,38,38)
                             surface.DrawRect(392,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(391,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("МК","Metrostroi_Calibri35",435,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("MK","Metrostroi_Calibri35",435,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         end
 
                         if Train:GetPackedBool("MFDUBV"..i) then
                             surface.SetDrawColor(220,0,0)
                             surface.DrawRect(492,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(491,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("БВ","Metrostroi_Calibri35",535,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("BV","Metrostroi_Calibri35",535,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         else
                             surface.SetDrawColor(38,38,38)
                             surface.DrawRect(492,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(491,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("БВ","Metrostroi_Calibri35",535,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("BV","Metrostroi_Calibri35",535,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         end
 
                         if Train:GetPackedBool("MFDUDisableTP"..i) then
                             surface.SetDrawColor(220,0,0)
                             surface.DrawRect(592,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(591,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("ТП","Metrostroi_Calibri35",635,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("TP","Metrostroi_Calibri35",635,84+ix*53, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         else
                             surface.SetDrawColor(38,38,38)
                             surface.DrawRect(592,64+ix*53,85,45)
                             Metrostroi.DrawRectOutline(591,63+ix*53,88,48,Color(129,129,129),1)
-                            draw.SimpleText("ТП","Metrostroi_Calibri35",635,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                            draw.SimpleText("TP","Metrostroi_Calibri35",635,84+ix*53, Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                         end
                     end--]]
                 end
@@ -1414,9 +1414,9 @@ else
                     surface.SetDrawColor(220,0,0)
                 end
                 surface.DrawRect(698,58,92,71)
-                draw.SimpleText("Напряж.","Metrostroi_Calibri26",744,93.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText("К.Р.","Metrostroi_Calibri26",744,93.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText(Format("%d В",voltage),"Metrostroi_Calibri26",744,93.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("Voltage","Metrostroi_Calibri26",744,93.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("C.R.","Metrostroi_Calibri26",744,93.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText(Format("%d V",voltage),"Metrostroi_Calibri26",744,93.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                 if Train:GetNW2Bool("MFDUTrainSD") then
                     surface.SetDrawColor(200,200,200)
@@ -1424,8 +1424,8 @@ else
                     surface.SetDrawColor(220,0,0)
                 end
                 surface.DrawRect(698,141,92,71)
-                draw.SimpleText("Контроль","Metrostroi_Calibri26",744,176.50-11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText("дверей","Metrostroi_Calibri26",744,176.50+11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("Door","Metrostroi_Calibri26",744,176.50-11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("control","Metrostroi_Calibri26",744,176.50+11, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                 local NMPress = Train:GetNW2Int("MFDUL2TL1",0)/10
                 if 6.4 <= NMPress and NMPress <= 8.1 then
@@ -1434,9 +1434,9 @@ else
                     surface.SetDrawColor(220,0,0)
                 end
                 surface.DrawRect(698,224,92,71)
-                draw.SimpleText("Давл. НМ.","Metrostroi_Calibri26",744,259.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("Supply P.","Metrostroi_Calibri26",744,259.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 draw.SimpleText(Format("%.1f",NMPress),"Metrostroi_Calibri26",744,259.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText("кгс/см²","Metrostroi_Calibri26",744,259.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("kgf/cm²","Metrostroi_Calibri26",744,259.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                 local TMPress = Train:GetNW2Int("MFDUL2BL1",0)/10
                 if 2.8 <= TMPress and TMPress <= 5.4 then
@@ -1445,9 +1445,9 @@ else
                     surface.SetDrawColor(220,0,0)
                 end
                 surface.DrawRect(698,307,92,71)
-                draw.SimpleText("Давл. ТМ.","Metrostroi_Calibri26",744,342.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("Brake P.","Metrostroi_Calibri26",744,342.50-23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                 draw.SimpleText(Format("%.1f",TMPress),"Metrostroi_Calibri26",744,342.50, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                draw.SimpleText("кгс/см²","Metrostroi_Calibri26",744,342.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                draw.SimpleText("kgf/cm²","Metrostroi_Calibri26",744,342.50+23, Color(0,0,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                 if page ~= 0 then drawButton(7,"←") end
                 if 6+page < WagNum then drawButton(8,"→") end
@@ -1459,11 +1459,11 @@ else
                     surface.SetTexture(vo)
                     surface.DrawTexturedRectRotated(512,512,1024,1024,0)
 
-                    draw.SimpleText("Освещение","Metrostroi_Calibri25",96,135+41*0, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("ПСН","Metrostroi_Calibri25",96,135+41*1, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("ЗУ АКБ","Metrostroi_Calibri25",96,135+41*2, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("МК","Metrostroi_Calibri25",96,135+41*3, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("Токоприёмники","Metrostroi_Calibri25",96,135+41*4, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Lighting","Metrostroi_Calibri25",96,135+41*0, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("PSN","Metrostroi_Calibri25",96,135+41*1, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Battery charger","Metrostroi_Calibri25",96,135+41*2, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("MK","Metrostroi_Calibri25",96,135+41*3, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Current collectors","Metrostroi_Calibri25",96,135+41*4, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     for i=1+page,math.min(6+page,WagNum) do
                         if i>6+page then break end
                         local ix = i-page-1
@@ -1488,7 +1488,7 @@ else
                     surface.SetTexture(common)
                     surface.DrawTexturedRectRotated(512,512,1024,1024,0)
 
-                    draw.SimpleText("Буксы","Metrostroi_Calibri35",400,24, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Axle boxes","Metrostroi_Calibri35",400,24, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     surface.SetTexture(box)
                     for i=1+page,math.min(6+page,WagNum) do
@@ -1516,7 +1516,7 @@ else
                     surface.SetTexture(common)
                     surface.DrawTexturedRectRotated(512,512,1024,1024,0)
 
-                    draw.SimpleText("ДПБТ","Metrostroi_Calibri35",400,24, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("DPBT","Metrostroi_Calibri35",400,24, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     surface.SetTexture(box)
                     for i=1+page,math.min(6+page,WagNum) do
@@ -1537,7 +1537,7 @@ else
                     surface.SetTexture(common)
                     surface.DrawTexturedRectRotated(512,512,1024,1024,0)
 
-                    draw.SimpleText("Вентиляция","Metrostroi_Calibri35",400,24, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Ventilation","Metrostroi_Calibri35",400,24, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     surface.SetTexture(box)
                     for i=1+page,math.min(6+page,WagNum) do
@@ -1554,10 +1554,10 @@ else
                         end
                     end
                 end
-                drawButton(0,"ВО",              sel == 0 or lineSel==1,nil,sel~=0 and Color(0,255,255))
-                drawButton(1,"Буксы",           sel == 1 or lineSel==2,nil,sel~=1 and Color(0,255,255))
-                drawButton(2,"ДПБТ",            sel == 2 or lineSel==3,nil,sel~=2 and Color(0,255,255))
-                drawButton(3,{"Венти-","ляция"},sel == 3 or lineSel==4,nil,sel~=3 and Color(0,255,255))
+                drawButton(0,"CE",              sel == 0 or lineSel==1,nil,sel~=0 and Color(0,255,255))
+                drawButton(1,"Axle boxes",           sel == 1 or lineSel==2,nil,sel~=1 and Color(0,255,255))
+                drawButton(2,"DPBT",            sel == 2 or lineSel==3,nil,sel~=2 and Color(0,255,255))
+                drawButton(3,{"Venti-","lation"},sel == 3 or lineSel==4,nil,sel~=3 and Color(0,255,255))
 
                 if page ~= 0 then drawButton(7,"←") end
                 if 6+page < WagNum then drawButton(8,"→") end
@@ -1582,8 +1582,8 @@ else
                     end
                 end
 
-                drawButton(0,"ТП1",sel == 0 or lineSel==1,nil,sel~=0 and Color(0,255,255))
-                drawButton(1,"ТП2",sel == 1 or lineSel==2,nil,sel~=1 and Color(0,255,255))
+                drawButton(0,"TP1",sel == 0 or lineSel==1,nil,sel~=0 and Color(0,255,255))
+                drawButton(1,"TP2",sel == 1 or lineSel==2,nil,sel~=1 and Color(0,255,255))
 
                 if sel == 0 then
                     surface.SetDrawColor(255,255,255)
@@ -1596,13 +1596,13 @@ else
                     surface.DrawTexturedRectRotated(512,512,1024,1024,0)
                 end
                 if sel == 1 then
-                    draw.SimpleText("Сбор схемы","Metrostroi_Calibri25",96,135+41*0, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("Отказ инвертора","Metrostroi_Calibri25",96,135+41*1, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("Защита инвертора","Metrostroi_Calibri25",96,135+41*2, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("Перегрев инвертора","Metrostroi_Calibri25",96,135+41*3, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("Отказ ЭТ","Metrostroi_Calibri25",96,135+41*4, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("БВ","Metrostroi_Calibri25",96,135+41*5, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-                    draw.SimpleText("КС","Metrostroi_Calibri25",96,135+41*6, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Circuit made up","Metrostroi_Calibri25",96,135+41*0, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Inverter failure","Metrostroi_Calibri25",96,135+41*1, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Inverter protection","Metrostroi_Calibri25",96,135+41*2, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Inverter overheating","Metrostroi_Calibri25",96,135+41*3, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Electric brake failure","Metrostroi_Calibri25",96,135+41*4, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("BV","Metrostroi_Calibri25",96,135+41*5, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                    draw.SimpleText("Third rail","Metrostroi_Calibri25",96,135+41*6, Color(129,129,129),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     surface.SetTexture(box)
                     local sel = Train:GetNW2Int("MFDUSelected",0)
                     local page = Train:GetNW2Int("MFDUPage",0)
@@ -1638,16 +1638,16 @@ else
                     draw.SimpleText(os.date("!%H:%M:%S",Metrostroi.GetSyncTime()),"Metrostroi_Calibri26",101, 36,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 
                     if Train:GetNW2Bool("MFDUIdent") then
-                        draw.SimpleText("Идентификация","Metrostroi_Calibri26",701, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        draw.SimpleText("Identification","Metrostroi_Calibri26",701, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     else--if Active then
                         local drvnum = Train:GetNW2Int("MFDUDriverNumber",-1)
                         draw.SimpleText(Format("%010d",drvnum > -1 and drvnum or 0),"Metrostroi_Calibri26",701, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     --else
-                        --draw.SimpleText("Идентификация","Metrostroi_Calibri26",701, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+                        --draw.SimpleText("Identification","Metrostroi_Calibri26",701, 22,Color(123,123,123),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
                     end
                 end
                 if state2 > 0 then
-                    drawButton(9,"Обратно",lineSel==10,nil,Color(0,255,255))
+                    drawButton(9,"Back",lineSel==10,nil,Color(0,255,255))
                 end
             end
         end

@@ -40,32 +40,32 @@ function TRAIN_SYSTEM:Initialize()
     self.OldF5 = 0
     self.OldNF = 0
 
-    self["2"] = 0 --Вращение РК
-    self["3"] = 0 --Ход 3
-    self["8"] = 0 --Замещение электрического торможения
-    self["16"] = 0 --Закрытие дверей
-    self["17"] = 0  -- Разрешение восстановления реле перегрузки
-    self["19"] = 0 -- Разрешение замещения электрического торможения
-    self["20"] = 0 -- Включение двигателей
-    self["20X"] = 0 -- Разрешение включения двигателей в ходовые режимы
-    self["025"] = 0 -- Разрешение ручного торможения
-    self["25"] = 0 -- Ручное торможение
-    self["31"] = 0 --Открытие открытия левых дверей
-    self["32"] = 0 --Открытие правых дверей
-    self["33"] = 0 --Включение ходового режима
-    self["033"] = 0 --Разрешение включения ходового режима
-    self["33G"] = 0 --Включение режима торможения
-    self["39"] = 0 --Включение вентиля замещения № 2
-    self["48"] = 0 --Включение вентиля замещения № 1
+    self["2"] = 0 --RK (rheostatic controller) rotation
+    self["3"] = 0 --Traction notch 3
+    self["8"] = 0 --Electric brake substitution
+    self["16"] = 0 --Door closing
+    self["17"] = 0  -- Overload relay reset permission
+    self["19"] = 0 -- Electric brake substitution permission
+    self["20"] = 0 -- Motor engagement
+    self["20X"] = 0 -- Permission to engage motors in traction modes
+    self["025"] = 0 -- Manual braking permission
+    self["25"] = 0 -- Manual braking
+    self["31"] = 0 --Left door opening
+    self["32"] = 0 --Right door opening
+    self["33"] = 0 --Traction mode engagement
+    self["033"] = 0 --Traction mode engagement permission
+    self["33G"] = 0 --Braking mode engagement
+    self["39"] = 0 --Substitution valve No.2 engagement
+    self["48"] = 0 --Substitution valve No.1 engagement
 
     self.Power = 0
     self.ALSPower = 0
     self.KRH = 0
     self.KRT = 0
     self.KGR = 0
-    self.KRR1 = 0 --Контроль нулевого положения реверсивной рукоятки головного вагона
-    self.KRR2 = 0 --Контроль нулевого положения реверсивной рукоятки хвостового вагона
-    self.KRR3 = 0 --Контроль реверсивной рукоятки, установленной в положение «Назад»
+    self.KRR1 = 0 --Zero-position monitoring of the leading car's reverser handle
+    self.KRR2 = 0 --Zero-position monitoring of the trailing car's reverser handle
+    self.KRR3 = 0 --Monitoring of the reverser handle set to the "Reverse" position
     self.KD = 0
     self.KPRK = 0
     self.KOAT = 0
@@ -133,7 +133,7 @@ if CLIENT then
     createFont("PUAV","Liquid Crystal Display",38,400)
     function TRAIN_SYSTEM:ClientThink()
         if not self.Train:ShouldDrawPanel("PUAVOScreen") and not self.Train:ShouldDrawPanel("PUAVNScreen") then return end
-        --RunConsoleCommand("say","президент!!!")
+        --RunConsoleCommand("say","president!!!")
         if not self.DrawTimer then
         render.PushRenderTarget(self.Train.PUAV,0,0,512, 128)
             render.Clear(0, 0, 0, 0)
@@ -186,11 +186,11 @@ if CLIENT then
 
 
             --[[ if CurTime()%1>0.5 then
-                self:PrintText(0,0,"СКом П СТН РСТ")
-                self:PrintText(0,1,Train:GetNW2String("SBPP:DCMD","Нет"))
+                self:PrintText(0,0,"S.Cmd P STN DST")
+                self:PrintText(0,1,Train:GetNW2String("SBPP:DCMD","No"))
             else
-                self:PrintText(0,0,"ПКом П СТН РСТ")
-                self:PrintText(0,1,Train:GetNW2String("SBPP:PCMD","Нет"))
+                self:PrintText(0,0,"P.Cmd P STN DST")
+                self:PrintText(0,1,Train:GetNW2String("SBPP:PCMD","No"))
             end
             self:PrintText(5,1,tostring(Train:GetNW2Int("SBPP:Path",0)))
             self:PrintText(7,1,tostring(Train:GetNW2Int("SBPP:Station",0)))
@@ -198,13 +198,13 @@ if CLIENT then
 
             --self:PrintText(0,1,os.date("%H:%M:%S   %d/%m",Metrostroi.GetSyncTime()))
         else
-            self:PrintText(-2+9,0,"БУР")
+            self:PrintText(-2+9,0,"BUR")
 
             self:PrintText(0,1,os.date("!%H:%M:%S   %d/%m",Metrostroi.GetSyncTime()))
         end
         --self:PrintText(0,0,"010101010101")
-        --self:PrintText(1,1,Format("РК:%02d",Train:GetNW2Int("PUAV:RK",0)))
-        --self:PrintText(1,1,"(точнее криво)")
+        --self:PrintText(1,1,Format("RK:%02d",Train:GetNW2Int("PUAV:RK",0)))
+        --self:PrintText(1,1,"(more precisely, crooked)")
     end
 end
 

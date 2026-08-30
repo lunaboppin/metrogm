@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_508T_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Выключатель батареи (ВБ)
+    -- Battery switch (VB)
     self.Train:LoadSystem("VB","Relay","VB-11", {bass = true})
 
     -- Buttons on the panel
@@ -26,7 +26,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("KU8","Relay","Switch", {bass = true}) --KSN
     self.Train:LoadSystem("KU11","Relay","Switch", {bass = true}) --KSD
 
-    -- Автоматические выключатели (АВ)
+    -- Automatic circuit breakers (AV)
     self.Train:LoadSystem("VU1","Relay","Switch", {bass = true})
     self.Train:LoadSystem("VU2","Relay","Switch", {bass = true,  normally_closed = true})
     self.Train:LoadSystem("VU3","Relay","Switch", {bass = true})

@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_717_Panel")
 
 function TRAIN_SYSTEM:Initialize()
-    -- Выключатель батареи (ВБ)
+    -- Battery switch (VB)
     self.Train:LoadSystem("VB","Relay","Switch",{bass = true})
 
     -- Buttons on the panel
@@ -55,14 +55,14 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("Radio13","Relay","Switch", {bass = true})
     self.Train:LoadSystem("ARS13","Relay","Switch", {bass = true})
 
-    -- Педаль бдительности (ПБ)
+    -- Dead man's pedal (PB)
     self.Train:LoadSystem("PB","Relay","Switch", {bass = true})
 
-    ----------------- БЗОС ----------------
-    self.Train:LoadSystem("SAB1","Relay","Switch",{normally_closed=true, bass=true}) --Охранная сигнализация
+    ----------------- BZOS ----------------
+    self.Train:LoadSystem("SAB1","Relay","Switch",{normally_closed=true, bass=true}) -- Security alarm
 
     self.Train:LoadSystem("AIS","Relay","VA21-29")
-    -- Автоматические выключатели (АВ)
+    -- Automatic circuit breakers (AV)
     self.Train:LoadSystem("A11","Relay","VA21-29")
     self.Train:LoadSystem("A17","Relay","VA21-29")
     self.Train:LoadSystem("A44","Relay","VA21-29")
@@ -144,7 +144,7 @@ function TRAIN_SYSTEM:Initialize()
     self.Train:LoadSystem("A68","Relay","VA21-29")
     self.Train:LoadSystem("A72","Relay","VA21-29")
 
-    --Вагонные
+    -- Car-level
     self.Train:LoadSystem("A15","Relay","VA21-29")
 
     self.Train:LoadSystem("KDLK","Relay","Switch", { bass = true,normally_closed = true })

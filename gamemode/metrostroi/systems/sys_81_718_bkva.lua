@@ -7,11 +7,11 @@
 Metrostroi.DefineSystem("81_718_BKVA")
 
 function TRAIN_SYSTEM:Initialize()
-    self.KM1 = 0 --Контактор включения электропечи
-    self.KM2 = 0 --Контактор включения электрокомпрессора
-    self.KM3 = 0 --Контактора включения цепей управления вагоном
-    self.KM4 = 0 --Реле дверей
-    self.KM5 = 0 --Контактор подвозбудителя
+    self.KM1 = 0 -- Electric heater contactor
+    self.KM2 = 0 -- Electric compressor contactor
+    self.KM3 = 0 -- Contactors for the car's control circuits
+    self.KM4 = 0 -- Door relay
+    self.KM5 = 0 -- Sub-exciter contactor
 end
 
 function TRAIN_SYSTEM:Inputs()

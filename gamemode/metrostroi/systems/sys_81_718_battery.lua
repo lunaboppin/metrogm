@@ -7,7 +7,7 @@
 Metrostroi.DefineSystem("81_718_Battery")
 
 function TRAIN_SYSTEM:Initialize()
-	-- Предохранители цепей (ПА1, ПА2)
+	-- Circuit fuses (PA1, PA2)
 	self.Train:LoadSystem("FU1","Relay","PP-28", { trigger_level = 20 }) -- A
 	self.Train:LoadSystem("FU2","Relay","PP-28", { trigger_level = 20 }) -- A
 

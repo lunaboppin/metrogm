@@ -199,8 +199,8 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
 
     S["10A"] = BO*RUM
 
-    --РУТ
-    --СДРК
+    -- RUT (traction acceleration relay)
+    -- SDRK (resistor controller position sensor)
     S["10B"] = S["10A"]*(Train.RV1.Value+Train.TSH.Value)
     if isE then
         S["25B"] = (1-Train.TSH.Value)*Train.LK2.Value
@@ -230,7 +230,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
     S["10N"] = S["10A"]*(RheostatController.RKM1+Train.SR1.Value*(1-Train.RUT.Value))
     S["10T"] = --[[ S["10N"]*--]] ((1-Train.SR1.Value)+Train.RUT.Value)*(RheostatController.RKP)
     RheostatController:TriggerInput("MotorState",(S["10N"]+S["10T"]*(-10)))
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value+Train.PositionSwitch.PMPos)
     if isE then
@@ -296,7 +296,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
     end
     Train["RRTuderzh"] = T[25]
 
-    --Вспом цепи низкого напряжения
+    -- Auxiliary low-voltage circuits
     Train:WriteTrainWire(11,BO*Train.VU2.Value)
     if isE then
         S["23A"] = BO*Train.KU1.Value
@@ -360,7 +360,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
     Train.KO:TriggerInput("Open",T[28])
 
     local BD = 1-Train.BD.Value
-    Train:WriteTrainWire(15,BD*(1-Train.KU11.Value))--Заземление 15 провода
+    Train:WriteTrainWire(15,BD*(1-Train.KU11.Value))-- Grounding of wire 15
     Train.Panel.SD = (S["D1"]+BO*Train.KU11.Value)*(T[15]*(1-Train.KU11.Value)+BD)
 
     Train.VDZ:TriggerInput("Set",T[16]*BD)
@@ -395,8 +395,8 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train)
     end
 
     S["10A"] = BO*RUM
-    --РУТ
-    --СДРК
+    -- RUT (traction acceleration relay)
+    -- SDRK (resistor controller position sensor)
     S["10B"] = S["10A"]*(Train.RV1.Value+Train.TSH.Value)
     if isE then
         S["25B"] = (1-Train.TSH.Value)*Train.LK2.Value
@@ -426,7 +426,7 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train)
     S["10N"] = S["10A"]*(RheostatController.RKM1+Train.SR1.Value*(1-Train.RUT.Value))
     S["10T"] = --[[ S["10N"]*--]] ((1-Train.SR1.Value)+Train.RUT.Value)*(RheostatController.RKP)
     RheostatController:TriggerInput("MotorState",(S["10N"]+S["10T"]*(-10)))
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value+Train.PositionSwitch.PMPos)
     if isE then

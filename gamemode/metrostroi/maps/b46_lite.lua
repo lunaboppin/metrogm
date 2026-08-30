@@ -8,7 +8,7 @@ else
     return
 end
 
---[НОМЕР] = {НАЗВАНИЕ,ПРАВАЯ СТОРОНА,ВЕЖЛИВОСТЬ,ВЕЩИ,ПРИСЛНОЯТЬСЯ К ДВЕРЯМ,ИМЕЕТ В НАЗВАНИИ "СТАНЦИЯ",СТАНЦИЯ ПЕРЕХОДА,СТАНЦИЯ РАЗДЕЛЕНИЯ,НЕ КОНЕЧНАЯ(развернуть информатор)}
+--[NUMBER] = {NAME,RIGHT SIDE,POLITENESS,THINGS,LEAN ON DOORS,HAS "STATION" IN NAME,TRANSFER STATION,SEPARATION STATION,NOT TERMINAL(expand announcer)}
 Metrostroi.AnnouncerData =
 {
     [108] = {"Avtozavodskaya",                  false,false,false ,false ,false,0   },
@@ -20,13 +20,13 @@ Metrostroi.AnnouncerData =
     [114] = {"Vokzalnaya",                      false,false,1       ,false,false,0   },
 }
 Metrostroi.AnnouncerTranslate = {
-    [108] = "Автозаводская",
-    [109] = "Индустриальная",
-    [110] = "Московская",
-    [111] = "Октябрьская",
-    [112] = "Площадь мира",
-    [113] = "Новоармейская",
-    [114] = "Вокзальная",
+    [108] = "Avtozavodskaya",
+    [109] = "Industrial'naya",
+    [110] = "Moskovskaya",
+    [111] = "Oktyabrs'kaya",
+    [112] = "Ploschad' Myra",
+    [113] = "Novoarmeyskaya",
+    [114] = "Vokzalnaya",
 }
 
 Metrostroi.WorkingStations = {

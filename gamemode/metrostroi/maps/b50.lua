@@ -62,7 +62,7 @@ Metrostroi.AddLastStationTex("720",121,"models/metrostroi_schemes/destination_ta
 Metrostroi.AddLastStationTex("720",123,"models/metrostroi_schemes/destination_table_white/label_mezdustroiskaya")
 Metrostroi.AddLastStationTex("720",322,"models/metrostroi_schemes/destination_table_white/label_avt_yujnaya")
 
-Metrostroi.TickerAdverts = {"МЕТРОПОЛИТЕН ИМЕНИ ГАРРИ НЬЮМАНА ПРИГЛАШАЕТ НА РАБОТУ РЕАЛЬНЕ МАФЕНЕСТОВ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ТЕЛЕФОН ДЛЯ СПРАВОК 8 (800) 555-35-35", "ЭЛЕКТРОДЕПО ТЧ-1 ПРИГЛАШАЕТ НА РАБОТУ МАППЕРОВ ДЛЯ РАССТАНОВКИ УДОЧЕК И ЗМЕЙ", "СТАНЦИЯ МОСКОВСКАЯ ПРИГЛАШАЕТ НА РАБОТУ МАШИНИСТОВ И ПОМОЩНИКОВ МАШИНИСТА ЭСКАЛАТОРА. ОПЛАТА 5 КУСОЧКОВ НОМЕРНОГО.", "ЭЛЕКТРОДЕПО ТЧ1 ПРИГЛАШАЕТ НА РАБООООООООООООООООООООООООООООООООООООООООООЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГ"}
+Metrostroi.TickerAdverts = {"THE HARRY NEWMAN METROPOLITAN IS HIRING REAL MAFENESTS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,PHONE FOR INQUIRIES 8 (800) 555-35-35", "ELECTRIC DEPOT TCH-1 IS HIRING MAPPERS TO SET OUT FISHING RODS AND SNAKES", "MOSKOVSKAYA STATION IS HIRING ESCALATOR OPERATORS AND ASSISTANT ESCALATOR OPERATORS. PAY: 5 PIECES OF THE NUMBERED ONE.", "ELECTRIC DEPOT TCH1 IS HIRING FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"}
 
 Metrostroi.StationAnnouncesTo = {
     [122] = {1, 322, "subway_stations/inside/station_arr_to_322.mp3", "subway_stations/inside/station_dep_to_322.mp3"}

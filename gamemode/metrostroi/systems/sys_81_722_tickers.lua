@@ -112,22 +112,22 @@ else
             local special = Train:GetNW2String("TickersSpecial","")
             local str = ""
             if (arr or closing) and last then
-                str = Format("Поезд прибыл\nна конечную станцию\n%s",curr or "...")
-                if currR then str = str..",\nвыход на правую сторону" end
+                str = Format("Train has arrived\nat the last station\n%s",curr or "...")
+                if currR then str = str..",\nexit to the right side" end
                 if currEn~="" then
                     str=str..Format("\nTrain arrived\nto last station\n%s",currEn)
                     if currR then str = str..",\nexit to the right side" end
                 end
             elseif arr then
                 str = curr or "..."
-                if currR then str = str..",\nвыход на правую сторону" end
+                if currR then str = str..",\nexit to the right side" end
                 if currEn~="" then
                     str = str.."\n%y"..currEn.." station"
                     if currR then str = str..",\nexit to the right side" end
                 end
 
-                str = str..Format("\nСледующая станция\n%s",nxt)
-                if nxtR then str = str..",\nвыход на правую сторону" end
+                str = str..Format("\nNext station\n%s",nxt)
+                if nxtR then str = str..",\nexit to the right side" end
                 if special~="" then
                     if special:sub(1,2) == "%c" then str = str.."," end
                     str = str.."\n"..special
@@ -137,8 +137,8 @@ else
                     if nxtR then str = str..",\nexit to the right side" end
                 end
             elseif not arr and (self.Closing or closing) then
-                str = Format("%%rДвери закрываются\n%%yСледующая станция\n%s",nxt)
-                if nxtR then str = str..",\nвыход на правую сторону" end
+                str = Format("%%rDoors are closing\n%%yNext station\n%s",nxt)
+                if nxtR then str = str..",\nexit to the right side" end
                 if nxtEn~="" then
                     str = str..Format("\nNext station is\n%s",nxtEn)
                     if nxtR then str = str..",\nexit to the right side" end

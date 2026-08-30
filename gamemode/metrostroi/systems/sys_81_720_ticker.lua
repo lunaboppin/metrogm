@@ -120,30 +120,30 @@ function TRAIN_SYSTEM:Think()
                     self.Advert = rnd
                 end
                 if self.BeStation then
-                    self.CurrentAdvert = Format("ПОЕЗД СЛЕДУЕТ ДО СТАНЦИИ %s",self.TickerLast):gsub("Й","й")
+                    self.CurrentAdvert = Format("TRAIN IS HEADING TO STATION %s",self.TickerLast):gsub("Й","й")
                     self.BeStation=false
                 elseif self.Advert == 0 then
                     if not self.TickerCurr then
                         self.CurrentAdvert = ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
                     elseif self.TickerNext then
-                        self.CurrentAdvert = Format("СЛЕДУЮЩАЯ СТАНЦИЯ %s",self.TickerCurr):gsub("Й","й")
+                        self.CurrentAdvert = Format("NEXT STATION %s",self.TickerCurr):gsub("Й","й")
                         self.BeStation=self.TickerLast
                     else
-                        self.CurrentAdvert = Format("СТАНЦИЯ %s",self.TickerCurr):gsub("Й","й")
+                        self.CurrentAdvert = Format("STATION %s",self.TickerCurr):gsub("Й","й")
                         self.BeStation=self.TickerLast
                     end
                 else
                     self.CurrentAdvert = Metrostroi.TickerAdverts[self.Advert]:gsub("Й","й")
                 end
             else
-                self.CurrentAdvert = "НИИ Фабрики SENT БЕГУЩАЯ СТРОКА v1.1 0123456789"
+                self.CurrentAdvert = "NII FABRIKI SENT SCROLLING TEXT v1.1 0123456789"
                 self.Advert = -1
                 self.AdvertSymbol = 40*8
             end
         end
     else
         self.AdvertSymbol = 40*8
-        self.CurrentAdvert = "НИИ Фабрики SENT БЕГУЩАЯ СТРОКА v1.1 0123456789"
+        self.CurrentAdvert = "NII FABRIKI SENT SCROLLING TEXT v1.1 0123456789"
         self.Advert = -1
     end
     --[[

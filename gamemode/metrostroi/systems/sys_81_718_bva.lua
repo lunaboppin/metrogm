@@ -33,7 +33,7 @@ end
 function TRAIN_SYSTEM:Think()
     local Train = self.Train
     local Electric = Train.Electric
-    self.BVGood = Train.QF1.Value --802 провод
+    self.BVGood = Train.QF1.Value -- Wire 802
     if self.Disable == 0 and self.DiableScheme and self.Reset > 0 and Train.QF1.Value == 0 then
         Train.QF1:TriggerInput("Close",1)
     end

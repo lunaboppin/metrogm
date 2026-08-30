@@ -7,10 +7,10 @@
 Metrostroi.DefineSystem("81_718_BUVS")
 
 function TRAIN_SYSTEM:Initialize()
-    self.KM1 = 0 --Контактор вентиляции агрегатов 1 группы
-    self.KM2 = 0 --Контактор вентиляции агрегатов 2 группы
-    self.KM3 = 0 --Реле наличия минимального тока
-    self.KM4 = 0 --Реле контроля наличия тормозного тока
+    self.KM1 = 0 -- Ventilation contactor for unit group 1
+    self.KM2 = 0 -- Ventilation contactor for unit group 2
+    self.KM3 = 0 -- Minimum-current-present relay
+    self.KM4 = 0 -- Braking-current-present monitoring relay
 
     self.KV1 = 0
 end

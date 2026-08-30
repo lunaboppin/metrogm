@@ -145,8 +145,8 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
 
     S["10A"] = BO*RUM
 
-    --РУТ
-    --СДРК
+    -- RUT (traction acceleration relay)
+    -- SDRK (resistor controller position sensor)
     if isKVL then
         S["10B"] = S["10A"]*(Train.RV1.Value+Train.TSH.Value*(1-Train.KSH3.Value))
     else
@@ -180,7 +180,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
     S["10N"] = S["10A"]*(RheostatController.RKM1+Train.SR1.Value*(1-Train.RUT.Value))
     S["10T"] = --[[ S["10N"]*--]] ((1-Train.SR1.Value)+Train.RUT.Value)*(RheostatController.RKP)
     RheostatController:TriggerInput("MotorState",(S["10N"]+S["10T"]*(-10)))
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value+Train.PositionSwitch.PMPos)
     if isE then
@@ -264,7 +264,7 @@ function TRAIN_SYSTEM:SolveAllInternalCircuits(Train)
     end
     Train["RRTuderzh"] = T[25]
 
-    --Вспом цепи низкого напряжения
+    -- Auxiliary low-voltage circuits
     Train:WriteTrainWire(11,BO*Train.VU2.Value)
     if isKVL then
         Train:WriteTrainWire(23,BO*Train.KU1.Value)
@@ -369,8 +369,8 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train)
     end
 
     S["10A"] = BO*RUM
-    --РУТ
-    --СДРК
+    -- RUT (traction acceleration relay)
+    -- SDRK (resistor controller position sensor)
     if isKVL then
         S["10B"] = S["10A"]*(Train.RV1.Value+Train.TSH.Value*(1-Train.KSH3.Value))
     else
@@ -404,7 +404,7 @@ function TRAIN_SYSTEM:SolveRKInternalCircuits(Train)
     S["10N"] = S["10A"]*(RheostatController.RKM1+Train.SR1.Value*(1-Train.RUT.Value))
     S["10T"] = --[[ S["10N"]*--]] ((1-Train.SR1.Value)+Train.RUT.Value)*(RheostatController.RKP)
     RheostatController:TriggerInput("MotorState",(S["10N"]+S["10T"]*(-10)))
-    --СДПП
+    -- SDPP (synchro-sensor)
     S["10AV"] = S["10A"]*(1-Train.LK3.Value)*C(2<=RK and RK<=18)*(1-Train.LK4.Value)
     S["10E"] = S["10A"]*((1-Train.LK3.Value)+Train.Rper.Value+Train.PositionSwitch.PMPos)
     if isE then

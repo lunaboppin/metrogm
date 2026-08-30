@@ -156,7 +156,7 @@ function TRAIN_SYSTEM:Think(dT)
         --Emer brake if we braking and speed < 4.5
         if Brake and self.Speed > 0.1 and self.Speed < 4.5 then self.BTB = 0 end
 
-        --Противоскат
+        -- Anti-skid
         if self.Speed < 0.2 and self.PN2 == 0 and (BUPKMState <= 0 or self.Drive == 0) then
             self.PN2 = 1
             self.Starting = nil
@@ -233,7 +233,7 @@ function TRAIN_SYSTEM:Think(dT)
         end
     else
         if Train.ALS.Value > 0 then
-            --[[  Устройства БАРС, или при следовании с отключёнными устройствами БАРС, устройство ограничения скорости (УОС) передают информацию о допустимой скорости и фактической скорости движения поезда в БУП. В зависимости от информации БУП разрешает движение, отключает тяговый режим, выдаёт команду на торможение.]]
+            --[[  The BARS (automatic overspeed protection) units, or, when running with BARS disabled, the speed limiting device (UOS), send information on the permitted speed and the train's actual speed to the BUP (train control unit). Based on that information the BUP permits motion, cuts traction mode, or issues a braking command.]]
             self.PN1 = 0
             self.PN2 = 0
             self.Ring = 0

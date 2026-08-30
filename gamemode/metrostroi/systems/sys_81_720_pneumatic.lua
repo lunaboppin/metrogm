@@ -31,19 +31,19 @@ function TRAIN_SYSTEM:Initialize()
     -- Pressure in the door line
     self.DoorLinePressure = 0.0 -- atm
 
-    -- Блокировка дверей
+    -- Door interlock
     self.Train:LoadSystem("BD","Relay","")
 
-    -- Регулятор давления (АК)
+    -- Pressure regulator (AK)
     self.Train:LoadSystem("AK","Relay","AK-11B")
 
     self.Train:LoadSystem("UAVA","Relay","Switch")
 
     self.Train:LoadSystem("K31","Relay","Switch", { normally_closed = true}) --KTO
-    self.Train:LoadSystem("K29","Relay","Switch") --КРМШ
+    self.Train:LoadSystem("K29","Relay","Switch") -- KRMSh
 
-    self.V2 = 0 --Включение РУ
-    self.V6 = false --Срыв от АРС(РВТБ)
+    self.V2 = 0 -- RU enable
+    self.V6 = false -- Emergency brake trip from ARS (RVTB) (automatic train speed regulation)
 
     self.K1 = false
     self.K2 = false
@@ -377,18 +377,18 @@ function TRAIN_SYSTEM:Think(dT)
     end
     if Train:ReadTrainWire(28) > 0 then
         if Train:ReadTrainWire(27)*Train:ReadTrainWire(29) > 0 then
-            EPMPressure = 1.7+self.WeightLoadRatio*0.7 --2 уставка
+            EPMPressure = 1.7+self.WeightLoadRatio*0.7 -- Setpoint 2
         elseif Train:ReadTrainWire(27)*Train:ReadTrainWire(30) > 0 then
-            EPMPressure = 1 --1 уставка
+            EPMPressure = 1 -- Setpoint 1
         end
     else
         if Train.BUV.PN2 then
-            EPMPressure = 1.7+self.WeightLoadRatio*0.7 --2 уставка
+            EPMPressure = 1.7+self.WeightLoadRatio*0.7 -- Setpoint 2
         elseif Train.BUV.PN1 then
-            EPMPressure = 1 --1 уставка
+            EPMPressure = 1 -- Setpoint 1
         end
     end
-    if EPMPressure > PMPressure then --Работа П1
+    if EPMPressure > PMPressure then -- P1 operation
         targetPressure = EPMPressure
     else
         targetPressure = PMPressure

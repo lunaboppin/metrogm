@@ -89,8 +89,8 @@ end
 -- MKVoltage 0-50A
 -- VentEnabled t/f
 -- HeatEnabled t/f
--- MKWork --Исправность МК
--- BUVWork --Исправность БУВ
+-- MKWork -- MK health/OK status
+-- BUVWork -- BUV health/OK status
 -- WagNOrientated t/f
 -- Orientation t/f
 function TRAIN_SYSTEM:CANReceive(source,sourceid,target,targetid,textdata,numdata)
