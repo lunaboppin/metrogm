@@ -262,9 +262,10 @@ local function sendOpen(signal, routeName)
 	net.SendToServer()
 end
 
-local function sendClose(signal)
+local function sendClose(signal, routeName)
 	net.Start("MetroRailmapClose")
 	net.WriteUInt(signal:EntIndex(), 16)
+	net.WriteString(routeName or "")
 	net.SendToServer()
 end
 
@@ -274,6 +275,18 @@ net.Receive("MetroRailmapRoutes", function()
 
 	if not IsValid(signal) then
 		return
+	end
+
+	local index = net.ReadUInt(16)
+	if not net.ReadBool() then
+		return
+	end
+
+	if signal:EntIndex() ~= index then
+		signal = Entity(index)
+		if not IsValid(signal) then
+			return
+		end
 	end
 
 	local routes = {}
