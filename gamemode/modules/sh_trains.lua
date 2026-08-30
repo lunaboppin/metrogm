@@ -256,6 +256,14 @@ function METRO.Trains.CanSpawn(ply, className)
 		return false, "trainProfileLoading"
 	end
 
+	if ply:IsSuperAdmin() then
+		if METRO.Trains.ResolveClass(className) then
+			return true
+		end
+
+		return false, "trainUnavailable"
+	end
+
 	if not METRO.Players
 		or type(METRO.Players.IsLoaded) ~= "function"
 		or type(METRO.Players.Get) ~= "function"
