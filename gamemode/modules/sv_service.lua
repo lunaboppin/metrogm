@@ -11,6 +11,8 @@ util.AddNetworkString("MetroServiceFleetRequest")
 util.AddNetworkString("MetroServiceFleet")
 util.AddNetworkString("MetroServiceSpawn")
 util.AddNetworkString("MetroServiceResult")
+util.AddNetworkString("MetroDepotList")
+util.AddNetworkString("MetroDepotListRequest")
 
 local function playerKey(ply)
 	return ply:SteamID64()
@@ -43,6 +45,25 @@ local function readDepots()
 	local depots = util.JSONToTable(raw)
 	if type(depots) ~= "table" then
 		return {}
+	end
+
+	for name, depot in pairs(depots) do
+		if type(depot) == "table" then
+			if depot.position and not depot.default then
+				depots[name] = {
+					label = depot.label or name,
+					default = {
+						position = depot.position,
+						forward = depot.forward,
+						up = depot.up,
+					},
+					placements = {},
+				}
+			else
+				depot.label = depot.label or name
+				depot.placements = type(depot.placements) == "table" and depot.placements or {}
+			end
+		end
 	end
 
 	return depots
@@ -94,7 +115,7 @@ local function allowedRequest(ply)
 	return true
 end
 
-local function depotTrace(name)
+local function resolveDepot(name)
 	local depots = readDepots()
 	local depot = depots[name]
 	if not depot then
@@ -105,13 +126,29 @@ local function depotTrace(name)
 		table.sort(names)
 		depot = depots[names[1]]
 	end
+
+	return depot
+end
+
+function METRO.Service.ResolvePlacement(name, className)
+	local depot = resolveDepot(name)
 	if type(depot) ~= "table" then
 		return nil
 	end
 
-	local position = tableVector(depot.position)
-	local forward = tableVector(depot.forward)
-	local up = tableVector(depot.up)
+	local placement = className and type(depot.placements) == "table" and depot.placements[className]
+	return placement or depot.default
+end
+
+local function depotTrace(name, className)
+	local placement = METRO.Service.ResolvePlacement(name, className)
+	if type(placement) ~= "table" then
+		return nil
+	end
+
+	local position = tableVector(placement.position)
+	local forward = tableVector(placement.forward)
+	local up = tableVector(placement.up)
 	if not position or not forward or not up or not Metrostroi or not Metrostroi.RerailGetTrackData then
 		return nil
 	end
@@ -262,7 +299,7 @@ net.Receive("MetroServiceSpawn", function(_, ply)
 		result(ply, "spawn", false, message)
 	end
 
-	local trace = depotTrace(DEFAULT_DEPOT)
+	local trace = depotTrace(session.depot or DEFAULT_DEPOT, canonicalClass)
 	if not trace then
 		fail("depotUnavailable")
 		return
@@ -332,27 +369,118 @@ net.Receive("MetroServiceSpawn", function(_, ply)
 	end)
 end)
 
+local function trainFromEntity(entity)
+	if not IsValid(entity) then
+		return nil
+	end
+
+	if METRO.Trains.ResolveClass(entity:GetClass()) then
+		return entity
+	end
+
+	local parent = entity.GetNW2Entity and entity:GetNW2Entity("TrainEntity") or nil
+	if IsValid(parent) and METRO.Trains.ResolveClass(parent:GetClass()) then
+		return parent
+	end
+
+	parent = entity.SubwayTrain
+	if IsValid(parent) and METRO.Trains.ResolveClass(parent:GetClass()) then
+		return parent
+	end
+
+	return nil
+end
+
+function METRO.Service.NormaliseDepotName(name)
+	return validName(name)
+end
+
+function METRO.Service.ListDepots()
+	local depots = readDepots()
+	local list = {}
+	for name, depot in pairs(depots) do
+		table.insert(list, { name = name, label = depot.label or name })
+	end
+	table.sort(list, function(a, b) return a.name < b.name end)
+	return list
+end
+
+function METRO.Service.SavePlacement(ply, depotName, label, asDefault)
+	local name = validName(depotName)
+	if not name then
+		return false, "depotNameInvalid"
+	end
+
+	local train = trainFromEntity(ply:GetEyeTrace().Entity)
+	if not train then
+		return false, "depotNoTrainAimed"
+	end
+
+	local track = Metrostroi and Metrostroi.RerailGetTrackData
+		and Metrostroi.RerailGetTrackData(train:GetPos(), train:GetForward())
+	if not track then
+		return false, "depotOffTrack"
+	end
+
+	local placement = {
+		position = vectorTable(track.centerpos),
+		forward = vectorTable(track.forward),
+		up = vectorTable(track.up),
+	}
+
+	local depots = readDepots()
+	local depot = depots[name]
+	if type(depot) ~= "table" then
+		depot = { label = label ~= "" and label or name, placements = {} }
+		depots[name] = depot
+	elseif label and label ~= "" then
+		depot.label = label
+	end
+
+	depot.placements = type(depot.placements) == "table" and depot.placements or {}
+
+	local className = METRO.Trains.ResolveClass(train:GetClass()) or train:GetClass()
+	if asDefault or not depot.default then
+		depot.default = placement
+	end
+	if not asDefault then
+		depot.placements[className] = placement
+	end
+
+	writeDepots(depots)
+	return true, asDefault and "depotDefaultSaved" or "depotPlacementSaved", className, depot.label
+end
+
+function METRO.Service.ClearPlacement(ply, depotName)
+	local name = validName(depotName)
+	local depots = readDepots()
+	local depot = name and depots[name]
+	if type(depot) ~= "table" then
+		return false, "depotUnknown"
+	end
+
+	local train = trainFromEntity(ply:GetEyeTrace().Entity)
+	if not train then
+		return false, "depotNoTrainAimed"
+	end
+
+	local className = METRO.Trains.ResolveClass(train:GetClass()) or train:GetClass()
+	if type(depot.placements) ~= "table" or not depot.placements[className] then
+		return false, "depotNoPlacement"
+	end
+
+	depot.placements[className] = nil
+	writeDepots(depots)
+	return true, "depotPlacementCleared", className, depot.label
+end
+
 concommand.Add("metro_depot_set", function(ply, _, args)
 	if not IsValid(ply) or not ply:IsSuperAdmin() then
 		return
 	end
 
-	local name = validName(args[1] or DEFAULT_DEPOT)
-	local trace = ply:GetEyeTrace()
-	local track = Metrostroi and Metrostroi.RerailGetTrackData and Metrostroi.RerailGetTrackData(trace.HitPos, ply:GetAimVector())
-	if not name or not track then
-		ply:ChatPrint(L("depotSetFailed", ply))
-		return
-	end
-
-	local depots = readDepots()
-	depots[name] = {
-		position = vectorTable(track.centerpos),
-		forward = vectorTable(track.forward),
-		up = vectorTable(track.up),
-	}
-	writeDepots(depots)
-	ply:ChatPrint(L("depotSetSuccess", ply, name))
+	local success, message = METRO.Service.SavePlacement(ply, args[1] or DEFAULT_DEPOT, args[2] or "", true)
+	ply:ChatPrint(L(success and "depotSetSuccess" or message, ply, validName(args[1] or DEFAULT_DEPOT) or ""))
 end)
 
 concommand.Add("metro_depot_list", function(ply)
@@ -396,4 +524,20 @@ concommand.Add("metro_depot_remove", function(ply, _, args)
 	else
 		print(L("depotRemoveSuccess", nil, name))
 	end
+end)
+
+net.Receive("MetroDepotListRequest", function(_, ply)
+	if not IsValid(ply) or not ply:IsSuperAdmin() or not allowedRequest(ply) then
+		return
+	end
+
+	local list = METRO.Service.ListDepots()
+	net.Start("MetroDepotList")
+	net.WriteUInt(math.min(#list, 255), 8)
+	for index, entry in ipairs(list) do
+		if index > 255 then break end
+		net.WriteString(entry.name)
+		net.WriteString(entry.label)
+	end
+	net.Send(ply)
 end)
