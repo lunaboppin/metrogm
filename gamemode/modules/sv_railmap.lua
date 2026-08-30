@@ -4,6 +4,8 @@ local SIGNAL_CLASS = "gmod_track_signal"
 local requestTimes = {}
 
 util.AddNetworkString("MetroRailmapRoutes")
+util.AddNetworkString("MetroRailmapTrackRequest")
+util.AddNetworkString("MetroRailmapTrack")
 util.AddNetworkString("MetroRailmapOpen")
 util.AddNetworkString("MetroRailmapClose")
 
@@ -171,4 +173,21 @@ net.Receive("MetroRailmapClose", function(_, ply)
 	local index = net.ReadUInt(16)
 	local routeName = net.ReadString()
 	METRO.Railmap.HandleClose(ply, index, routeName)
+end)
+
+net.Receive("MetroRailmapTrackRequest", function(_, ply)
+	if not IsValid(ply) or not allowedRequest(ply, "railmapTrack") then
+		return
+	end
+
+	local raw = file.Read("metrostroi_data/track_" .. game.GetMap() .. ".lua", "LUA")
+	local payload = raw and util.Compress(raw)
+
+	net.Start("MetroRailmapTrack")
+	net.WriteBool(payload ~= nil)
+	if payload then
+		net.WriteUInt(#payload, 32)
+		net.WriteData(payload, #payload)
+	end
+	net.Send(ply)
 end)
