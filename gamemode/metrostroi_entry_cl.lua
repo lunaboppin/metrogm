@@ -1,6 +1,19 @@
 if Metrostroi then
-    print("[metro] Metrostroi global already present, workshop scripts addon has loaded, skipping vendored copy")
-    return
+	Metrostroi.GetTimedT = Metrostroi.GetTimedT or function(notsync)
+		local T0 = GetGlobalFloat("MetrostroiT0", os.time()) + GetGlobalFloat("MetrostroiTY")
+		local T1 = GetGlobalFloat("MetrostroiT1", CurTime())
+
+		if notsync then
+			return (os.time() - T0) - (CurTime() - T1)
+		end
+
+		return (os.time() - T0 + (CurTime() % 1.0)) - (CurTime() - T1)
+	end
+	Metrostroi.GetSyncTime = Metrostroi.GetSyncTime or function(notsync)
+		return os.time() - Metrostroi.GetTimedT(notsync)
+	end
+	print("[metro] Metrostroi global already present, workshop scripts addon has loaded, skipping vendored copy")
+	return
 end
 
 local rawFileFind = file.Find
