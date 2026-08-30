@@ -53,35 +53,35 @@ ENT.ButtonMap["PVZ"] = {
     hideseat=0.2,
 
     buttons = {
-        --{ID = "SF31Toggle", x=0+15.15*0,  y=40+167*0, w=15,h=45, tooltip="SF31:Поездной питающий провод"},
-        --{ID = "1:SF31Toggle", x=0+15.15*1,  y=40+167*0, w=15,h=45, tooltip="SF31:Поездной питающий провод"},
-        --{ID = "SF32Toggle", x=0+15.15*2,  y=40+167*0, w=15,h=45, tooltip="SF32:Бортовая сеть управление"},
-        --{ID = "SF33Toggle", x=0+15.15*3,  y=40+167*0, w=15,h=45, tooltip="SF33:Питание цепей управленяи"},
-        {ID = "SF34Toggle", x=0+15.15*4,  y=40+167*0, w=15,h=45, tooltip="SF34:ЦИС левый"},
-        {ID = "SF35Toggle", x=0+15.15*5,  y=40+167*0, w=15,h=45, tooltip="SF35:ЦИС правый"},
-        {ID = "SF36Toggle", x=0+15.15*6,  y=40+167*0, w=15,h=45, tooltip="SF36:Бортовая сигнализация"},
-        --{ID = "SF37Toggle", x=0+15.15*7,  y=40+167*0, w=15,h=45, tooltip="SF37:Отжатие токоприёмников"},
-        --{ID = "SF38Toggle", x=0+15.15*8,  y=40+167*0, w=15,h=45, tooltip="SF38:Резерв"},
+        --{ID = "SF31Toggle", x=0+15.15*0,  y=40+167*0, w=15,h=45, tooltip="SF31: Train power supply wire"},
+        --{ID = "1:SF31Toggle", x=0+15.15*1,  y=40+167*0, w=15,h=45, tooltip="SF31: Train power supply wire"},
+        --{ID = "SF32Toggle", x=0+15.15*2,  y=40+167*0, w=15,h=45, tooltip="SF32: On-board network control"},
+        --{ID = "SF33Toggle", x=0+15.15*3,  y=40+167*0, w=15,h=45, tooltip="SF33: Control circuits power"},
+        {ID = "SF34Toggle", x=0+15.15*4,  y=40+167*0, w=15,h=45, tooltip="SF34: TIS left"},
+        {ID = "SF35Toggle", x=0+15.15*5,  y=40+167*0, w=15,h=45, tooltip="SF35: TIS right"},
+        {ID = "SF36Toggle", x=0+15.15*6,  y=40+167*0, w=15,h=45, tooltip="SF36: On-board signaling"},
+        --{ID = "SF37Toggle", x=0+15.15*7,  y=40+167*0, w=15,h=45, tooltip="SF37: Current collector release"},
+        --{ID = "SF38Toggle", x=0+15.15*8,  y=40+167*0, w=15,h=45, tooltip="SF38: Spare"},
 
-        {ID = "SF41Toggle", x=0+15.15*0,  y=40+167*1, w=15,h=45, tooltip="SF41:Двери открытие левые"},
-        {ID = "SF42Toggle", x=0+15.15*1,  y=40+167*1, w=15,h=45, tooltip="SF42:Двери открытие правые"},
-        {ID = "SF43Toggle", x=0+15.15*2,  y=40+167*1, w=15,h=45, tooltip="SF43:Двери закрытие"},
-        {ID = "SF44Toggle", x=0+15.15*3,  y=40+167*1, w=15,h=45, tooltip="SF44:Двери торцевые"},
-        {ID = "SF45Toggle", x=0+15.15*4,  y=40+167*1, w=15,h=45, tooltip="SF45:Освещение салона питание"},
-        {ID = "SF46Toggle", x=0+15.15*5,  y=40+167*1, w=15,h=45, tooltip="SF46:Освещение салона аварийное"},
-        {ID = "SF47Toggle", x=0+15.15*6,  y=40+167*1, w=15,h=45, tooltip="SF47:Вентиляция 1 группа"},
-        {ID = "SF48Toggle", x=0+15.15*7,  y=40+167*1, w=15,h=45, tooltip="SF48:Вентиляция 2 группа"},
-        --{ID = "SF49Toggle", x=0+15.15*8,  y=40+167*1, w=15,h=45, tooltip="SF49:Счётчик"},
+        {ID = "SF41Toggle", x=0+15.15*0,  y=40+167*1, w=15,h=45, tooltip="SF41: Left door opening"},
+        {ID = "SF42Toggle", x=0+15.15*1,  y=40+167*1, w=15,h=45, tooltip="SF42: Right door opening"},
+        {ID = "SF43Toggle", x=0+15.15*2,  y=40+167*1, w=15,h=45, tooltip="SF43: Door closing"},
+        {ID = "SF44Toggle", x=0+15.15*3,  y=40+167*1, w=15,h=45, tooltip="SF44: End doors"},
+        {ID = "SF45Toggle", x=0+15.15*4,  y=40+167*1, w=15,h=45, tooltip="SF45: Saloon lighting power"},
+        {ID = "SF46Toggle", x=0+15.15*5,  y=40+167*1, w=15,h=45, tooltip="SF46: Saloon lighting, emergency"},
+        {ID = "SF47Toggle", x=0+15.15*6,  y=40+167*1, w=15,h=45, tooltip="SF47: Ventilation group 1"},
+        {ID = "SF48Toggle", x=0+15.15*7,  y=40+167*1, w=15,h=45, tooltip="SF48: Ventilation group 2"},
+        --{ID = "SF49Toggle", x=0+15.15*8,  y=40+167*1, w=15,h=45, tooltip="SF49: Meter"},
 
-        {ID = "SF51Toggle", x=0+15.15*0,  y=40+167*2, w=15,h=45, tooltip="SF51:БУВ"},
-        {ID = "SF52Toggle", x=0+15.15*1,  y=40+167*2, w=15,h=45, tooltip="SF52:БОДВ"},
-        {ID = "SF53Toggle", x=0+15.15*2,  y=40+167*2, w=15,h=45, tooltip="SF53:Резерв"},
-        {ID = "SF54Toggle", x=0+15.15*3,  y=40+167*2, w=15,h=45, tooltip="SF54:Резерв"},
-        {ID = "SF55Toggle", x=0+15.15*4,  y=40+167*2, w=15,h=45, tooltip="SF55:БУФТ"},
-        --{ID = "SF56Toggle", x=0+15.15*5,  y=40+167*2, w=15,h=45, tooltip="SF56:Инвертор инвертор"},
-        --{ID = "SF57Toggle", x=0+15.15*6,  y=40+167*2, w=15,h=45, tooltip="SF57:Инвертор обогрев"},
-        --{ID = "SF58Toggle", x=0+15.15*7,  y=40+167*2, w=15,h=45, tooltip="SF58:ЦУВ основное"},
-        --{ID = "SF59Toggle", x=0+15.15*8,  y=40+167*2, w=15,h=45, tooltip="SF59:ЦУВ резервное"},
+        {ID = "SF51Toggle", x=0+15.15*0,  y=40+167*2, w=15,h=45, tooltip="SF51: BUV"},
+        {ID = "SF52Toggle", x=0+15.15*1,  y=40+167*2, w=15,h=45, tooltip="SF52: BODV"},
+        {ID = "SF53Toggle", x=0+15.15*2,  y=40+167*2, w=15,h=45, tooltip="SF53: Spare"},
+        {ID = "SF54Toggle", x=0+15.15*3,  y=40+167*2, w=15,h=45, tooltip="SF54: Spare"},
+        {ID = "SF55Toggle", x=0+15.15*4,  y=40+167*2, w=15,h=45, tooltip="SF55: BUFT"},
+        --{ID = "SF56Toggle", x=0+15.15*5,  y=40+167*2, w=15,h=45, tooltip="SF56: Inverter, inverter"},
+        --{ID = "SF57Toggle", x=0+15.15*6,  y=40+167*2, w=15,h=45, tooltip="SF57: Inverter heating"},
+        --{ID = "SF58Toggle", x=0+15.15*7,  y=40+167*2, w=15,h=45, tooltip="SF58: TsUV, main"},
+        --{ID = "SF59Toggle", x=0+15.15*8,  y=40+167*2, w=15,h=45, tooltip="SF59: TsUV, backup"},
     }
 }
 for i,button in pairs(ENT.ButtonMap.PVZ.buttons) do
@@ -164,7 +164,7 @@ ENT.ButtonMap["FrontDoor"] = {
     height = 2000,
     scale = 0.1/2,
     buttons = {
-        {ID = "FrontDoor",x=0,y=0,w=680,h=2000, tooltip="Передняя дверь", model = {
+        {ID = "FrontDoor",x=0,y=0,w=680,h=2000, tooltip="Front door", model = {
             var="FrontDoor",sndid="door_cab_f",
             sndvol = 1, snd = function(val) return val and "door_cab_open" or "door_cab_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),
@@ -178,7 +178,7 @@ ENT.ButtonMap["RearDoor"] = {
     height = 2000,
     scale = 0.1/2,
     buttons = {
-        {ID = "RearDoor",x=0,y=0,w=680,h=2000, tooltip="Задняя дверь", model = {
+        {ID = "RearDoor",x=0,y=0,w=680,h=2000, tooltip="Rear door", model = {
             var="RearDoor",sndid="door_cab_b",
             sndvol = 1, snd = function(val) return val and "door_cab_open" or "door_cab_close" end,
             sndmin = 90, sndmax = 1e3, sndang = Angle(-90,0,0),

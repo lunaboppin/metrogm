@@ -486,25 +486,25 @@ ENT.ButtonMap["ASNP"] = {
     hideseat = 0.2,
 
     buttons = {
-        {ID = "R_ASNPMenuSet",x=58, y=48.5, radius=8, tooltip = "Информатор: Меню",model = {
+        {ID = "R_ASNPMenuSet",x=58, y=48.5, radius=8, tooltip = "Announcer: Menu",model = {
             model = "models/metrostroi_train/81-720/button_round.mdl",
             var="R_ASNPMenu",speed=12, vmin=0, vmax=0.9,z=-3,
             sndvol = 0.5,snd = function(val) return val and "pnm_button1_on" or "pnm_button1_off" end,
             sndmin = 50, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "R_ASNPUpSet",x=105, y=14.5, radius=8, tooltip = "Информатор: Вверх",model = {
+        {ID = "R_ASNPUpSet",x=105, y=14.5, radius=8, tooltip = "Announcer: Up",model = {
             model = "models/metrostroi_train/81-720/button_round.mdl",
             var="R_ASNPUp",speed=12, vmin=0, vmax=0.9,z=-3,
             sndvol = 0.5,snd = function(val) return val and "pnm_button1_on" or "pnm_button2_off" end,
             sndmin = 50, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "R_ASNPDownSet",x=105, y=31, radius=8, tooltip = "Информатор: Вниз",model = {
+        {ID = "R_ASNPDownSet",x=105, y=31, radius=8, tooltip = "Announcer: Down",model = {
             model = "models/metrostroi_train/81-720/button_round.mdl",
             var="R_ASNPDown",speed=12, vmin=0, vmax=0.9,z=-3,
             sndvol = 0.5,snd = function(val) return val and "pnm_button2_on" or "pnm_button1_off" end,
             sndmin = 50, sndmax = 1e3, sndang = Angle(-90,0,0),
         }},
-        {ID = "R_ASNPOnToggle",x=12, y=18, radius=8, tooltip = "Информатор: Включение",model = {
+        {ID = "R_ASNPOnToggle",x=12, y=18, radius=8, tooltip = "Announcer: On",model = {
             model = "models/metrostroi_train/81-720/tumbler2.mdl", ang=0, z = -3,
             var="R_ASNPOn",speed=12, vmin=1, vmax=0,
             sndvol = 0.5,snd = function(val) return val and "pnm_on" or "pnm_off" end,

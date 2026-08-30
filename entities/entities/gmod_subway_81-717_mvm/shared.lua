@@ -85,7 +85,7 @@ function ENT:InitializeSounds()
     self.SoundPositions["epv_on"] = {80,1e9,Vector(437.2,-53.1,-32.0),0.85}
     self.SoundPositions["epv_off"] = {80,1e9,Vector(437.2,-53.1,-32.0),0.85}
     self.SoundPositions["epv_off"] = {60,1e9,Vector(437.2,-53.1,-32.0),0.85}
-    -- Релюшки
+    -- Relays
     --self.SoundNames["rpb_on"] = "subway_trains/717/relays/new/ro_off.mp3"
     --self.SoundNames["rpb_off"] = "subway_trains/717/relays/ro_on.mp3"
     self.SoundNames["rpb_on"] = "subway_trains/717/relays/rev813t_on1.mp3"
@@ -178,7 +178,7 @@ function ENT:InitializeSounds()
     self.SoundPositions["bpsn10"] = {500,1e9,Vector(0,45,-448),0.02}
     self.SoundPositions["bpsn11"] = {500,1e9,Vector(0,45,-448),0.04}
     self.SoundPositions["bpsn12"] = {500,1e9,Vector(0,45,-448),0.04}
-    --Подвагонка
+    -- Under-car wiring
     self.SoundNames["lk2_on"] = "subway_trains/717/pneumo/lk2_on.mp3"
     self.SoundNames["lk5_on"] = "subway_trains/717/pneumo/lk1_on.mp3"
     self.SoundNames["lk2_off"] = "subway_trains/717/pneumo/lk2_off.mp3"
@@ -755,34 +755,34 @@ function ENT:SetRelays()
     end
 end
 function ENT:InitializeSystems()
-    -- Электросистема 81-710
+    -- Electrical system, 81-710
     self:LoadSystem("Electric","81_717_Electric")
-    -- Токоприёмник
+    -- Current collector
     self:LoadSystem("TR","TR_3B")
-    -- Электротяговые двигатели
+    -- Traction motors
     self:LoadSystem("Engines","DK_117DM")
 
-    -- Резисторы для реостата/пусковых сопротивлений
+    -- Resistors for the rheostat / starting resistances
     self:LoadSystem("KF_47A","KF_47A1")
-    -- Резисторы для ослабления возбуждения
+    -- Resistors for field weakening
     self:LoadSystem("KF_50A")
-    -- Ящик с предохранителями
+    -- Fuse box
     self:LoadSystem("YAP_57")
 
-    -- Резисторы для цепей управления
+    -- Resistors for control circuits
     --self:LoadSystem("YAS_44V")
     self:LoadSystem("Reverser","PR_722D")
-    -- Реостатный контроллер для управления пусковыми сопротивления
+    -- Rheostat controller for starting resistances
     self:LoadSystem("RheostatController","EKG_17B")
-    -- Групповой переключатель положений
+    -- Group position switch
     self:LoadSystem("PositionSwitch","PKG_761")
-    -- Кулачковый контроллер
+    -- Camshaft controller
     self:LoadSystem("KV","KV_70")
-    -- Контроллер резервного управления
+    -- Backup control controller
     self:LoadSystem("KRU")
 
 
-    -- Ящики с реле и контакторами
+    -- Boxes with relays and contactors
     self:LoadSystem("BV","BV_630")
     self:LoadSystem("LK_755A")
     self:LoadSystem("YAR_13B")
@@ -793,9 +793,9 @@ function ENT:InitializeSystems()
     self:LoadSystem("YARD_2")
     self:LoadSystem("PR_14X_Panels")
 
-    -- Пневмосистема 81-710
+    -- Pneumatic system, 81-710
     self:LoadSystem("Pneumatic","81_717_Pneumatic")
-    -- Панель управления 81-710
+    -- Control panel, 81-710
     self:LoadSystem("Panel","81_717_Panel")
     -- Everything else
     self:LoadSystem("Battery")
@@ -853,7 +853,7 @@ ENT.SubwayTrain = {
 }
 -- LVZ,Dot5,NewSeats,NewBL,PassTexture,MVM
 ENT.NumberRanges = {
-    --717 МВМ
+    -- 717 MVM
     {
         true,
         {0001,0003,0002,0004,0007,0008,0009,0010,0011,0012,0013,0014,0015,0015,0016,0017,0018,0019,0020,0021,0022,0023,0044,0045,0046,0047,0048,0049,0050,0051,0052,0053,0054,0055,0056,0066,0068,0069,0070,0071,0072,0073,0078,0080,0084,0085,0086,0123,0124,0125,0126,0127,0128,0130,0131,0132,0133,0134,0135,0136,0137,0138,0139,0140,0141,0142,0143,0144,0145,0146,0147,0148,0149,0150,0151,0152,0153},
@@ -864,13 +864,13 @@ ENT.NumberRanges = {
         {9221,9239,9240,9247,9249,9278,9281,9284,9286,9290,9291,9339,9342,9347,9193,9194,9196,9234,9235,9241,9242,9243,9244,9269,9274,9277,9280,9282,9283,9287,9288,9293,9311,9312,9314,9338},
         {false,false,false,true,{"Def_717MSKBlue","Def_717MSKWhite",--[[ "Def_717MSKWood",--]] "Def_717MSKWood2"},function(id,tex) return tex=="Def_717MSKWhite" or math.random()>0.5 end}
     },
-    --717 ЛВЗ
+    -- 717 LVZ
     {
         true,
         {8459,8460,8462,8465,8502,8508,8509,8511,8512,8513,8514,8518,8522,8523,8526,8528,8529,8532,8533,8534,8538,8548,8549,8550,8554,8555,8557,8560,8596,8597,8516,8517,8519,8520,8521,8524,8525,8530,8531,8536,8547,8551,8552,8553,8559,8561,8586,8587,8611,8612,8613,8614,8615,8616,8617,8618,8619,8620,8621,8705,8706,8707,8708,8709,8710,8711,8713,8714,8716,8717,8719,8720,8721,8722,8723,8725,8726,8727,8728,8730,8731,8732,8733,8734,8745,8746,8753,8760,8791,8792,8802,8803,8816,8828,8829,8831},
         { true,false,false,false,{"Def_717MSKWhite"},true}
     },
-    --717.5 МВМ
+    -- 717.5 MVM
     {
         true,
         {0154,0155,0156,0157,0158,0159,0160,0161,0162,0163,0164,0165,0166,0167,0168,0169,0170,0172,0174,0175,0177},
@@ -881,7 +881,7 @@ ENT.NumberRanges = {
         {0218,0219,0220,0221,0222,0223,0224,0225,0226,0227,0228,0229,0236,0241,0242,0243,0244,0249,0254,0255,0263,0264,0265,0266,0267,0284,0285,0286,0287,0290,0292,0293,0294,0295,0297,0298,0299,0300,0301,0308,0315,0320,0333,0334},
         {false, true,true ,true,{"Def_717MSKWhite","Def_717MSKWood4"},true,true}
     },
-    --717.5 ЛВЗ
+    -- 717.5 LVZ
     {
         true,
         {8876,8877,8881,8882,8883,8884,8885,8886,8891,8892,8893,8894,8931,8932,8933,8934,8935,8936,8937,8938,8939,8940,8941,8941,8942,8943,8944,8945,8946,8947,8965,8966,8967,8968,8969,3970,8983,8984,8985,8986,8987,8988,8989,8995,8996,8997,8998,8999},
