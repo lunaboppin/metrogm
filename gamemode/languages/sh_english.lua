@@ -91,4 +91,9 @@ LANGUAGE = {
 	dashboardGuideDriving = "Check signals, set the reverser, release brakes, and drive within the route speed limits.",
 	dashboardGuideDoors = "Stop accurately at platforms, operate the correct side doors, and confirm they are closed before departure.",
 	dashboardGuideDepot = "Return carefully to the depot and follow signal indications on the NDR Victoria Line.",
+
+	railmapInvalidSignal = "That signal is no longer valid.",
+	railmapRouteUnknown = "Unknown route for signal %s.",
+	railmapSignalOpened = "Opened signal %s%s.",
+	railmapSignalClosed = "Closed signal %s%s.",
 }
