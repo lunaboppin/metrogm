@@ -96,3 +96,10 @@ Gotchas that cost real time, in the order they bite:
   when several servers run at once kill by PID from `ps -eo pid,cmd`, never by name.
 - **`GM:ShutDown` only fires on a clean `quit`.** A raw process kill bypasses shutdown saves, so
   it is not a valid way to test persistence.
+- **An empty server hibernates, so Metrostroi never initialises.** With no players and the
+  default `sv_hibernate_think 0`, the rail network does not build: `ents.FindByClass`
+  returns **zero** signals and switches on a map that has hundreds. Always boot verification
+  servers with `+sv_hibernate_think 1`, or connect a bot, before concluding anything is missing.
+- **`util.JSONToTable` converts vector-shaped strings into `Vector` objects.** A JSON file of
+  `"[x y z]"` strings decodes to Vector userdata, not strings, so string parsing silently yields
+  nothing. Parsing the same file in Python will not reproduce this — test against the engine.

@@ -58,7 +58,7 @@ local function buildProfile(container)
 	local xp = addLabel(card, L("menuXpUnknown"))
 	local playtime = addLabel(card, L("menuPlaytimeUnknown"))
 	local firstSeen = addLabel(card, L("menuFirstSeenUnknown"))
-	card.Refresh = function()
+	card.MetroRefresh = function()
 		local stats = METRO.Stats
 		if not stats then return end
 		local currentLevel, into, span = METRO.Levels.Progress(stats.xp or 0)
@@ -70,7 +70,7 @@ local function buildProfile(container)
 		firstSeen:SetText(L("menuFirstSeenFormat", METRO.Format.FirstSeen(stats.first_seen, L("menuFirstSeenUnknownValue"))))
 		card:InvalidateLayout(true)
 	end
-	card.Refresh()
+	card.MetroRefresh()
 	return card
 end
 
@@ -116,7 +116,7 @@ local function buildFleet(container)
 	local scroll = vgui.Create("DScrollPanel", container)
 	scroll:Dock(FILL)
 	scroll:GetVBar():SetWide(ScreenScale(4))
-	scroll.Refresh = function()
+	scroll.MetroRefresh = function()
 		scroll:Clear()
 		if #fleet == 0 then
 			addLabel(scroll, L("dashboardFleetLoading"))
@@ -139,14 +139,14 @@ local function buildFleet(container)
 				else
 					addButton(card, L("dashboardSelectTrain"), function()
 						selectedTrainClass = train.className
-						scroll.Refresh()
+						scroll.MetroRefresh()
 					end)
 				end
 			end
 			card:InvalidateLayout(true)
 		end
 	end
-	scroll.Refresh()
+	scroll.MetroRefresh()
 
 	local function requestFleet()
 		net.Start("MetroServiceFleetRequest")
@@ -259,8 +259,7 @@ end
 local function refreshMenu()
 	if not IsValid(menu) then return end
 	for _, panel in pairs(menu.panels) do
-		local refresh = rawget(panel, "Refresh")
-		if refresh then refresh(panel) end
+		if panel.MetroRefresh then panel.MetroRefresh() end
 	end
 end
 
@@ -291,7 +290,7 @@ net.Receive("MetroServiceFleet", function()
 	for _ = 1, net.ReadUInt(16) do
 		table.insert(fleet, { className = net.ReadString(), displayName = net.ReadString(), status = net.ReadString(), reason = net.ReadString(), requiredLevel = net.ReadUInt(8) })
 	end
-	if IsValid(menu) and menu.panels.dashboardFleetTab and menu.panels.dashboardFleetTab.Refresh then menu.panels.dashboardFleetTab.Refresh() end
+	if IsValid(menu) and menu.panels.dashboardFleetTab and menu.panels.dashboardFleetTab.MetroRefresh then menu.panels.dashboardFleetTab.MetroRefresh() end
 end)
 
 net.Receive("MetroServiceResult", function()
