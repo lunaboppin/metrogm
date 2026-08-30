@@ -15,21 +15,11 @@ local function trackPath()
 	return "metrostroi_data/track_" .. game.GetMap() .. ".lua"
 end
 
-function METRO.RailmapData.Load()
-	if cache then
-		return cache
-	end
+local function build(raw)
 
-	local raw = file.Read(trackPath(), "LUA")
-	if not raw or raw == "" then
-		cache = { available = false, paths = {} }
-		return cache
-	end
-
-	local decoded = util.JSONToTable(raw)
+	local decoded = raw and raw ~= "" and util.JSONToTable(raw)
 	if type(decoded) ~= "table" then
-		cache = { available = false, paths = {} }
-		return cache
+		return { available = false, paths = {} }
 	end
 
 	local paths = {}
@@ -60,15 +50,46 @@ function METRO.RailmapData.Load()
 		end
 	end
 
-	cache = {
+	return {
 		available = #paths > 0,
 		paths = paths,
 		points = points,
 		bounds = minX and { minX = minX, minY = minY, maxX = maxX, maxY = maxY } or nil,
 	}
+end
+
+local requested
+
+function METRO.RailmapData.Load()
+	if cache then
+		return cache
+	end
+
+	cache = build(file.Read(trackPath(), "LUA"))
+
+	if not cache.available and not requested then
+		requested = true
+		net.Start("MetroRailmapTrackRequest")
+		net.SendToServer()
+	end
 
 	return cache
 end
+
+net.Receive("MetroRailmapTrack", function()
+	if not net.ReadBool() then
+		return
+	end
+
+	local length = net.ReadUInt(32)
+	local raw = util.Decompress(net.ReadData(length))
+	local built = build(raw)
+
+	if built.available then
+		cache = built
+		hook.Run("MetroRailmapTrackLoaded")
+	end
+end)
 
 function METRO.RailmapData.Reset()
 	cache = nil

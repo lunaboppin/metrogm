@@ -165,6 +165,12 @@ local function buildFleet(container)
 	return scroll
 end
 
+local function buildRailmap(container)
+	local panel = container:Add("metroRailmap")
+	panel:Dock(FILL)
+	return panel
+end
+
 local PANEL = {}
 
 function PANEL:Init()
@@ -207,7 +213,7 @@ function PANEL:SelectTab(key)
 	if not self.panels[key] then
 		if key == "dashboardHomeTab" then self.panels[key] = buildHome(self.content, self)
 		elseif key == "dashboardFleetTab" then self.panels[key] = buildFleet(self.content)
-		elseif key == "dashboardMapTab" then self.panels[key] = self.content:Add("metroRailmap")
+		elseif key == "dashboardMapTab" then self.panels[key] = buildRailmap(self.content)
 		elseif key == "dashboardProfileTab" then self.panels[key] = buildProfile(self.content)
 		else self.panels[key] = buildGuide(self.content) end
 	end
@@ -252,7 +258,10 @@ end
 
 local function refreshMenu()
 	if not IsValid(menu) then return end
-	for _, panel in pairs(menu.panels) do if panel.Refresh then panel.Refresh() end end
+	for _, panel in pairs(menu.panels) do
+		local refresh = rawget(panel, "Refresh")
+		if refresh then refresh(panel) end
+	end
 end
 
 hook.Add("MetroStatsUpdated", "MetroDashboardStats", function()

@@ -79,6 +79,11 @@ function PANEL:Init()
 	self.fitted = false
 	self.data = METRO.RailmapData.Load()
 	METRO.Railmap.RefreshEntities()
+
+	hook.Add("MetroRailmapTrackLoaded", self, function()
+		self.data = METRO.RailmapData.Load()
+		self.fitted = false
+	end)
 end
 
 function PANEL:FitToBounds()
