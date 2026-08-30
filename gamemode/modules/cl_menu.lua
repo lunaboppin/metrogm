@@ -1,232 +1,298 @@
 METRO.Menu = METRO.Menu or {}
 
-local FRAME_WIDTH = 720
-local FRAME_HEIGHT = 420
-local TAB_WIDTH = 160
-
 local menu
+local sessionStarted = false
+local sessionGate = false
+local fleet = {}
+local selectedTrainClass
 
-local function CreateField(parent, labelKey)
-	local row = vgui.Create("metroLabel", parent)
-	row:SetFont("MetroLabelFont")
-	row:SetText(L(labelKey))
-	row:Dock(TOP)
-	row:DockMargin(0, 0, 0, 4)
-	row:SizeToContents()
-
-	return row
+local function addLabel(parent, text, font, color)
+	local label = vgui.Create("DLabel", parent)
+	label:SetFont(font or "MetroDashboardBody")
+	label:SetTextColor(color or color_white)
+	label:SetText(text)
+	label:SetWrap(true)
+	label:SetAutoStretchVertical(true)
+	label:Dock(TOP)
+	label:DockMargin(0, 0, 0, ScreenScale(4))
+	return label
 end
 
-local function BuildProfilePanel(container)
-	local panel = vgui.Create("EditablePanel", container)
-	panel:Dock(FILL)
-	panel:DockPadding(12, 12, 12, 12)
+local function addButton(parent, text, callback)
+	local button = vgui.Create("DButton", parent)
+	button:SetText(text)
+	button:SetFont("MetroDashboardButton")
+	button:SetTextColor(color_white)
+	button:Dock(TOP)
+	button:SetTall(ScreenScale(17))
+	button:DockMargin(0, 0, 0, ScreenScale(4))
+	button.Paint = function(self, width, height)
+		local accent = METRO.UI.GetAccentColor()
+		surface.SetDrawColor(self:IsHovered() and Color(accent.r, accent.g, accent.b, 255) or Color(accent.r, accent.g, accent.b, 180))
+		surface.DrawRect(0, 0, width, height)
+	end
+	button.DoClick = callback
+	return button
+end
 
-	local details = vgui.Create("metroCategory", panel)
-	details:SetText(L("menuDetailsCategory"))
-	details:Dock(TOP)
-	details:DockMargin(0, 0, 0, 12)
+local function addCard(parent)
+	local card = vgui.Create("EditablePanel", parent)
+	card:Dock(TOP)
+	card:DockMargin(0, 0, 0, ScreenScale(5))
+	card:DockPadding(ScreenScale(7), ScreenScale(7), ScreenScale(7), ScreenScale(7))
+	card.Paint = function(_, width, height)
+		surface.SetDrawColor(10, 16, 22, 235)
+		surface.DrawRect(0, 0, width, height)
+		surface.SetDrawColor(METRO.UI.GetAccentColor())
+		surface.DrawOutlinedRect(0, 0, width, height)
+	end
+	return card
+end
 
-	local nameLabel = CreateField(details, "menuNameUnknown")
-	local moneyLabel = CreateField(details, "menuMoneyUnknown")
-	local levelLabel = CreateField(details, "menuLevelUnknown")
-	local playtimeLabel = CreateField(details, "menuPlaytimeUnknown")
-	local firstSeenLabel = CreateField(details, "menuFirstSeenUnknown")
-
-	details:SizeToContents()
-
-	local progress = vgui.Create("metroCategory", panel)
-	progress:SetText(L("menuProgressCategory"))
-	progress:Dock(TOP)
-
-	local xpBar = vgui.Create("metroSegmentedProgress", progress)
-	xpBar:Dock(TOP)
-	xpBar:SetTall(24)
-
-	local xpLabel = CreateField(progress, "menuXpUnknown")
-
-	progress:SizeToContents()
-
-	panel.Refresh = function()
+local function buildProfile(container)
+	local card = addCard(container)
+	card:SetTall(ScreenScale(115))
+	local name = addLabel(card, L("menuNameUnknown"), "MetroDashboardTitle")
+	local money = addLabel(card, L("menuMoneyUnknown"))
+	local level = addLabel(card, L("menuLevelUnknown"))
+	local xp = addLabel(card, L("menuXpUnknown"))
+	local playtime = addLabel(card, L("menuPlaytimeUnknown"))
+	local firstSeen = addLabel(card, L("menuFirstSeenUnknown"))
+	card.Refresh = function()
 		local stats = METRO.Stats
+		if not stats then return end
+		local currentLevel, into, span = METRO.Levels.Progress(stats.xp or 0)
+		name:SetText(L("menuNameFormat", tostring(stats.name or "-")))
+		money:SetText(L("menuMoneyFormat", METRO.Format.Money(stats.money)))
+		level:SetText(L("menuLevelFormat", tostring(stats.level or "-")))
+		xp:SetText(currentLevel >= METRO.Levels.GetMaxLevel() and L("menuXpMaxLevel") or L("menuXpFormat", into, span))
+		playtime:SetText(L("menuPlaytimeFormat", METRO.Format.Playtime(stats.playtime_seconds)))
+		firstSeen:SetText(L("menuFirstSeenFormat", METRO.Format.FirstSeen(stats.first_seen, L("menuFirstSeenUnknownValue"))))
+		card:InvalidateLayout(true)
+	end
+	card.Refresh()
+	return card
+end
 
-		if not stats then
-			nameLabel:SetText(L("menuNameUnknown"))
-			moneyLabel:SetText(L("menuMoneyUnknown"))
-			levelLabel:SetText(L("menuLevelUnknown"))
-			xpBar:SetFraction(0)
-			xpLabel:SetText(L("menuXpUnknown"))
-			playtimeLabel:SetText(L("menuPlaytimeUnknown"))
-			firstSeenLabel:SetText(L("menuFirstSeenUnknown"))
+local function buildGuide(container)
+	local card = addCard(container)
+	card:SetTall(ScreenScale(145))
+	addLabel(card, L("dashboardGuideTitle"), "MetroDashboardTitle")
+	addLabel(card, L("dashboardGuideService"))
+	addLabel(card, L("dashboardGuideControls"))
+	addLabel(card, L("dashboardGuideDriving"))
+	addLabel(card, L("dashboardGuideDoors"))
+	addLabel(card, L("dashboardGuideDepot"))
+	return card
+end
+
+local function buildHome(container, dashboard)
+	local card = addCard(container)
+	card:SetTall(ScreenScale(105))
+	addLabel(card, L("dashboardHomeTitle"), "MetroDashboardTitle")
+	addLabel(card, L("dashboardHomeService"))
+	addLabel(card, L("dashboardHomeDescription"))
+	addButton(card, sessionGate and L("dashboardStartService") or L("dashboardOpenFleet"), function()
+		if sessionGate then
+			net.Start("MetroServiceStart")
+			net.SendToServer()
+		else
+			dashboard:SelectTab("dashboardFleetTab")
+		end
+	end)
+	return card
+end
+
+local function trainStatus(train)
+	if train.status == "available" then return L("dashboardTrainAvailable") end
+	if train.status == "locked" then
+		if train.reason == "trainLevelLocked" and train.requiredLevel > 0 then return L("dashboardTrainLockedLevel", train.requiredLevel) end
+		return L(train.reason ~= "" and train.reason or "trainUnavailable")
+	end
+	return L("dashboardTrainComingSoon")
+end
+
+local function buildFleet(container)
+	local scroll = vgui.Create("DScrollPanel", container)
+	scroll:Dock(FILL)
+	scroll:GetVBar():SetWide(ScreenScale(4))
+	scroll.Refresh = function()
+		scroll:Clear()
+		if #fleet == 0 then
+			addLabel(scroll, L("dashboardFleetLoading"))
 			return
 		end
-
-		nameLabel:SetText(L("menuNameFormat", tostring(stats.name or "-")))
-		moneyLabel:SetText(L("menuMoneyFormat", METRO.Format.Money(stats.money)))
-		levelLabel:SetText(L("menuLevelFormat", tostring(stats.level or "-")))
-
-		local maxLevel = METRO.Levels.GetMaxLevel()
-		local level, into, span, fraction = METRO.Levels.Progress(stats.xp or 0)
-		xpBar:SetFraction(fraction)
-
-		if level >= maxLevel then
-			xpLabel:SetText(L("menuXpMaxLevel"))
-		else
-			xpLabel:SetText(L("menuXpFormat", into, span))
+		for _, train in ipairs(fleet) do
+			local card = addCard(scroll)
+			card:SetTall(ScreenScale(selectedTrainClass == train.className and 95 or 72))
+			addLabel(card, train.displayName, "MetroDashboardTitle")
+			addLabel(card, train.className, "MetroDashboardSmall", Color(170, 190, 205))
+			addLabel(card, trainStatus(train))
+			if train.status == "available" then
+				if selectedTrainClass == train.className then
+					addLabel(card, L("dashboardSpawnConfirm"), "MetroDashboardSmall")
+					addButton(card, L("dashboardSpawnAtDepot"), function()
+						net.Start("MetroServiceSpawn")
+						net.WriteString(train.className)
+						net.SendToServer()
+					end)
+				else
+					addButton(card, L("dashboardSelectTrain"), function()
+						selectedTrainClass = train.className
+						scroll.Refresh()
+					end)
+				end
+			end
+			card:InvalidateLayout(true)
 		end
-
-		playtimeLabel:SetText(L("menuPlaytimeFormat", METRO.Format.Playtime(stats.playtime_seconds)))
-		firstSeenLabel:SetText(L("menuFirstSeenFormat", METRO.Format.FirstSeen(stats.first_seen, L("menuFirstSeenUnknownValue"))))
 	end
-
-	panel.Refresh()
-
-	return panel
+	scroll.Refresh()
+	net.Start("MetroServiceFleetRequest")
+	net.SendToServer()
+	return scroll
 end
-
-hook.Add("CreateMenuButtons", "METRO_ProfileTab", function(tabs)
-	tabs.menuProfileTab = {
-		Create = BuildProfilePanel,
-	}
-end)
 
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSkin("metro")
-	self:SetSize(FRAME_WIDTH, FRAME_HEIGHT)
-	self:Center()
-	self:MakePopup()
+	self.openTime = SysTime()
+	self:SetSize(ScrW(), ScrH())
+	self:SetPos(0, 0)
 	self:SetKeyboardInputEnabled(true)
-	self:RequestFocus()
-
-	self.builtPanels = {}
-
-	self.closeButton = self:Add("DButton")
-	self.closeButton:SetText("Close")
-	self.closeButton:SetFont("MetroMenuButtonFont")
-	self.closeButton:SetTall(28)
-	self.closeButton:Dock(TOP)
-	self.closeButton:DockMargin(1, 1, 1, 1)
-	self.closeButton.DoClick = function()
-		self:Remove()
+	self:MakePopup()
+	self.tabs = {}
+	self.panels = {}
+	local sidebar = self:Add("EditablePanel")
+	sidebar:Dock(LEFT)
+	sidebar:SetWide(math.Clamp(ScrW() * 0.22, 230, 360))
+	sidebar:DockPadding(ScreenScale(8), ScreenScale(10), ScreenScale(8), ScreenScale(8))
+	sidebar.Paint = function(_, width, height)
+		surface.SetDrawColor(5, 10, 15, 245)
+		surface.DrawRect(0, 0, width, height)
+		surface.SetDrawColor(METRO.UI.GetAccentColor())
+		surface.DrawRect(width - 2, 0, 2, height)
 	end
-
-	self.tabs = self:Add("Panel")
-	self.tabs:SetWide(TAB_WIDTH)
-	self.tabs:Dock(LEFT)
-	self.tabs:DockMargin(1, 1, 1, 1)
-	self.tabs.buttons = {}
-
-	self.content = self:Add("Panel")
+	addLabel(sidebar, L("dashboardBrand"), "MetroDashboardBrand", METRO.UI.GetAccentColor())
+	addLabel(sidebar, L("dashboardSubtitle"), "MetroDashboardSmall", Color(170, 190, 205))
+	self.content = self:Add("EditablePanel")
 	self.content:Dock(FILL)
-	self.content:DockMargin(1, 1, 1, 1)
-	self.content.Paint = function() end
-
-	self:PopulateTabs()
-end
-
-function PANEL:AddTabButton(key)
-	local button = self.tabs:Add("metroMenuSelectionButton")
-	button:SetText(string.upper(L(key)))
-	button:Dock(TOP)
-	button:SizeToContents()
-	button:SetButtonList(self.tabs.buttons)
-	button.key = key
-	button.OnSelected = function()
-		self:SelectTab(key)
+	self.content:DockPadding(ScreenScale(14), ScreenScale(14), ScreenScale(14), ScreenScale(14))
+	self.errorLabel = addLabel(self.content, "", "MetroDashboardBody", Color(255, 120, 120))
+	self.errorLabel:SetVisible(false)
+	for _, key in ipairs({ "dashboardHomeTab", "dashboardFleetTab", "dashboardProfileTab", "dashboardGuideTab" }) do
+		self.tabs[key] = addButton(sidebar, L(key), function() self:SelectTab(key) end)
 	end
-
-	return button
+	if not sessionGate then
+		local spacer = sidebar:Add("Panel")
+		spacer:Dock(FILL)
+		addButton(sidebar, L("dashboardClose"), function() self:Remove() end)
+	end
+	self:SelectTab("dashboardHomeTab")
 end
 
 function PANEL:SelectTab(key)
-	local info = self.tabInfo[key]
-
-	if not info then
-		return
+	if not self.panels[key] then
+		if key == "dashboardHomeTab" then self.panels[key] = buildHome(self.content, self)
+		elseif key == "dashboardFleetTab" then self.panels[key] = buildFleet(self.content)
+		elseif key == "dashboardProfileTab" then self.panels[key] = buildProfile(self.content)
+		else self.panels[key] = buildGuide(self.content) end
 	end
-
-	if not self.builtPanels[key] then
-		local built = info.Create(self.content)
-		built:SetParent(self.content)
-		built:Dock(FILL)
-
-		self.builtPanels[key] = built
-	end
-
-	for otherKey, panel in pairs(self.builtPanels) do
-		if IsValid(panel) then
-			panel:SetVisible(otherKey == key)
-		end
-	end
+	for panelKey, panel in pairs(self.panels) do panel:SetVisible(panelKey == key) end
+	for tabKey, button in pairs(self.tabs) do button:SetTextColor(tabKey == key and color_white or Color(180, 195, 205)) end
 end
 
-function PANEL:PopulateTabs()
-	self.tabInfo = {}
-
-	hook.Run("CreateMenuButtons", self.tabInfo)
-
-	local keys = METRO.Format.SortedKeys(self.tabInfo)
-
-	local firstButton
-
-	for _, key in ipairs(keys) do
-		local button = self:AddTabButton(key)
-		firstButton = firstButton or button
-	end
-
-	if IsValid(firstButton) then
-		firstButton:SetSelected(true)
-	end
+function PANEL:SetError(message)
+	self.errorLabel:SetText(message or "")
+	self.errorLabel:SetVisible(message and message ~= "")
+	self.content:InvalidateLayout(true)
 end
 
 function PANEL:Paint(width, height)
-	derma.SkinFunc("PaintMenuBackground", self, width, height)
+	Derma_DrawBackgroundBlur(self, self.openTime)
+	surface.SetDrawColor(3, 8, 12, 210)
+	surface.DrawRect(0, 0, width, height)
 end
 
 function PANEL:OnKeyCodePressed(key)
-	if key == KEY_ESCAPE then
-		self:Remove()
-	end
+	if key == KEY_ESCAPE and not sessionGate then self:Remove() end
 end
 
 function PANEL:OnRemove()
-	if menu == self then
-		menu = nil
-	end
+	if menu == self then menu = nil end
 end
 
 vgui.Register("metroMenu", PANEL, "EditablePanel")
 
-local function ToggleMenu()
-	if IsValid(menu) then
-		menu:Remove()
-		return
-	end
-
-	menu = vgui.Create("metroMenu")
+function METRO.Menu.Open()
+	if not IsValid(menu) then menu = vgui.Create("metroMenu") end
+	return menu
 end
 
-METRO.Menu.Toggle = ToggleMenu
-
-hook.Add("PlayerBindPress", "METRO_MenuKeybind", function(ply, bind, pressed)
-	if not pressed or bind ~= "gm_showspare2" or ply:IsTyping() then
+function METRO.Menu.Toggle()
+	if IsValid(menu) then
+		if not sessionGate then menu:Remove() end
 		return
 	end
+	METRO.Menu.Open()
+end
 
-	ToggleMenu()
-	return true
+local function refreshMenu()
+	if not IsValid(menu) then return end
+	for _, panel in pairs(menu.panels) do if panel.Refresh then panel.Refresh() end end
+end
+
+hook.Add("MetroStatsUpdated", "MetroDashboardStats", function()
+	if METRO.LoadState == "ready" and not sessionStarted then
+		sessionGate = true
+		METRO.Menu.Open()
+	end
+	refreshMenu()
 end)
 
-hook.Add("MetroStatsUpdated", "METRO_MenuRefresh", function()
-	if not IsValid(menu) then
+hook.Add("MetroLoadStateChanged", "MetroDashboardLoad", function(state)
+	if state == "ready" and METRO.Stats and not sessionStarted then
+		sessionGate = true
+		METRO.Menu.Open()
+	end
+end)
+
+hook.Add("PlayerBindPress", "MetroDashboardKeybind", function(ply, bind, pressed)
+	if pressed and bind == "gm_showspare2" and not ply:IsTyping() then
+		METRO.Menu.Toggle()
+		return true
+	end
+end)
+
+net.Receive("MetroServiceFleet", function()
+	fleet = {}
+	for _ = 1, net.ReadUInt(16) do
+		table.insert(fleet, { className = net.ReadString(), displayName = net.ReadString(), status = net.ReadString(), reason = net.ReadString(), requiredLevel = net.ReadUInt(8) })
+	end
+	if IsValid(menu) and menu.panels.dashboardFleetTab and menu.panels.dashboardFleetTab.Refresh then menu.panels.dashboardFleetTab.Refresh() end
+end)
+
+net.Receive("MetroServiceResult", function()
+	local action = net.ReadString()
+	local success = net.ReadBool()
+	local message = net.ReadString()
+	net.ReadString()
+	if action == "start" and success then
+		sessionStarted = true
+		sessionGate = false
+		if IsValid(menu) then menu:Remove() end
+		METRO.Menu.Open():SelectTab("dashboardFleetTab")
 		return
 	end
-
-	for _, panel in pairs(menu.builtPanels) do
-		if IsValid(panel) and panel.Refresh then
-			panel.Refresh()
+	if action == "spawn" and success then
+		if IsValid(menu) then menu:Remove() end
+		return
+	end
+	if message ~= "" then
+		if IsValid(menu) then
+			menu:SetError(L(message))
+			menu:SelectTab("dashboardFleetTab")
+		else
+			chat.AddText(METRO.UI.GetAccentColor(), L(message))
 		end
 	end
 end)

@@ -1,0 +1,399 @@
+METRO.Service = METRO.Service or {}
+
+local DATA_DIRECTORY = "metro/depots"
+local DEFAULT_DEPOT = "depot"
+local WAGON_COUNT = 3
+local sessions = {}
+local requestTimes = {}
+
+util.AddNetworkString("MetroServiceStart")
+util.AddNetworkString("MetroServiceFleetRequest")
+util.AddNetworkString("MetroServiceFleet")
+util.AddNetworkString("MetroServiceSpawn")
+util.AddNetworkString("MetroServiceResult")
+
+local function playerKey(ply)
+	return ply:SteamID64()
+end
+
+local function validName(name)
+	if type(name) ~= "string" then
+		return nil
+	end
+
+	name = string.lower(name)
+	if not string.match(name, "^[a-z0-9_-]+$") or #name > 32 then
+		return nil
+	end
+
+	return name
+end
+
+local function mapPath()
+	local map = string.gsub(game.GetMap(), "[^a-zA-Z0-9_-]", "_")
+	return DATA_DIRECTORY .. "/" .. map .. ".json"
+end
+
+local function readDepots()
+	local raw = file.Read(mapPath(), "DATA")
+	if not raw or raw == "" then
+		return {}
+	end
+
+	local depots = util.JSONToTable(raw)
+	if type(depots) ~= "table" then
+		return {}
+	end
+
+	return depots
+end
+
+local function writeDepots(depots)
+	file.CreateDir(DATA_DIRECTORY)
+	file.Write(mapPath(), util.TableToJSON(depots, true))
+end
+
+local function vectorTable(vector)
+	return { x = vector.x, y = vector.y, z = vector.z }
+end
+
+local function tableVector(value)
+	if type(value) ~= "table" then
+		return nil
+	end
+
+	local x, y, z = tonumber(value.x), tonumber(value.y), tonumber(value.z)
+	if not x or not y or not z then
+		return nil
+	end
+
+	return Vector(x, y, z)
+end
+
+local function result(ply, action, success, message, className)
+	if not IsValid(ply) then
+		return
+	end
+
+	net.Start("MetroServiceResult")
+	net.WriteString(action)
+	net.WriteBool(success)
+	net.WriteString(message or "")
+	net.WriteString(className or "")
+	net.Send(ply)
+end
+
+local function allowedRequest(ply)
+	local now = CurTime()
+	local key = playerKey(ply)
+	if requestTimes[key] and requestTimes[key] > now - 0.5 then
+		return false
+	end
+
+	requestTimes[key] = now
+	return true
+end
+
+local function depotTrace(name)
+	local depots = readDepots()
+	local depot = depots[name]
+	if not depot then
+		local names = {}
+		for depotName in pairs(depots) do
+			table.insert(names, depotName)
+		end
+		table.sort(names)
+		depot = depots[names[1]]
+	end
+	if type(depot) ~= "table" then
+		return nil
+	end
+
+	local position = tableVector(depot.position)
+	local forward = tableVector(depot.forward)
+	local up = tableVector(depot.up)
+	if not position or not forward or not up or not Metrostroi or not Metrostroi.RerailGetTrackData then
+		return nil
+	end
+
+	local track = Metrostroi.RerailGetTrackData(position, forward)
+	if not track then
+		return nil
+	end
+
+	return {
+		Hit = true,
+		HitPos = track.centerpos,
+		HitNormal = track.up or up,
+		StartPos = track.centerpos - (track.up or up) * 128,
+		Normal = track.up or up,
+	}
+end
+
+local function settingDefaults(definition)
+	local settings = {
+		Train = definition.ClassName,
+		WagNum = WAGON_COUNT,
+		AutoCouple = true,
+		SpawnMode = 1,
+	}
+
+	for _, setting in ipairs(definition.Spawner or {}) do
+		if setting[3] == "List" then
+			local default = setting[5]
+			if default == nil and type(setting[4]) == "table" then
+				default = #setting[4] > 0 and 1 or next(setting[4])
+			end
+			settings[setting[1]] = default
+		elseif setting[3] == "Boolean" then
+			settings[setting[1]] = setting[4]
+		elseif setting[3] == "Slider" then
+			settings[setting[1]] = setting[7]
+		end
+	end
+
+	return settings
+end
+
+local function ownedWagons(ply)
+	local wagons = {}
+	for _, entity in ipairs(ents.GetAll()) do
+		if METRO.Trains.ResolveClass(entity:GetClass()) then
+			local owner = entity.CPPIGetOwner and entity:CPPIGetOwner() or entity.Owner
+			if owner == ply then
+				if entity.UpdateWagonList then
+					entity:UpdateWagonList()
+				end
+				for _, wagon in ipairs(entity.WagonList or { entity }) do
+					wagons[wagon] = true
+				end
+			end
+		end
+	end
+	return wagons
+end
+
+local function removeWagons(wagons)
+	for wagon in pairs(wagons) do
+		if IsValid(wagon) then
+			wagon:Remove()
+		end
+	end
+end
+
+local function sendFleet(ply)
+	local fleet = METRO.Trains.GetFleet()
+	net.Start("MetroServiceFleet")
+	net.WriteUInt(#fleet, 16)
+	for _, train in ipairs(fleet) do
+		local permitted, reason = METRO.Trains.CanSpawn(ply, train.className)
+		local status = permitted and "available" or (train.configured and "locked" or "comingSoon")
+		net.WriteString(train.className)
+		net.WriteString(train.displayName)
+		net.WriteString(status)
+		net.WriteString(reason or "")
+		net.WriteUInt(train.requiredLevel or 0, 8)
+	end
+	net.Send(ply)
+end
+
+hook.Add("MetroPlayerReady", "MetroServiceSessionGate", function(ply)
+	sessions[playerKey(ply)] = { started = false }
+	return true
+end)
+
+hook.Add("PlayerDisconnected", "MetroServiceSessionCleanup", function(ply)
+	sessions[playerKey(ply)] = nil
+	requestTimes[playerKey(ply)] = nil
+end)
+
+hook.Add("PlayerSpawn", "MetroServiceRespawnGate", function(ply)
+	local session = sessions[playerKey(ply)]
+	if session and not session.started then
+		METRO.Players.Hold(ply)
+	end
+end)
+
+net.Receive("MetroServiceStart", function(_, ply)
+	if not allowedRequest(ply) or not METRO.Players.IsLoaded(ply) then
+		return
+	end
+
+	local session = sessions[playerKey(ply)]
+	if not session then
+		return
+	end
+
+	session.started = true
+	METRO.Players.Release(ply)
+	result(ply, "start", true)
+end)
+
+net.Receive("MetroServiceFleetRequest", function(_, ply)
+	if allowedRequest(ply) and METRO.Players.IsLoaded(ply) then
+		sendFleet(ply)
+	end
+end)
+
+net.Receive("MetroServiceSpawn", function(_, ply)
+	if not allowedRequest(ply) or not METRO.Players.IsLoaded(ply) then
+		return
+	end
+
+	local session = sessions[playerKey(ply)]
+	local className = net.ReadString()
+	if not session or not session.started or session.spawning then
+		result(ply, "spawn", false, "serviceStartRequired")
+		return
+	end
+
+	local allowed, reason = METRO.Trains.CanSpawn(ply, className)
+	local canonicalClass = METRO.Trains.ResolveClass(className)
+	if not allowed or not canonicalClass then
+		result(ply, "spawn", false, reason or "trainUnavailable")
+		return
+	end
+	session.spawning = true
+	local function fail(message, trains)
+		if trains then
+			removeWagons(trains)
+		end
+		session.spawning = false
+		result(ply, "spawn", false, message)
+	end
+
+	local trace = depotTrace(DEFAULT_DEPOT)
+	if not trace then
+		fail("depotUnavailable")
+		return
+	end
+
+	local definition = scripted_ents.Get(canonicalClass)
+	if not definition or type(definition.Spawner) ~= "table" then
+		fail("trainUnavailable")
+		return
+	end
+
+	if WAGON_COUNT > GetConVarNumber("metrostroi_maxwagons") then
+		fail("spawnFailed")
+		return
+	end
+
+	if ply:InVehicle() then
+		ply:ExitVehicle()
+	end
+	removeWagons(ownedWagons(ply))
+	local settings = settingDefaults(definition)
+	if Metrostroi.TrainCountOnPlayer(ply) + WAGON_COUNT > GetConVarNumber("metrostroi_maxtrains_onplayer") * GetConVarNumber("metrostroi_maxwagons")
+		or Metrostroi.TrainCount() + WAGON_COUNT > GetConVarNumber("metrostroi_maxtrains") * GetConVarNumber("metrostroi_maxwagons")
+		or hook.Run("MetrostroiSpawnerRestrict", ply, settings) then
+		fail("spawnFailed")
+		return
+	end
+
+	ply:Give("gmod_tool")
+	local tool = ply:GetTool("train_spawner")
+	if not tool then
+		fail("spawnFailed")
+		return
+	end
+
+	tool.Train = definition
+	tool.Settings = settings
+	tool.AllowSpawn = true
+	ply:SetNW2Bool("metrostroi_train_spawner_rev", false)
+	local spawned, trains = pcall(function()
+		return tool:SpawnWagon(trace)
+	end)
+	if not spawned then
+		fail("spawnFailed", ownedWagons(ply))
+		return
+	end
+	if type(trains) ~= "table" or #trains ~= WAGON_COUNT or not IsValid(trains[1]) then
+		fail("spawnFailed", type(trains) == "table" and trains or nil)
+		return
+	end
+
+	timer.Simple(1, function()
+		local lead = trains[1]
+		if not IsValid(ply) or not IsValid(lead) or not IsValid(lead.DriverSeat) then
+			fail("spawnFailed", trains)
+			return
+		end
+
+		ply:EnterVehicle(lead.DriverSeat)
+		if ply:GetVehicle() ~= lead.DriverSeat then
+			fail("spawnFailed", trains)
+			return
+		end
+
+		session.spawning = false
+		result(ply, "spawn", true, "", canonicalClass)
+	end)
+end)
+
+concommand.Add("metro_depot_set", function(ply, _, args)
+	if not IsValid(ply) or not ply:IsSuperAdmin() then
+		return
+	end
+
+	local name = validName(args[1] or DEFAULT_DEPOT)
+	local trace = ply:GetEyeTrace()
+	local track = Metrostroi and Metrostroi.RerailGetTrackData and Metrostroi.RerailGetTrackData(trace.HitPos, ply:GetAimVector())
+	if not name or not track then
+		ply:ChatPrint(L("depotSetFailed", ply))
+		return
+	end
+
+	local depots = readDepots()
+	depots[name] = {
+		position = vectorTable(track.centerpos),
+		forward = vectorTable(track.forward),
+		up = vectorTable(track.up),
+	}
+	writeDepots(depots)
+	ply:ChatPrint(L("depotSetSuccess", ply, name))
+end)
+
+concommand.Add("metro_depot_list", function(ply)
+	if IsValid(ply) and not ply:IsSuperAdmin() then
+		return
+	end
+
+	local names = {}
+	for name in pairs(readDepots()) do
+		table.insert(names, name)
+	end
+	table.sort(names)
+	local message = L("depotList", ply, #names > 0 and table.concat(names, ", ") or L("depotNone", ply))
+	if IsValid(ply) then
+		ply:ChatPrint(message)
+	else
+		print(message)
+	end
+end)
+
+concommand.Add("metro_depot_remove", function(ply, _, args)
+	if IsValid(ply) and not ply:IsSuperAdmin() then
+		return
+	end
+
+	local name = validName(args[1] or "")
+	local depots = readDepots()
+	if not name or not depots[name] then
+		if IsValid(ply) then
+			ply:ChatPrint(L("depotRemoveFailed", ply))
+		else
+			print(L("depotRemoveFailed", nil))
+		end
+		return
+	end
+
+	depots[name] = nil
+	writeDepots(depots)
+	if IsValid(ply) then
+		ply:ChatPrint(L("depotRemoveSuccess", ply, name))
+	else
+		print(L("depotRemoveSuccess", nil, name))
+	end
+end)

@@ -158,6 +158,41 @@ local function LoadFonts()
 		weight = 500,
 		antialias = true,
 	})
+
+	surface.CreateFont("MetroDashboardBrand", {
+		font = "Tahoma",
+		size = ScreenScale(20),
+		weight = 800,
+		antialias = true,
+	})
+
+	surface.CreateFont("MetroDashboardTitle", {
+		font = "Tahoma",
+		size = ScreenScale(12),
+		weight = 700,
+		antialias = true,
+	})
+
+	surface.CreateFont("MetroDashboardBody", {
+		font = "Tahoma",
+		size = ScreenScale(8),
+		weight = 500,
+		antialias = true,
+	})
+
+	surface.CreateFont("MetroDashboardSmall", {
+		font = "Tahoma",
+		size = ScreenScale(6),
+		weight = 500,
+		antialias = true,
+	})
+
+	surface.CreateFont("MetroDashboardButton", {
+		font = "Tahoma",
+		size = ScreenScale(8),
+		weight = 700,
+		antialias = true,
+	})
 end
 
 METRO.UI.LoadFonts = LoadFonts

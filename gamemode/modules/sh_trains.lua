@@ -251,6 +251,33 @@ function METRO.Trains.GetCatalogue()
 	return catalogue
 end
 
+function METRO.Trains.GetFleet()
+	ensureRefreshed()
+
+	local fleet = {}
+	for canonicalClass, definition in pairs(registry.heads) do
+		local entry = METRO.TrainConfig[canonicalClass]
+		local displayName = definition.PrintName
+		if type(displayName) ~= "string" or displayName == "" then
+			displayName = canonicalClass
+		end
+
+		table.insert(fleet, {
+			className = canonicalClass,
+			displayName = displayName,
+			configured = entry and entry.enabled == true or false,
+			requiredLevel = entry and entry.requiredLevel or nil,
+			price = entry and entry.price or nil,
+		})
+	end
+
+	table.sort(fleet, function(left, right)
+		return left.displayName < right.displayName
+	end)
+
+	return fleet
+end
+
 function METRO.Trains.CanSpawn(ply, className)
 	if not IsValid(ply) or (ply.IsPlayer and not ply:IsPlayer()) then
 		return false, "trainProfileLoading"
