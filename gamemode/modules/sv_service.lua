@@ -104,15 +104,24 @@ local function result(ply, action, success, message, className)
 	net.Send(ply)
 end
 
-local function allowedRequest(ply)
+local function allowedRequest(ply, action)
 	local now = CurTime()
-	local key = playerKey(ply)
+	local key = playerKey(ply) .. "/" .. (action or "default")
 	if requestTimes[key] and requestTimes[key] > now - 0.5 then
 		return false
 	end
 
 	requestTimes[key] = now
 	return true
+end
+
+local function forgetRequests(ply)
+	local prefix = playerKey(ply) .. "/"
+	for key in pairs(requestTimes) do
+		if string.sub(key, 1, #prefix) == prefix then
+			requestTimes[key] = nil
+		end
+	end
 end
 
 local function resolveDepot(name)
@@ -241,6 +250,7 @@ end)
 
 hook.Add("PlayerDisconnected", "MetroServiceSessionCleanup", function(ply)
 	sessions[playerKey(ply)] = nil
+	forgetRequests(ply)
 	requestTimes[playerKey(ply)] = nil
 end)
 
@@ -252,7 +262,7 @@ hook.Add("PlayerSpawn", "MetroServiceRespawnGate", function(ply)
 end)
 
 net.Receive("MetroServiceStart", function(_, ply)
-	if not allowedRequest(ply) or not METRO.Players.IsLoaded(ply) then
+	if not allowedRequest(ply, "start") or not METRO.Players.IsLoaded(ply) then
 		return
 	end
 
@@ -267,13 +277,13 @@ net.Receive("MetroServiceStart", function(_, ply)
 end)
 
 net.Receive("MetroServiceFleetRequest", function(_, ply)
-	if allowedRequest(ply) and METRO.Players.IsLoaded(ply) then
+	if allowedRequest(ply, "fleet") and METRO.Players.IsLoaded(ply) then
 		sendFleet(ply)
 	end
 end)
 
 net.Receive("MetroServiceSpawn", function(_, ply)
-	if not allowedRequest(ply) or not METRO.Players.IsLoaded(ply) then
+	if not allowedRequest(ply, "spawn") or not METRO.Players.IsLoaded(ply) then
 		return
 	end
 
@@ -527,7 +537,7 @@ concommand.Add("metro_depot_remove", function(ply, _, args)
 end)
 
 net.Receive("MetroDepotListRequest", function(_, ply)
-	if not IsValid(ply) or not ply:IsSuperAdmin() or not allowedRequest(ply) then
+	if not IsValid(ply) or not ply:IsSuperAdmin() or not allowedRequest(ply, "depotList") then
 		return
 	end
 
