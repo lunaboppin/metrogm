@@ -2,13 +2,21 @@ METRO.RailmapData = METRO.RailmapData or {}
 
 local cache
 
-local function parseVector(text)
-	local x, y, z = string.match(text, "^%[%s*(-?[%d.]+)%s+(-?[%d.]+)%s+(-?[%d.]+)%s*%]$")
+local function readPoint(entry)
+	if type(entry) == "Vector" then
+		return entry.x, entry.y
+	end
+
+	if type(entry) ~= "string" then
+		return nil
+	end
+
+	local x, y = string.match(entry, "^%[%s*(-?[%d.eE+-]+)%s+(-?[%d.eE+-]+)")
 	if not x then
 		return nil
 	end
 
-	return tonumber(x), tonumber(y), tonumber(z)
+	return tonumber(x), tonumber(y)
 end
 
 local function trackPath()
@@ -31,16 +39,14 @@ local function build(raw)
 			local path = {}
 
 			for _, entry in ipairs(rawPath) do
-				if type(entry) == "string" then
-					local x, y = parseVector(entry)
-					if x then
-						path[#path + 1] = { x = x, y = y }
-						points = points + 1
-						minX = math.min(minX or x, x)
-						maxX = math.max(maxX or x, x)
-						minY = math.min(minY or y, y)
-						maxY = math.max(maxY or y, y)
-					end
+				local x, y = readPoint(entry)
+				if x then
+					path[#path + 1] = { x = x, y = y }
+					points = points + 1
+					minX = math.min(minX or x, x)
+					maxX = math.max(maxX or x, x)
+					minY = math.min(minY or y, y)
+					maxY = math.max(maxY or y, y)
 				end
 			end
 
